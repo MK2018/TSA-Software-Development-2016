@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author TSARegionals
  */
-public class AssignmentSceneController implements Initializable {
+public class AuthSceneController implements Initializable {
 
     
     @FXML
@@ -31,12 +31,13 @@ public class AssignmentSceneController implements Initializable {
     
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
-        System.out.println("heading back");
+        System.out.println("starting...");
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        Parent AssignmentParent = FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"));
-        Scene AssignmentScene = new Scene(AssignmentParent);
+        Parent mainParent = FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"));
+        Scene mainScene = new Scene(mainParent);
+        mainScene.getStylesheets().add("/styles/MainStyles.css");
         //stage.hide(); //optional
-        stage.setScene(AssignmentScene);
+        stage.setScene(mainScene);
         stage.show(); 
         //label.setText("It is indeed lit.");
     }

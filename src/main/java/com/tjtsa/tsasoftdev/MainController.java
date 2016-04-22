@@ -20,9 +20,9 @@ public class MainController implements Initializable {
     
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
-        System.out.println("You clicked me!");
+        System.out.println("loggingOut");
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        Parent AssignmentParent = FXMLLoader.load(getClass().getResource("/fxml/AssignmentScene.fxml"));
+        Parent AssignmentParent = FXMLLoader.load(getClass().getResource("/fxml/AuthScene.fxml"));
         Scene AssignmentScene = new Scene(AssignmentParent);
         //stage.hide(); //optional
         stage.setScene(AssignmentScene);

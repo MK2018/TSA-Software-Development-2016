@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.AuthSceneController">
+    <stylesheets>
+        <URL value="@/styles/AuthStyles.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="473.0" layoutY="281.0" text="Auth Page">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="525.0" layoutY="451.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Start" />
+   </children>
+</AnchorPane>

@@ -12,17 +12,17 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent mainScreen = FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"));
-        Parent assignmentScreen = FXMLLoader.load(getClass().getResource("/fxml/AssignmentScene.fxml"));
+        //Parent mainScreen = FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"));
+        Parent authScreen = FXMLLoader.load(getClass().getResource("/fxml/AuthScene.fxml"));
         
-        Scene mainScene = new Scene(mainScreen);
-        mainScene.getStylesheets().add("/styles/MainStyles.css");
+        //Scene mainScene = new Scene(mainScreen);
+        //mainScene.getStylesheets().add("/styles/MainStyles.css");
         
-        Scene assignmentScene = new Scene(assignmentScreen);
-        mainScene.getStylesheets().add("/styles/AssignmentStyles.css");
+        Scene authScene = new Scene(authScreen);
+        authScene.getStylesheets().add("/styles/MainStyles.css");
         
         stage.setTitle("TSA Software Development");
-        stage.setScene(mainScene);
+        stage.setScene(authScene);
         stage.show();
     }
 
