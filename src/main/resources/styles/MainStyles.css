@@ -4,3 +4,10 @@
 /*#subjectAccordion{
     -fx-background-color: gainsboro;
 }*/
+.root { 
+    -fx-focus-color: #737373; 
+    -fx-faint-focus-color: transparent;
+}
+.tab{
+    -fx-focus-color: transparent; 
+}

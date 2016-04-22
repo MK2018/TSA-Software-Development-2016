@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.AuthSceneController">
     <stylesheets>
-        <URL value="@/styles/AuthStyles.css" />
+        <URL value="@/styles/MainStyles.css" />
     </stylesheets>
    <children>
       <Label layoutX="473.0" layoutY="281.0" text="Auth Page">
