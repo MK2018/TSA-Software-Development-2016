@@ -8,58 +8,51 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.MainController">
+<AnchorPane id="windowPane" fx:id="windowPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.MainController">
     <children>
         <Button fx:id="button" layoutX="963.0" layoutY="14.0" onAction="#handleButtonAction" text="Log Out" />
-        <Label fx:id="label" layoutX="482.0" layoutY="342.0" minHeight="16" minWidth="69" />
       <Label layoutX="21.0" layoutY="20.0" text="A Nice Piece of Software">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
       <Separator layoutX="21.0" layoutY="63.0" prefHeight="21.0" prefWidth="322.0" />
-      <TabPane layoutY="91.0" prefHeight="708.0" prefWidth="1101.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabpane" layoutY="91.0" prefHeight="708.0" prefWidth="1101.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Recent">
+            <Tab text="Recent">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="273.0" layoutY="199.0" text="RECENT STUFF HERE">
+                           <font>
+                              <Font size="57.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="recentTab" text="Documents">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Accordion prefHeight="672.0" prefWidth="1101.0">
-                          <panes>
-                            <TitledPane animated="false" text="History">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Label layoutX="110.0" layoutY="50.0" text="History!" />
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </TitledPane>
-                            <TitledPane animated="false" text="Math">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Label layoutX="146.0" layoutY="58.0" text="Math!" />
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </TitledPane>
-                            <TitledPane animated="false" prefHeight="523.0" prefWidth="1182.0" text="Science">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Label layoutX="257.0" layoutY="80.0" text="Science!" />
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </TitledPane>
-                          </panes>
-                        </Accordion>
+                        <HBox prefHeight="671.0" prefWidth="1101.0">
+                           <children>
+                              <ToolBar orientation="VERTICAL" prefHeight="339.0" prefWidth="223.0">
+                                <items>
+                                    <Label prefHeight="21.0" prefWidth="207.0" text="Add a new class to track:" textAlignment="CENTER" />
+                                    <TextField fx:id="subjectName" />
+                                  <Button fx:id="addNewSubject" mnemonicParsing="false" onAction="#addSubject" prefHeight="31.0" prefWidth="208.0" text="Add Class" />
+                                </items>
+                              </ToolBar>
+                              <Accordion id="subjectAccordion" fx:id="subjects" prefHeight="671.0" prefWidth="884.0" />
+                           </children>
+                        </HBox>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Upload">
+          <Tab fx:id="uploadTab" text="Upload">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
