@@ -12,13 +12,17 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        Parent mainScreen = FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"));
+        Parent assignmentScreen = FXMLLoader.load(getClass().getResource("/fxml/AssignmentScene.fxml"));
         
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
+        Scene mainScene = new Scene(mainScreen);
+        mainScene.getStylesheets().add("/styles/MainStyles.css");
+        
+        Scene assignmentScene = new Scene(assignmentScreen);
+        mainScene.getStylesheets().add("/styles/AssignmentStyles.css");
         
         stage.setTitle("TSA Software Development");
-        stage.setScene(scene);
+        stage.setScene(mainScene);
         stage.show();
     }
 
