@@ -1,5 +1,6 @@
 package com.tjtsa.tsasoftdev;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,10 +22,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class MainController implements Initializable {
-        
+    
+    private FileChooser uploader;
+    
     @FXML
     private TabPane tabpane;
     @FXML
@@ -65,13 +69,22 @@ public class MainController implements Initializable {
     
     
     @FXML
-    private void handleButtonAction(ActionEvent event) throws IOException {
+    private void uploadAction(ActionEvent event){
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        File file = uploader.showOpenDialog(stage);
+        if (file != null) {
+            System.out.println(file);
+        }
+    }
+    
+    
+    @FXML
+    private void logOutButton(ActionEvent event) throws IOException {
         System.out.println("logging out...");
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         Parent AuthParent = FXMLLoader.load(getClass().getResource("/fxml/AuthScene.fxml"));
         Scene authScene = new Scene(AuthParent);
         authScene.getStylesheets().add("/styles/MainStyles.css");
-        //stage.hide(); //optional
         stage.setScene(authScene);
         stage.show(); 
     }
@@ -84,6 +97,7 @@ public class MainController implements Initializable {
     @FXML
     private void addSubject(ActionEvent event){
         updateSubjects(new TitledPane(subjectName.getText(), new AnchorPane()));
+        subjectName.setText("");
     }
     
     @SuppressWarnings("empty-statement")
@@ -102,8 +116,9 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         initRecents();
+        uploader = new FileChooser();
+        uploader.setTitle("Choose file to upload...");
         //LOAD ALL RELEVANT INFO UPON ENTERING.
         
     }    

@@ -11,3 +11,22 @@
 .tab{
     -fx-focus-color: transparent; 
 }
+#uploadPage{
+    -fx-background-color: #3377ff;
+}
+#uploadButton{
+    -fx-background-color: 
+        white,
+        #3377ff;
+    -fx-background-insets: 0,2;
+    -fx-background-radius: 15,13;
+    -fx-font-size: 20pt;
+    -fx-text-fill: white;
+    -fx-font-weight: normal;
+}
+#uploadButton:pressed{
+    -fx-background-color: 
+        #3377ff,
+        white;
+    -fx-text-fill: #3377ff;
+}
