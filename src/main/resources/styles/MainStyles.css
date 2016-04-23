@@ -22,9 +22,15 @@
     -fx-background-radius: 15,13;
     -fx-font-size: 20pt;
     -fx-text-fill: white;
-    -fx-font-weight: normal;
+    -fx-font-weight: bold;
 }
 #uploadButton:pressed{
+    -fx-background-color: 
+        #3377ff,
+        white;
+    -fx-text-fill: #3377ff;
+}
+#uploadButton:hover{
     -fx-background-color: 
         #3377ff,
         white;

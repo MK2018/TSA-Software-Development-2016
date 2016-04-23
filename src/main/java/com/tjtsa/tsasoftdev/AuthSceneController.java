@@ -25,6 +25,7 @@ import javafx.stage.Stage;
  */
 public class AuthSceneController implements Initializable {
 
+    private Core c;
     
     @FXML
     Button backButton1;
@@ -32,22 +33,17 @@ public class AuthSceneController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
         System.out.println("starting...");
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        Parent mainParent = FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"));
-        Scene mainScene = new Scene(mainParent);
-        mainScene.getStylesheets().add("/styles/MainStyles.css");
-        //stage.hide(); //optional
-        stage.setScene(mainScene);
-        stage.show(); 
-        //label.setText("It is indeed lit.");
+        c.goToScene("MainScene", (Stage)((Node) event.getSource()).getScene().getWindow());
     }
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        c = new Core();
     }    
     
 }

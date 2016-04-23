@@ -27,6 +27,8 @@ import javafx.stage.Stage;
 
 public class MainController implements Initializable {
     
+    private Core c;
+    
     private FileChooser uploader;
     
     @FXML
@@ -81,17 +83,12 @@ public class MainController implements Initializable {
     @FXML
     private void logOutButton(ActionEvent event) throws IOException {
         System.out.println("logging out...");
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        Parent AuthParent = FXMLLoader.load(getClass().getResource("/fxml/AuthScene.fxml"));
-        Scene authScene = new Scene(AuthParent);
-        authScene.getStylesheets().add("/styles/MainStyles.css");
-        stage.setScene(authScene);
-        stage.show(); 
+        c.goToScene("AuthScene",(Stage)((Node) event.getSource()).getScene().getWindow());
     }
     
     private void updateSubjects(TitledPane newPane){
         subjects.getPanes().add(newPane);
-        System.out.println(subjects.getPanes());
+        //System.out.println(subjects.getPanes());
     }
     
     @FXML
@@ -100,7 +97,6 @@ public class MainController implements Initializable {
         subjectName.setText("");
     }
     
-    @SuppressWarnings("empty-statement")
     private void initRecents(){
         ArrayList<Label> recLabels = new ArrayList<>(Arrays.asList(recCap1, recCap2, recCap3, recCap4, recCap5));
         ArrayList<ImageView> recPhotos = new ArrayList<>(Arrays.asList(recImg1, recImg2, recImg3, recImg4, recImg5));
@@ -116,6 +112,7 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        c = new Core();
         initRecents();
         uploader = new FileChooser();
         uploader.setTitle("Choose file to upload...");
