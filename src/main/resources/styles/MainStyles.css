@@ -7,6 +7,7 @@
 .root { 
     -fx-focus-color: #737373; 
     -fx-faint-focus-color: transparent;
+    -fx-font-family: 'Roboto Condensed', sans-serif !important;
 }
 .tab{
     -fx-focus-color: transparent; 

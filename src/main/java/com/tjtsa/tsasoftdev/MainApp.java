@@ -5,6 +5,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
@@ -12,6 +13,19 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Font.loadFont(
+            getClass().getResource("/fonts/rcb.ttf").toExternalForm(), 
+            10
+        );
+        Font.loadFont(
+            getClass().getResource("/fonts/rcr.ttf").toExternalForm(), 
+            10
+        );
+        Font.loadFont(
+            getClass().getResource("/fonts/rcl.ttf").toExternalForm(), 
+            10
+        );
+
         //Parent mainScreen = FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"));
         Parent authScreen = FXMLLoader.load(getClass().getResource("/fxml/AuthScene.fxml"));
         
