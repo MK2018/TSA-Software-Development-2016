@@ -14,7 +14,7 @@
 <AnchorPane id="windowPane" fx:id="windowPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.MainController">
     <children>
         <Button fx:id="button" layoutX="963.0" layoutY="14.0" onAction="#logOutButton" text="Log Out" />
-      <Label layoutX="21.0" layoutY="20.0" text="A Nice Piece of Software">
+      <Label layoutX="21.0" layoutY="20.0" text="Fly.">
          <font>
             <Font name="Roboto Condensed" size="36.0" />
          </font>
