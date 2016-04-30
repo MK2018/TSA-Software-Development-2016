@@ -1,6 +1,7 @@
 package com.tjtsa.tsasoftdev;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -71,12 +72,14 @@ public class MainController implements Initializable {
     
     
     @FXML
-    private void uploadAction(ActionEvent event){
+    private void uploadAction(ActionEvent event) throws IOException{
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         File file = uploader.showOpenDialog(stage);
         if (file != null) {
-            System.out.println(file);
+            File toUpload = new File(file.toURI());
+            c.initAnalysis(toUpload);
         }
+        c.goToScene("UploadScene", (Stage)((Node) event.getSource()).getScene().getWindow());
     }
     
     
