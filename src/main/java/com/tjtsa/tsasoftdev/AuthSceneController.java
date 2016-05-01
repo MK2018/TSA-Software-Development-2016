@@ -32,7 +32,7 @@ public class AuthSceneController implements Initializable {
     
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
-        System.out.println("starting...");
+        //System.out.println("starting...");
         c.goToScene("MainScene");
     }
     

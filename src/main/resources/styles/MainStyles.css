@@ -40,3 +40,6 @@
 #loadingPane{
     -fx-background-color: #3377ff;
 }
+#finalUploadButton{
+    -fx-font-size: 20pt;
+}

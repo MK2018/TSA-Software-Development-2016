@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import java.util.*;
 import java.io.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Node;
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.standard.*;
@@ -36,8 +38,18 @@ public class Core {
     private IdentOutput latestOutput;
     
     private static File currentRawFile = null;
+    private static String currentFileText;
     
     private static Stage stage = null;
+    
+    private ArrayList<String> commonWords;
+    private ArrayList<String> tags;
+    private ArrayList<String> history;
+    private ArrayList<String> english;
+    private ArrayList<String> math;
+    private ArrayList<String> cs;
+    private ArrayList<String> science;
+    
     
     public static void setUpStage(Stage stg){
         stage = stg;
@@ -57,16 +69,32 @@ public class Core {
     
     public static void loadFile(File f){
         currentRawFile = f;
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(currentRawFile);
+            byte[] data = new byte[(int) currentRawFile.length()];
+            fis.read(data);
+            fis.close();
+            currentFileText = new String(data, "UTF-8");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static String getCurrentFileText(){
+        return currentFileText;
     }
     
     public IdentOutput initAnalysis() throws IOException, InterruptedException{
         if(!isAnalyzing){
             isAnalyzing = true;
-            FileInputStream fis = new FileInputStream(currentRawFile);
-            byte[] data = new byte[(int) currentRawFile.length()];
-            fis.read(data);
-            fis.close();
-            String contents = new String(data, "UTF-8");
+            //FileInputStream fis = new FileInputStream(currentRawFile);
+            //byte[] data = new byte[(int) currentRawFile.length()];
+            //fis.read(data);
+            //fis.close();
+            String contents = currentFileText;
             TagIdentifier tg = new TagIdentifier(contents, 5);
             while(tg.listsLoaded != true){ 
                 TimeUnit.SECONDS.sleep(1);
@@ -86,6 +114,46 @@ public class Core {
         }
         return latestOutput;
     }
+    
+    public void teachAlgorithm(String subject, String[] tags){
+        Firebase teacher = new Firebase("https://tsaparser.firebaseio.com/");
+        if(subject.equals("Science")) {
+            for(String tag: Arrays.asList(tags)){
+                if(!science.contains(tag))
+                    science.add(tag);
+            }
+            teacher.child("sci_tags").setValue(science.toString().substring(1, science.toString().length()-1));
+        }
+        else if(subject.equals("History")) {
+            for(String tag: Arrays.asList(tags)){
+                if(!history.contains(tag))
+                    history.add(tag);
+            }
+            teacher.child("hist_tags").setValue(history.toString().substring(1, history.toString().length()-1));
+        }
+        else if(subject.equals("Math")) {
+            for(String tag: Arrays.asList(tags)){
+                if(!math.contains(tag))
+                    math.add(tag);
+            }
+            teacher.child("math_tags").setValue(math.toString().substring(1, math.toString().length()-1));
+        }
+        else if(subject.equals("English")) {
+            for(String tag: Arrays.asList(tags)){
+                if(!english.contains(tag))
+                    english.add(tag);
+            }
+            teacher.child("eng_tags").setValue(english.toString().substring(1, english.toString().length()-1));
+        }
+        else if(subject.equals("Computer Science")) {
+            for(String tag: Arrays.asList(tags)){
+                if(!cs.contains(tag))
+                    cs.add(tag);
+            }
+            teacher.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
+        }
+    }
+    
     
     class IdentOutput{
         private String[] tags;
@@ -116,13 +184,7 @@ public class Core {
     class TagIdentifier {
 
         private String filePlainText;
-        private ArrayList<String> commonWords;
-        private ArrayList<String> tags;
-        private ArrayList<String> history;
-        private ArrayList<String> english;
-        private ArrayList<String> math;
-        private ArrayList<String> cs;
-        private ArrayList<String> science;
+        
 
         private String subject = "";
 
@@ -335,7 +397,6 @@ public class Core {
                 while ((line = in.readLine()) != null){
                     science.add(line);
                 }*/
-                Firebase.goOnline();
                 tagfiles.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snap) {
@@ -362,7 +423,6 @@ public class Core {
                                     break;
                             }
                         }
-                        Firebase.goOffline();
                         listsLoaded = true;
                     }
                     @Override

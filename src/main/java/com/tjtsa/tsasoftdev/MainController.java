@@ -108,7 +108,7 @@ public class MainController implements Initializable {
     
     @FXML
     private void logOutButton(ActionEvent event) throws IOException {
-        System.out.println("logging out...");
+        //System.out.println("logging out...");
         c.goToScene("AuthScene");
     }
     
