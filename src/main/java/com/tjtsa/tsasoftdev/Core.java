@@ -70,6 +70,7 @@ public class Core {
             TagIdentifier tg = new TagIdentifier(contents, 5);
             while(tg.listsLoaded != true){ 
                 TimeUnit.SECONDS.sleep(1);
+                //System.out.println("loading stuff...");
             }
             tg.generateTags();
             
@@ -128,6 +129,8 @@ public class Core {
         private int KEYWORD_LIMIT = 0;
         
         private boolean listsLoaded = false;
+        
+        Firebase tagfiles;
 
         public TagIdentifier() {
            tags = new ArrayList<String>();
@@ -137,6 +140,7 @@ public class Core {
            cs = new ArrayList<String>();
            science = new ArrayList<String>();
            commonWords = new ArrayList<String>();
+           tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
            loadResources();
         }
 
@@ -150,6 +154,7 @@ public class Core {
            cs = new ArrayList<String>();
            science = new ArrayList<String>();
            commonWords = new ArrayList<String>();
+           tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
            loadResources();
         }
 
@@ -330,9 +335,7 @@ public class Core {
                 while ((line = in.readLine()) != null){
                     science.add(line);
                 }*/
-                
-                Firebase tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
-                
+                Firebase.goOnline();
                 tagfiles.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snap) {

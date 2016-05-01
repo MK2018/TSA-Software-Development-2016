@@ -8,6 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import com.tjtsa.tsasoftdev.Core.IdentOutput;
+import java.io.IOException;
+import java.util.Arrays;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -29,21 +35,39 @@ public class UploadSceneController implements Initializable {
     @FXML
     AnchorPane loadingPane;
     
+    @FXML
+    ChoiceBox subjectChoiceBox;
+    
+    @FXML
+    Button cancelButton;
+    @FXML
+    Button finalUploadButton;
+    
+    @FXML
+    public void cancelUpload(ActionEvent event) throws IOException{
+        Core.loadFile(null);
+        c.goToScene("MainScene");
+    }
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         c = new Core();
+        subjectChoiceBox.setItems(FXCollections.observableArrayList("History", "English", "Science", "Math", "Computer Science"));
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 try {
                     data = c.initAnalysis();
                     subjectLabel.setText(data.getSubject());
-                    tagLabel.setText(data.getTags().toString());
-                    loadingPane.setVisible(false);
-                } catch (Exception ex) {
+                    subjectChoiceBox.setValue(data.getSubject());
+                    tagLabel.setText(data.getTags().toString().replace("[", "\u2022 ").replace("]", "").replace(", ", "\n\u2022 "));
+                    //loadingPane.setVisible(false);
+                } catch (IOException | InterruptedException ex) {
+                    System.out.println(Arrays.toString(ex.getStackTrace()));
                 }
             }
         });
