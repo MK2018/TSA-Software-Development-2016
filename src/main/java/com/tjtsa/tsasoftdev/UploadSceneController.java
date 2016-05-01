@@ -83,15 +83,15 @@ public class UploadSceneController implements Initializable {
     @FXML
     public void finalUpload(ActionEvent event) throws IOException{
         
-        class dummyClass{
+        class documentClass{
             private String docText;
             private String docSubject;
             private String[] docTags;
             private String docName;
             
-            public dummyClass(){}
+            public documentClass(){}
             
-            public dummyClass(String fullText, String subject, String[] tags, String name){
+            public documentClass(String fullText, String subject, String[] tags, String name){
                 this.docText = fullText;
                 this.docSubject = subject;
                 this.docTags = tags;
@@ -131,39 +131,27 @@ public class UploadSceneController implements Initializable {
             filenameHintText.setText("Document name must not be empty or have the following characters: . $ # [ ] /");
         }
         else{
-            uploader.child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new dummyClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText()));
-            //do other stuff here, possibly show loading screen.
+            uploader.child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new documentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText()));
             if(!subjectLabel.getText().equals(origSubj)){
                 c.teachAlgorithm(subjectLabel.getText(), finalTags);
             }
-            messageLabel.setText("Success");
+            messageLabel.setText("Success!");
             loadingPane.setStyle("-fx-background-color: #00cc66;");
             loadingPane.setVisible(true);
-            //loadingPane.toFront();
-            //try {
-            //    TimeUnit.MILLISECONDS.sleep(1500);
-            //} catch (InterruptedException ex) {
-            //    Logger.getLogger(UploadSceneController.class.getName()).log(Level.SEVERE, null, ex);
-            //}
-            c.goToScene("MainScene");
-            /*Platform.runLater(new Runnable() {
+            
+            Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        data = c.initAnalysis();
-                        subjectLabel.setText(data.getSubject());
-                        origSubj = data.getSubject();
-                        subjectChoiceBox.setValue(data.getSubject());
-                        for(int i = 0; i < tagFields.size(); i++){
-                            tagFields.get(i).setText(data.getTags().get(i));
-                        }
-                        //tagLabel.setText(data.getTags().toString().replace("[", "\u2022 ").replace("]", "").replace(", ", "\n\u2022 "));
-                        loadingPane.setVisible(false);
-                    } catch (IOException | InterruptedException ex) {
-                        System.out.println(Arrays.toString(ex.getStackTrace()));
+                        TimeUnit.MILLISECONDS.sleep(1750);
+                        c.goToScene("MainScene");
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(UploadSceneController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(UploadSceneController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            });*/
+            });
         }        
     }
     

@@ -120,40 +120,40 @@ public class Core {
         return latestOutput;
     }
     
-    public void teachAlgorithm(String subject, String[] tags){
+    public void teachAlgorithm(String subject, String[] tags) throws IOException{
         Firebase teacher = new Firebase("https://tsaparser.firebaseio.com/");
         if(subject.equals("Science")) {
             for(String tag: Arrays.asList(tags)){
                 if(!science.contains(tag))
-                    science.add(tag);
+                    science.add(stem(tag));
             }
             teacher.child("sci_tags").setValue(science.toString().substring(1, science.toString().length()-1));
         }
         else if(subject.equals("History")) {
             for(String tag: Arrays.asList(tags)){
                 if(!history.contains(tag))
-                    history.add(tag);
+                    history.add(stem(tag));
             }
             teacher.child("hist_tags").setValue(history.toString().substring(1, history.toString().length()-1));
         }
         else if(subject.equals("Math")) {
             for(String tag: Arrays.asList(tags)){
                 if(!math.contains(tag))
-                    math.add(tag);
+                    math.add(stem(tag));
             }
             teacher.child("math_tags").setValue(math.toString().substring(1, math.toString().length()-1));
         }
         else if(subject.equals("English")) {
             for(String tag: Arrays.asList(tags)){
                 if(!english.contains(tag))
-                    english.add(tag);
+                    english.add(stem(tag));
             }
             teacher.child("eng_tags").setValue(english.toString().substring(1, english.toString().length()-1));
         }
         else if(subject.equals("Computer Science")) {
             for(String tag: Arrays.asList(tags)){
                 if(!cs.contains(tag))
-                    cs.add(tag);
+                    cs.add(stem(tag));
             }
             teacher.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
         }
@@ -185,6 +185,47 @@ public class Core {
             return Arrays.asList(this.tags);
         }
     }
+    
+    private String stem(String term) throws IOException {
+
+           TokenStream tokenStream = null;
+           try {
+
+           // tokenize
+              tokenStream = new ClassicTokenizer(Version.LUCENE_36, new StringReader(term));
+           // stem
+              tokenStream = new PorterStemFilter(tokenStream);
+
+           // add each token in a set, so that duplicates are removed
+              Set<String> stems = new HashSet<String>();
+              CharTermAttribute token = tokenStream.getAttribute(CharTermAttribute.class);
+              while (tokenStream.incrementToken()) {
+                 stems.add(token.toString());
+              }
+
+           // if no stem or 2+ stems have been found, return null
+              if (stems.size() != 1) {
+                 return null;
+              }
+              String stem = stems.iterator().next();
+           // if the stem has non-alphanumerical chars, return null
+              if (!stem.matches("[a-zA-Z0-9-]+")) {
+                 return null;
+              }
+
+              return stem;
+
+           } 
+           finally {
+              if (tokenStream != null) {
+                 tokenStream.close();
+              }
+           }
+
+        }
+    
+    
+    
     
     class TagIdentifier {
 
@@ -332,7 +373,7 @@ public class Core {
         }
 
 
-        private String stem(String term) throws IOException {
+        /*private String stem(String term) throws IOException {
 
            TokenStream tokenStream = null;
            try {
@@ -368,7 +409,7 @@ public class Core {
               }
            }
 
-        }
+        }*/
 
         private void loadResources() {
             try {

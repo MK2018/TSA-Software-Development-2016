@@ -142,7 +142,7 @@
                               <Font size="28.0" />
                            </font>
                         </Button>
-                        <Label fx:id="messageLabel" layoutX="330.0" layoutY="305.0" prefHeight="198.0" prefWidth="441.0" text="Upon uploading, we will process your file and determine the appropriate subject or category to place it under. For the first few uploads, you may be asked to identify this yourself, as our algorithm learns." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                        <Label fx:id="messageLabel" layoutX="330.0" layoutY="305.0" prefHeight="198.0" prefWidth="441.0" text="Upon uploading, we will process your file and determine the appropriate subject or category to place it under." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
                      </children>
                   </AnchorPane>
             </content>
