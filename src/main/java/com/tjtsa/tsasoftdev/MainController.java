@@ -7,6 +7,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,23 +73,43 @@ public class MainController implements Initializable {
     @FXML
     private ImageView recImg5;
     
+    //Uploading Stuff
+    @FXML
+    private Label loadingLabel;
+    @FXML
+    private Button uploadButton;
+    @FXML
+    private Label messageLabel;
+    
     
     @FXML
-    private void uploadAction(ActionEvent event) throws IOException{
+    private void uploadAction(ActionEvent event) throws IOException, InterruptedException{
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         File file = uploader.showOpenDialog(stage);
         if (file != null) {
             File toUpload = new File(file.toURI());
-            c.initAnalysis(toUpload);
+            Core.loadFile(toUpload);
         }
-        c.goToScene("UploadScene", (Stage)((Node) event.getSource()).getScene().getWindow());
+        //loadingLabel.setVisible(true);
+        //uploadButton.setVisible(false);
+        //messageLabel.setVisible(false);
+        /*Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    c.initAnalysis();
+                } catch (Exception ex) {
+                }
+            }
+        });*/
+        c.goToScene("UploadScene");
     }
     
     
     @FXML
     private void logOutButton(ActionEvent event) throws IOException {
         System.out.println("logging out...");
-        c.goToScene("AuthScene",(Stage)((Node) event.getSource()).getScene().getWindow());
+        c.goToScene("AuthScene");
     }
     
     private void updateSubjects(TitledPane newPane){

@@ -37,3 +37,6 @@
         white;
     -fx-text-fill: #3377ff;
 }
+#loadingPane{
+    -fx-background-color: #3377ff;
+}

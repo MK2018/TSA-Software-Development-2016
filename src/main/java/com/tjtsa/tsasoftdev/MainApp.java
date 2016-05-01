@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
-
+    
     @Override
     public void start(Stage stage) throws Exception {
         Font.loadFont(
@@ -39,6 +39,7 @@ public class MainApp extends Application {
         stage.setTitle("TSA Software Development");
         stage.setScene(authScene);
         stage.show();
+        Core.setUpStage(stage);
     }
 
     /**

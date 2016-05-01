@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
+import javafx.scene.Node;
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.standard.*;
 import org.apache.lucene.analysis.tokenattributes.*;
@@ -31,32 +33,82 @@ public class Core {
     
     private boolean isAnalyzing = false;
     
-    public void goToScene(String toSceneName, Stage ctx) throws IOException{
+    private IdentOutput latestOutput;
+    
+    private static File currentRawFile = null;
+    
+    private static Stage stage = null;
+    
+    public static void setUpStage(Stage stg){
+        stage = stg;
+    }
+
+    public Core() {
+        this.latestOutput = new IdentOutput(new String[5], "");
+    }
+    
+    public void goToScene(String toSceneName) throws IOException{
         Parent toParent = FXMLLoader.load(getClass().getResource("/fxml/"+toSceneName+".fxml"));
         Scene toScene = new Scene(toParent);
         toScene.getStylesheets().add("/styles/MainStyles.css");
-        ctx.setScene(toScene);
-        ctx.show();
+        stage.setScene(toScene);
+        stage.show();
     }
     
-    public void initAnalysis(File f) throws IOException{
+    public static void loadFile(File f){
+        currentRawFile = f;
+    }
+    
+    public IdentOutput initAnalysis() throws IOException, InterruptedException{
         if(!isAnalyzing){
             isAnalyzing = true;
-            FileInputStream fis = new FileInputStream(f);
-            byte[] data = new byte[(int) f.length()];
+            FileInputStream fis = new FileInputStream(currentRawFile);
+            byte[] data = new byte[(int) currentRawFile.length()];
             fis.read(data);
             fis.close();
             String contents = new String(data, "UTF-8");
             TagIdentifier tg = new TagIdentifier(contents, 5);
+            while(tg.listsLoaded != true){ 
+                TimeUnit.SECONDS.sleep(1);
+            }
             tg.generateTags();
-            System.out.println(Arrays.toString(tg.getTags()));
+            
+            latestOutput = new IdentOutput(tg.getTags(), tg.getSubject());
+            //System.out.println(Arrays.toString(tg.getTags()));
 
-            System.out.println(tg.getSubject());
+            //System.out.println(tg.getSubject());
             
             
             
             //System.out.println(contents);
             isAnalyzing = false;
+        }
+        return latestOutput;
+    }
+    
+    class IdentOutput{
+        private String[] tags;
+        private String subject;
+        
+        public IdentOutput(String[] tags, String subject){
+            this.tags = tags;
+            this.subject = subject;
+        }
+        
+        public void setSubject(String subject){
+            this.subject = subject;
+        }
+        
+        public void setTags(String[] tags){
+            this.tags = tags;
+        }
+        
+        public String getSubject(){
+            return this.subject;
+        }
+        
+        public List<String> getTags(){
+            return Arrays.asList(this.tags);
         }
     }
     
@@ -74,6 +126,8 @@ public class Core {
         private String subject = "";
 
         private int KEYWORD_LIMIT = 0;
+        
+        private boolean listsLoaded = false;
 
         public TagIdentifier() {
            tags = new ArrayList<String>();
@@ -277,12 +331,49 @@ public class Core {
                     science.add(line);
                 }*/
                 
-                final Firebase tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
+                Firebase tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
+                
+                tagfiles.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snap) {
+                        for (DataSnapshot tag: snap.getChildren()) {                         
+                            if(null != tag.getKey())
+                                switch (tag.getKey()) {
+                                case "cs_tags":
+                                    cs.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
+                                    break;
+                                case "eng_tags":
+                                    english.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
+                                    break;
+                                case "hist_tags":
+                                    history.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
+                                    break;
+                                case "math_tags":
+                                    math.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
+                                    break;
+                                case "sci_tags":
+                                    science.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
+                                    break;
+                                case "common":
+                                    commonWords.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
+                                    break;
+                            }
+                        }
+                        Firebase.goOffline();
+                        listsLoaded = true;
+                    }
+                    @Override
+                    public void onCancelled(FirebaseError fe) {
+                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    }
+                });
+                
+                
                 
                 //Map<String, String> nameMap = new HashMap<String, String>();
                 //nameMap.put("cs_tags", "cs");
                 
-                tagfiles.addValueEventListener(new ValueEventListener() {
+                /*tagfiles.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         for (DataSnapshot tag: snapshot.getChildren()) {
@@ -296,7 +387,7 @@ public class Core {
                     public void onCancelled(FirebaseError fe) {
                         System.out.println("The read failed: " + fe.getMessage());
                     }
-                });
+                });*/
                 
                 /*tagfiles.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
                 tagfiles.child("eng_tags").setValue(english.toString().substring(1, english.toString().length()-1));
@@ -323,11 +414,12 @@ public class Core {
               while(scan.hasNext()) {
                  science.add(scan.nextLine());
               }*/
-                //in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/common.txt")));
-                //line = "";
+                //BufferedReader in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/common.txt")));
+                //String line = "";
                 //while ((line = in.readLine()) != null){
                 //    commonWords.add(stem(line));
                 //}
+                //tagfiles.child("common").setValue(commonWords.toString().substring(1, commonWords.toString().length()-1));
               /*file = new File("common.txt");
               scan = new Scanner(file);
               while(scan.hasNext()) {
@@ -457,6 +549,5 @@ public class Core {
            return filePlainText;
         }
     }
-
-    
+   
 }
