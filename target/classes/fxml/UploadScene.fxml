@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.UploadSceneController">
+   <children>
+      <AnchorPane fx:id="loadingPane" prefHeight="800.0" prefWidth="1100.0">
+         <children>
+            <Label fx:id="messageLabel" layoutX="54.0" layoutY="463.0" prefHeight="305.0" prefWidth="851.0" text="Loading, please be patient..." textFill="WHITE">
+               <font>
+                  <Font name="Roboto Condensed Light" size="75.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Separator layoutX="166.0" layoutY="152.0" prefWidth="200.0" />
+      <Separator layoutX="716.0" layoutY="148.0" prefWidth="200.0" />
+      <Label layoutX="20.0" layoutY="21.0" text="Upload Details">
+         <font>
+            <Font name="Roboto Condensed" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="722.0" layoutY="107.0" text="Subject">
+         <font>
+            <Font name="Roboto Condensed" size="28.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fileNameField" layoutX="166.0" layoutY="168.0" prefHeight="51.0" prefWidth="202.0" promptText="Enter a filename" />
+      <Label fx:id="subjectLabel" layoutX="722.0" layoutY="164.0" text="Loading...">
+         <font>
+            <Font name="Roboto Condensed Light" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="167.0" layoutY="314.0" text="Tags">
+         <font>
+            <Font name="Roboto Condensed" size="28.0" />
+         </font>
+      </Label>
+      <Separator layoutX="21.0" layoutY="65.0" prefWidth="200.0" />
+      <Label layoutX="166.0" layoutY="110.0" text="Filename">
+         <font>
+            <Font name="Roboto Condensed" size="28.0" />
+         </font>
+      </Label>
+      <Separator layoutX="167.0" layoutY="362.0" prefWidth="200.0" />
+      <Label layoutX="717.0" layoutY="227.0" prefHeight="58.0" prefWidth="218.0" text="Not correct? Choose the subject it should be." textAlignment="CENTER" wrapText="true" />
+      <ChoiceBox fx:id="subjectChoiceBox" layoutX="716.0" layoutY="298.0" prefHeight="31.0" prefWidth="218.0" />
+      <Button fx:id="finalUploadButton" layoutX="684.0" layoutY="490.0" mnemonicParsing="false" onAction="#finalUpload" prefHeight="103.0" prefWidth="290.0" text="Upload File">
+         <font>
+            <Font size="28.0" />
+         </font></Button>
+      <Separator layoutX="530.0" layoutY="93.0" orientation="VERTICAL" prefHeight="511.0" prefWidth="40.0" />
+      <Button fx:id="cancelButton" layoutX="1005.0" layoutY="21.0" mnemonicParsing="false" onAction="#cancelUpload" text="Cancel" />
+      <TextField fx:id="tagBox2" layoutX="167.0" layoutY="485.0" prefHeight="44.0" prefWidth="187.0" />
+      <TextField fx:id="tagBox3" layoutX="167.0" layoutY="541.0" prefHeight="44.0" prefWidth="187.0" />
+      <TextField fx:id="tagBox4" layoutX="167.0" layoutY="597.0" prefHeight="44.0" prefWidth="187.0" />
+      <TextField fx:id="tagBox5" layoutX="167.0" layoutY="652.0" prefHeight="44.0" prefWidth="187.0" />
+      <TextField fx:id="tagBox1" layoutX="167.0" layoutY="433.0" prefHeight="44.0" prefWidth="187.0" />
+      <Label fx:id="filenameHintText" layoutX="166.0" layoutY="227.0" prefHeight="76.0" prefWidth="202.0" text="Choose a name to call this file." textAlignment="CENTER" wrapText="true" />
+      <Label layoutX="167.0" layoutY="375.0" prefHeight="51.0" prefWidth="187.0" text="Tags not quite right? Edit them below." textAlignment="CENTER" wrapText="true" />
+   </children>
+</AnchorPane>

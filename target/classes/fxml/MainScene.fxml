@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="windowPane" fx:id="windowPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.MainController">
+    <children>
+        <Button fx:id="button" layoutX="963.0" layoutY="14.0" onAction="#logOutButton" text="Log Out" />
+      <Label layoutX="21.0" layoutY="20.0" text="Fly.">
+         <font>
+            <Font name="Roboto Condensed" size="36.0" />
+         </font>
+      </Label>
+      <Separator layoutX="21.0" layoutY="63.0" prefHeight="21.0" prefWidth="322.0" />
+      <TabPane fx:id="tabpane" layoutY="91.0" prefHeight="708.0" prefWidth="1101.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab text="Dashboard">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="2.0" layoutY="1.0" prefHeight="670.0" prefWidth="1101.0">
+                           <children>
+                              <AnchorPane prefHeight="311.0" prefWidth="1101.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Recent Uploads">
+                                       <font>
+                                          <Font name="Roboto Condensed Light" size="28.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutX="14.0" layoutY="44.0" prefHeight="21.0" prefWidth="166.0" />
+                                    <AnchorPane layoutX="14.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                       <children>
+                                          <Label fx:id="recCap1" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font size="28.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fx:id="recImg1" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="232.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                       <children>
+                                          <Label fx:id="recCap2" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font size="28.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fx:id="recImg2" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="450.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                       <children>
+                                          <Label fx:id="recCap3" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font size="28.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fx:id="recImg3" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="670.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                       <children>
+                                          <Label fx:id="recCap4" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font size="28.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fx:id="recImg4" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="886.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                       <children>
+                                          <Label fx:id="recCap5" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font size="28.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fx:id="recImg5" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefHeight="353.0" prefWidth="1101.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Upcoming Assignments and Tests">
+                                       <font>
+                                          <Font name="Roboto Condensed Light" size="28.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutX="14.0" layoutY="53.0" prefHeight="13.0" prefWidth="357.0" />
+                                    <AnchorPane layoutX="14.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                    <AnchorPane layoutX="232.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                    <AnchorPane layoutX="451.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                    <AnchorPane layoutX="671.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                    <AnchorPane layoutX="887.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="recentTab" text="Documents">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="671.0" prefWidth="1101.0">
+                           <children>
+                              <ToolBar orientation="VERTICAL" prefHeight="339.0" prefWidth="223.0">
+                                <items>
+                                    <Label prefHeight="21.0" prefWidth="207.0" text="Add a new class to track:" textAlignment="CENTER" />
+                                    <TextField fx:id="subjectName" />
+                                  <Button fx:id="addNewSubject" mnemonicParsing="false" onAction="#addSubject" prefHeight="31.0" prefWidth="208.0" text="Add Class" />
+                                </items>
+                              </ToolBar>
+                              <Accordion id="subjectAccordion" fx:id="subjects" prefHeight="671.0" prefWidth="884.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="uploadTab" text="Upload">
+            <content>
+              <AnchorPane id="uploadPage" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="loadingLabel" layoutX="286.0" layoutY="156.0" prefHeight="40.0" prefWidth="530.0" text="Loading, please be patient..." textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="36.0" />
+                           </font></Label>
+                        <Button id="uploadButton" fx:id="uploadButton" layoutX="370.0" layoutY="191.0" mnemonicParsing="false" onAction="#uploadAction" prefHeight="103.0" prefWidth="361.0" text="Upload a new file here...">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Button>
+                        <Label fx:id="messageLabel" layoutX="330.0" layoutY="305.0" prefHeight="198.0" prefWidth="441.0" text="Upon uploading, we will process your file and determine the appropriate subject or category to place it under. For the first few uploads, you may be asked to identify this yourself, as our algorithm learns." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Label layoutX="823.0" layoutY="19.0" text="Welcome, {name}!" />
+    </children>
+</AnchorPane>

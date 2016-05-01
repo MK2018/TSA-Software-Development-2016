@@ -1,0 +1,45 @@
+.button {
+    -fx-font-weight: bold;
+}
+/*#subjectAccordion{
+    -fx-background-color: gainsboro;
+}*/
+.root { 
+    -fx-focus-color: #737373; 
+    -fx-faint-focus-color: transparent;
+    -fx-font-family: 'Roboto Condensed', sans-serif !important;
+}
+.tab{
+    -fx-focus-color: transparent; 
+}
+#uploadPage{
+    -fx-background-color: #3377ff;
+}
+#uploadButton{
+    -fx-background-color: 
+        white,
+        #3377ff;
+    -fx-background-insets: 0,2;
+    -fx-background-radius: 15,13;
+    -fx-font-size: 20pt;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+#uploadButton:pressed{
+    -fx-background-color: 
+        #3377ff,
+        white;
+    -fx-text-fill: #3377ff;
+}
+#uploadButton:hover{
+    -fx-background-color: 
+        #3377ff,
+        white;
+    -fx-text-fill: #3377ff;
+}
+#loadingPane{
+    -fx-background-color: #3377ff;
+}
+#finalUploadButton{
+    -fx-font-size: 20pt;
+}
