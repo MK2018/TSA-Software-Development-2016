@@ -70,16 +70,21 @@ public class Core {
     public static void loadFile(File f){
         currentRawFile = f;
         FileInputStream fis;
-        try {
-            fis = new FileInputStream(currentRawFile);
-            byte[] data = new byte[(int) currentRawFile.length()];
-            fis.read(data);
-            fis.close();
-            currentFileText = new String(data, "UTF-8");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+        if(currentRawFile != null){
+            try {
+                fis = new FileInputStream(currentRawFile);
+                byte[] data = new byte[(int) currentRawFile.length()];
+                fis.read(data);
+                fis.close();
+                currentFileText = new String(data, "UTF-8");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            currentFileText = "";
         }
     }
     
@@ -97,7 +102,7 @@ public class Core {
             String contents = currentFileText;
             TagIdentifier tg = new TagIdentifier(contents, 5);
             while(tg.listsLoaded != true){ 
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(100);
                 //System.out.println("loading stuff...");
             }
             tg.generateTags();

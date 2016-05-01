@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -42,6 +45,8 @@ public class UploadSceneController implements Initializable {
     
     @FXML
     AnchorPane loadingPane;
+    @FXML
+    Label messageLabel;
     
     @FXML
     ChoiceBox subjectChoiceBox;
@@ -131,7 +136,34 @@ public class UploadSceneController implements Initializable {
             if(!subjectLabel.getText().equals(origSubj)){
                 c.teachAlgorithm(subjectLabel.getText(), finalTags);
             }
+            messageLabel.setText("Success");
+            loadingPane.setStyle("-fx-background-color: #00cc66;");
+            loadingPane.setVisible(true);
+            //loadingPane.toFront();
+            //try {
+            //    TimeUnit.MILLISECONDS.sleep(1500);
+            //} catch (InterruptedException ex) {
+            //    Logger.getLogger(UploadSceneController.class.getName()).log(Level.SEVERE, null, ex);
+            //}
             c.goToScene("MainScene");
+            /*Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        data = c.initAnalysis();
+                        subjectLabel.setText(data.getSubject());
+                        origSubj = data.getSubject();
+                        subjectChoiceBox.setValue(data.getSubject());
+                        for(int i = 0; i < tagFields.size(); i++){
+                            tagFields.get(i).setText(data.getTags().get(i));
+                        }
+                        //tagLabel.setText(data.getTags().toString().replace("[", "\u2022 ").replace("]", "").replace(", ", "\n\u2022 "));
+                        loadingPane.setVisible(false);
+                    } catch (IOException | InterruptedException ex) {
+                        System.out.println(Arrays.toString(ex.getStackTrace()));
+                    }
+                }
+            });*/
         }        
     }
     
@@ -140,6 +172,7 @@ public class UploadSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        loadingPane.toFront();
         c = new Core();
         subjectChoiceBox.setItems(FXCollections.observableArrayList("History", "English", "Science", "Math", "Computer Science"));
         subjectChoiceBox.getSelectionModel().selectedItemProperty().addListener(new
@@ -163,7 +196,7 @@ public class UploadSceneController implements Initializable {
                         tagFields.get(i).setText(data.getTags().get(i));
                     }
                     //tagLabel.setText(data.getTags().toString().replace("[", "\u2022 ").replace("]", "").replace(", ", "\n\u2022 "));
-                    //loadingPane.setVisible(false);
+                    loadingPane.setVisible(false);
                 } catch (IOException | InterruptedException ex) {
                     System.out.println(Arrays.toString(ex.getStackTrace()));
                 }

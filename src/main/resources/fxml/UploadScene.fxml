@@ -10,6 +10,15 @@
 
 <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.UploadSceneController">
    <children>
+      <AnchorPane fx:id="loadingPane" prefHeight="800.0" prefWidth="1100.0">
+         <children>
+            <Label fx:id="messageLabel" layoutX="54.0" layoutY="463.0" prefHeight="305.0" prefWidth="851.0" text="Loading, please be patient..." textFill="WHITE">
+               <font>
+                  <Font name="Roboto Condensed Light" size="75.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
       <Separator layoutX="166.0" layoutY="152.0" prefWidth="200.0" />
       <Separator layoutX="716.0" layoutY="148.0" prefWidth="200.0" />
       <Label layoutX="20.0" layoutY="21.0" text="Upload Details">
