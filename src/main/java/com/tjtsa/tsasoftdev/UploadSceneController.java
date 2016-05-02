@@ -117,7 +117,7 @@ public class UploadSceneController implements Initializable {
         
         //GET THE USER ID THING WORKING
         
-        Firebase uploader = new Firebase("https://tsaparser.firebaseio.com/users/testingUser/uploads");
+        //Firebase uploader = new Firebase("https://tsaparser.firebaseio.com/users/testingUser/uploads");
         
         
         String[] finalTags = new String[5];
@@ -131,7 +131,7 @@ public class UploadSceneController implements Initializable {
             filenameHintText.setText("Document name must not be empty or have the following characters: . $ # [ ] /");
         }
         else{
-            uploader.child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new documentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText()));
+            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new documentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText()));
             if(!subjectLabel.getText().equals(origSubj)){
                 c.teachAlgorithm(subjectLabel.getText(), finalTags);
             }
@@ -144,10 +144,9 @@ public class UploadSceneController implements Initializable {
                 public void run() {
                     try {
                         TimeUnit.MILLISECONDS.sleep(1750);
+                        Core.loadFile(null);
                         c.goToScene("MainScene");
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(UploadSceneController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
+                    } catch (InterruptedException | IOException ex) {
                         Logger.getLogger(UploadSceneController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }

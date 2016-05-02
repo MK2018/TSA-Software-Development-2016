@@ -50,6 +50,8 @@ public class Core {
     private ArrayList<String> cs;
     private ArrayList<String> science;
     
+    public static Firebase ref;
+    
     
     public static void setUpStage(Stage stg){
         stage = stg;
@@ -57,6 +59,7 @@ public class Core {
 
     public Core() {
         this.latestOutput = new IdentOutput(new String[5], "");
+        Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
     }
     
     public void goToScene(String toSceneName) throws IOException{
@@ -121,41 +124,41 @@ public class Core {
     }
     
     public void teachAlgorithm(String subject, String[] tags) throws IOException{
-        Firebase teacher = new Firebase("https://tsaparser.firebaseio.com/");
+        //Firebase teacher = new Firebase("https://tsaparser.firebaseio.com/");
         if(subject.equals("Science")) {
             for(String tag: Arrays.asList(tags)){
                 if(!science.contains(tag))
                     science.add(stem(tag));
             }
-            teacher.child("sci_tags").setValue(science.toString().substring(1, science.toString().length()-1));
+            Core.ref.child("sci_tags").setValue(science.toString().substring(1, science.toString().length()-1));
         }
         else if(subject.equals("History")) {
             for(String tag: Arrays.asList(tags)){
                 if(!history.contains(tag))
                     history.add(stem(tag));
             }
-            teacher.child("hist_tags").setValue(history.toString().substring(1, history.toString().length()-1));
+            Core.ref.child("hist_tags").setValue(history.toString().substring(1, history.toString().length()-1));
         }
         else if(subject.equals("Math")) {
             for(String tag: Arrays.asList(tags)){
                 if(!math.contains(tag))
                     math.add(stem(tag));
             }
-            teacher.child("math_tags").setValue(math.toString().substring(1, math.toString().length()-1));
+            Core.ref.child("math_tags").setValue(math.toString().substring(1, math.toString().length()-1));
         }
         else if(subject.equals("English")) {
             for(String tag: Arrays.asList(tags)){
                 if(!english.contains(tag))
                     english.add(stem(tag));
             }
-            teacher.child("eng_tags").setValue(english.toString().substring(1, english.toString().length()-1));
+            Core.ref.child("eng_tags").setValue(english.toString().substring(1, english.toString().length()-1));
         }
         else if(subject.equals("Computer Science")) {
             for(String tag: Arrays.asList(tags)){
                 if(!cs.contains(tag))
                     cs.add(stem(tag));
             }
-            teacher.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
+            Core.ref.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
         }
     }
     
@@ -238,7 +241,7 @@ public class Core {
         
         private boolean listsLoaded = false;
         
-        Firebase tagfiles;
+        //Firebase tagfiles;
 
         public TagIdentifier() {
            tags = new ArrayList<String>();
@@ -248,7 +251,7 @@ public class Core {
            cs = new ArrayList<String>();
            science = new ArrayList<String>();
            commonWords = new ArrayList<String>();
-           tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
+           //tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
            loadResources();
         }
 
@@ -262,11 +265,11 @@ public class Core {
            cs = new ArrayList<String>();
            science = new ArrayList<String>();
            commonWords = new ArrayList<String>();
-           tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
+           //tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
            loadResources();
         }
 
-        public void teachAlgo(String subject) {
+        /*public void teachAlgo(String subject) {
            ArrayList<String> wanted = null;
             File ff = null;
            if(subject.equals("Science")) {
@@ -308,7 +311,7 @@ public class Core {
                  out.close();
               }
            }    
-        }
+        }*/
 
         private List<Keyword> guessFromString() throws IOException {
 
@@ -443,7 +446,7 @@ public class Core {
                 while ((line = in.readLine()) != null){
                     science.add(line);
                 }*/
-                tagfiles.addListenerForSingleValueEvent(new ValueEventListener() {
+                Core.ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snap) {
                         for (DataSnapshot tag: snap.getChildren()) {                         
@@ -473,7 +476,7 @@ public class Core {
                     }
                     @Override
                     public void onCancelled(FirebaseError fe) {
-                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                        System.out.println("error.");
                     }
                 });
                 

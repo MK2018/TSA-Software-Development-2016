@@ -43,3 +43,10 @@
 #finalUploadButton{
     -fx-font-size: 20pt;
 }
+.incorrect-field{
+    -fx-border-color: red; 
+    -fx-border-width: 2px;
+}
+#nameTagLabel{
+    -fx-text-alignment: right;
+}

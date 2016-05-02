@@ -1,5 +1,8 @@
 package com.tjtsa.tsasoftdev;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -81,14 +84,19 @@ public class MainController implements Initializable {
     @FXML
     private Label messageLabel;
     
+    @FXML
+    private Label nameTagLabel;
+    
     
     @FXML
     private void uploadAction(ActionEvent event) throws IOException, InterruptedException{
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         File file = uploader.showOpenDialog(stage);
+        //System.out.println(file);
         if (file != null) {
             File toUpload = new File(file.toURI());
             Core.loadFile(toUpload);
+            c.goToScene("UploadScene");
         }
         //loadingLabel.setVisible(true);
         //uploadButton.setVisible(false);
@@ -102,13 +110,14 @@ public class MainController implements Initializable {
                 }
             }
         });*/
-        c.goToScene("UploadScene");
+        
     }
     
     
     @FXML
     private void logOutButton(ActionEvent event) throws IOException {
         //System.out.println("logging out...");
+        Core.ref.unauth();
         c.goToScene("AuthScene");
     }
     
@@ -142,6 +151,21 @@ public class MainController implements Initializable {
         initRecents();
         uploader = new FileChooser();
         uploader.setTitle("Choose file to upload...");
+        Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot snap) {   
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        nameTagLabel.setText("Welcome, \n" + snap.getValue(String.class) + "!");
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(FirebaseError fe) {
+                System.out.println(fe);
+            }
+        });
         //LOAD ALL RELEVANT INFO UPON ENTERING.
         
     }    

@@ -44,12 +44,10 @@ public class MainApp extends Application {
         stage.show();
         Core.setUpStage(stage);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
-
             @Override
             public void handle(WindowEvent event) {
                 Firebase.goOffline();
             }
-            
         });
     }
 
