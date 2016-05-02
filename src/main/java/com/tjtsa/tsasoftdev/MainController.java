@@ -85,7 +85,7 @@ public class MainController implements Initializable {
     private Label messageLabel;
     
     @FXML
-    private Label nameTagLabel;
+    private Label welcomeLabel;
     
     
     @FXML
@@ -157,7 +157,8 @@ public class MainController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        nameTagLabel.setText("Welcome, \n" + snap.getValue(String.class) + "!");
+                        //nameTagLabel.setText("Logged in as \n" + snap.getValue(String.class));
+                        welcomeLabel.setText("Welcome to your Fly Dashboard, " + snap.getValue(String.class)+".");
                     }
                 });
             }

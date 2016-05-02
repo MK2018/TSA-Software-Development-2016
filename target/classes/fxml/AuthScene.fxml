@@ -13,18 +13,18 @@
         <URL value="@/styles/MainStyles.css" />
     </stylesheets>
    <children>
-      <Label layoutX="241.0" layoutY="33.0" text="Welcome to Whatever We're Calling This Thing.">
+      <Label layoutX="468.0" layoutY="37.0" text="Welcome to Fly">
          <font>
             <Font name="Roboto Condensed" size="34.0" />
          </font>
       </Label>
-      <Button fx:id="backButton" layoutX="229.0" layoutY="451.0" mnemonicParsing="false" onAction="#signInButton" text="Login" />
+      <Button fx:id="backButton" layoutX="229.0" layoutY="445.0" mnemonicParsing="false" onAction="#signInButton" text="Login" />
       <Separator layoutX="363.0" layoutY="87.0" prefHeight="21.0" prefWidth="388.0" />
       <TextField fx:id="signInEmail" layoutX="99.0" layoutY="258.0" prefHeight="31.0" prefWidth="317.0" />
       <PasswordField fx:id="signInPass" layoutX="99.0" layoutY="323.0" prefHeight="31.0" prefWidth="317.0" />
       <Label layoutX="99.0" layoutY="229.0" text="Email" />
       <Label layoutX="99.0" layoutY="295.0" text="Password" />
-      <Separator layoutX="544.0" layoutY="129.0" orientation="VERTICAL" prefHeight="524.0" prefWidth="26.0" />
+      <Separator layoutX="544.0" layoutY="161.0" orientation="VERTICAL" prefHeight="338.0" prefWidth="26.0" />
       <Label layoutX="201.0" layoutY="148.0" style="-fx-font-size: 28pt;" text="Sign In">
          <font>
             <Font name="Roboto Condensed" size="30.0" />
@@ -41,7 +41,6 @@
       <Label layoutX="688.0" layoutY="230.0" prefHeight="31.0" prefWidth="298.0" text="Email - This will be used as your username." wrapText="true" />
       <TextField fx:id="signUpName" layoutX="688.0" layoutY="385.0" prefHeight="31.0" prefWidth="317.0" />
       <Label layoutX="688.0" layoutY="359.0" text="Screen Name" />
-      <Label layoutX="710.0" layoutY="582.0" prefHeight="90.0" prefWidth="283.0" text="We do not distribute or disseminate this information to anyone. It is for authentication purposes only." textAlignment="CENTER" wrapText="true" />
       <Button layoutX="815.0" layoutY="519.0" mnemonicParsing="false" onAction="#signUpButton" text="Sign Up" />
       <Label fx:id="loginErrMessage" layoutX="99.0" layoutY="369.0" prefHeight="63.0" prefWidth="317.0" textAlignment="CENTER" textFill="RED" wrapText="true">
          <font>
@@ -53,6 +52,7 @@
             <Font name="Roboto Condensed Light" size="20.0" />
          </font>
       </Label>
-      <ProgressIndicator fx:id="progress" layoutX="504.0" layoutY="686.0" prefHeight="101.0" prefWidth="106.0" visible="false" />
+      <ProgressIndicator fx:id="progress" layoutX="505.0" layoutY="519.0" prefHeight="101.0" prefWidth="106.0" visible="false" />
+      <Label layoutX="93.0" layoutY="687.0" text="Please note that this application requires a stable Internet connection at all times. Created for TSA Software Development Competition, 2016." />
    </children>
 </AnchorPane>

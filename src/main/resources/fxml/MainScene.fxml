@@ -28,7 +28,7 @@
                      <children>
                         <VBox layoutX="2.0" layoutY="1.0" prefHeight="670.0" prefWidth="1101.0">
                            <children>
-                              <AnchorPane prefHeight="311.0" prefWidth="1101.0">
+                              <AnchorPane prefHeight="444.0" prefWidth="1101.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="14.0" text="Recent Uploads">
                                        <font>
@@ -36,7 +36,7 @@
                                        </font>
                                     </Label>
                                     <Separator layoutX="14.0" layoutY="44.0" prefHeight="21.0" prefWidth="166.0" />
-                                    <AnchorPane layoutX="14.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="14.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
                                        <children>
                                           <Label fx:id="recCap1" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
                                              <font>
@@ -46,7 +46,7 @@
                                           <ImageView fx:id="recImg1" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="232.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="232.0" layoutY="65.0" prefHeight="304.0" prefWidth="201.0" style="-fx-background-color: #333333;">
                                        <children>
                                           <Label fx:id="recCap2" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
                                              <font>
@@ -56,7 +56,7 @@
                                           <ImageView fx:id="recImg2" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="450.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="450.0" layoutY="65.0" prefHeight="304.0" prefWidth="201.0" style="-fx-background-color: #333333;">
                                        <children>
                                           <Label fx:id="recCap3" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
                                              <font>
@@ -66,7 +66,7 @@
                                           <ImageView fx:id="recImg3" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="670.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="670.0" layoutY="65.0" prefHeight="304.0" prefWidth="201.0" style="-fx-background-color: #333333;">
                                        <children>
                                           <Label fx:id="recCap4" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
                                              <font>
@@ -76,7 +76,7 @@
                                           <ImageView fx:id="recImg4" fitHeight="150.0" fitWidth="200.0" layoutX="1.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="886.0" layoutY="65.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="886.0" layoutY="65.0" prefHeight="304.0" prefWidth="201.0" style="-fx-background-color: #333333;">
                                        <children>
                                           <Label fx:id="recCap5" layoutX="6.0" layoutY="168.0" prefHeight="67.0" prefWidth="190.0" textAlignment="CENTER" textFill="WHITE">
                                              <font>
@@ -88,19 +88,13 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="353.0" prefWidth="1101.0">
+                              <AnchorPane prefHeight="133.0" prefWidth="1101.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Upcoming Assignments and Tests">
+                                    <Label fx:id="welcomeLabel" layoutX="243.0" layoutY="14.0" prefHeight="155.0" prefWidth="616.0" text="Welcome to your Fly Dashboard, " textAlignment="CENTER" wrapText="true">
                                        <font>
-                                          <Font name="Roboto Condensed Light" size="28.0" />
+                                          <Font name="Roboto Condensed Light" size="48.0" />
                                        </font>
                                     </Label>
-                                    <Separator layoutX="14.0" layoutY="53.0" prefHeight="13.0" prefWidth="357.0" />
-                                    <AnchorPane layoutX="14.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                    <AnchorPane layoutX="232.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                    <AnchorPane layoutX="451.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                    <AnchorPane layoutX="671.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                    <AnchorPane layoutX="887.0" layoutY="79.0" prefHeight="237.0" prefWidth="200.0" style="-fx-background-color: red;" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -109,7 +103,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-          <Tab fx:id="recentTab" text="Documents">
+          <Tab fx:id="recentTab" text="Search">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -147,8 +141,12 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="Settings">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
-      <Label fx:id="nameTagLabel" layoutX="773.0" layoutY="7.0" prefHeight="76.0" prefWidth="190.0" text="Welcome!" textAlignment="RIGHT" wrapText="true" />
     </children>
 </AnchorPane>

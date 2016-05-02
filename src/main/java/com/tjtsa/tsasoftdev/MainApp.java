@@ -6,9 +6,11 @@ import static javafx.application.Application.launch;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -38,6 +40,12 @@ public class MainApp extends Application {
         
         Scene authScene = new Scene(authScreen);
         authScene.getStylesheets().add("/styles/MainStyles.css");
+        
+        
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        //stage.setWidth(screenBounds.getWidth());
+        if(screenBounds.getHeight() < 800)
+            stage.setHeight(screenBounds.getHeight());
         
         stage.setTitle("TSA Software Development");
         stage.setScene(authScene);
