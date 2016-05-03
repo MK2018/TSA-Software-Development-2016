@@ -118,6 +118,11 @@ public class AuthSceneController implements Initializable {
             public void onSuccess(Map<String, Object> result) {
                 //System.out.println("Successfully created user account with uid: " + result.get("uid"));
                 Core.ref.child("users").child((String) result.get("uid")).child("name").setValue(name);
+                Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("History").setValue("");
+                Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("Math").setValue("");
+                Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("Computer Science").setValue("");
+                Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("English").setValue("");
+                Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("Science").setValue("");
                 Core.ref.authWithPassword(email, pass, new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {

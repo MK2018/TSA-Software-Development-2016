@@ -81,45 +81,7 @@ public class UploadSceneController implements Initializable {
     }
     
     @FXML
-    public void finalUpload(ActionEvent event) throws IOException{
-        
-        class documentClass{
-            private String docText;
-            private String docSubject;
-            private String[] docTags;
-            private String docName;
-            
-            public documentClass(){}
-            
-            public documentClass(String fullText, String subject, String[] tags, String name){
-                this.docText = fullText;
-                this.docSubject = subject;
-                this.docTags = tags;
-                this.docName = name;
-            }
-            
-            public String getText(){
-                return docText;
-            }
-            
-            public String getSubject(){
-                return docSubject;
-            }
-            
-            public String[] getTags(){
-                return docTags;
-            }
-            
-            public String getName(){
-                return docName;
-            }
-        }
-        
-        //GET THE USER ID THING WORKING
-        
-        //Firebase uploader = new Firebase("https://tsaparser.firebaseio.com/users/testingUser/uploads");
-        
-        
+    public void finalUpload(ActionEvent event) throws IOException{      
         String[] finalTags = new String[5];
         finalTags[0] = tagBox1.getText();
         finalTags[1] = tagBox2.getText();
@@ -131,7 +93,7 @@ public class UploadSceneController implements Initializable {
             filenameHintText.setText("Document name must not be empty or have the following characters: . $ # [ ] /");
         }
         else{
-            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new documentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText()));
+            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new DocumentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText()));
             if(!subjectLabel.getText().equals(origSubj)){
                 c.teachAlgorithm(subjectLabel.getText(), finalTags);
             }

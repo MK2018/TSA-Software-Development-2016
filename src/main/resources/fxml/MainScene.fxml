@@ -28,7 +28,7 @@
                      <children>
                         <VBox layoutX="2.0" layoutY="1.0" prefHeight="670.0" prefWidth="1101.0">
                            <children>
-                              <AnchorPane prefHeight="444.0" prefWidth="1101.0">
+                              <AnchorPane prefHeight="384.0" prefWidth="1101.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="14.0" text="Recent Uploads">
                                        <font>
@@ -90,7 +90,7 @@
                               </AnchorPane>
                               <AnchorPane prefHeight="133.0" prefWidth="1101.0">
                                  <children>
-                                    <Label fx:id="welcomeLabel" layoutX="243.0" layoutY="14.0" prefHeight="155.0" prefWidth="616.0" text="Welcome to your Fly Dashboard, " textAlignment="CENTER" wrapText="true">
+                                    <Label fx:id="welcomeLabel" layoutX="243.0" prefHeight="125.0" prefWidth="616.0" text="Welcome to your Fly Dashboard, " textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font name="Roboto Condensed Light" size="48.0" />
                                        </font>
@@ -103,7 +103,23 @@
                   </AnchorPane>
               </content>
             </Tab>
-          <Tab fx:id="recentTab" text="Search">
+            <Tab text="Search">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="searchBar" layoutX="153.0" layoutY="250.0" prefHeight="76.0" prefWidth="796.0" />
+                        <Label layoutX="423.0" layoutY="112.0" text="Search Away.">
+                           <font>
+                              <Font name="Roboto Condensed" size="48.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="392.0" layoutY="187.0" text="Enter a document title or relevant tags to search." />
+                        <Button fx:id="searchButtonGo" layoutX="475.0" layoutY="370.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="63.0" prefWidth="157.0" text="Go!" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="recentTab" text="All Documents">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

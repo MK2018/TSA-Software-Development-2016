@@ -4,22 +4,16 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -87,6 +81,15 @@ public class MainController implements Initializable {
     @FXML
     private Label welcomeLabel;
     
+    @FXML
+    private TextField searchBar;
+    
+    
+    @FXML
+    private void searchAction(ActionEvent event){
+        String searchText = searchBar.getText();
+        
+    }
     
     @FXML
     private void uploadAction(ActionEvent event) throws IOException, InterruptedException{
@@ -118,6 +121,8 @@ public class MainController implements Initializable {
     private void logOutButton(ActionEvent event) throws IOException {
         //System.out.println("logging out...");
         Core.ref.unauth();
+        Core.loadFile(null);
+        Core.allDocs = null;
         c.goToScene("AuthScene");
     }
     
@@ -148,6 +153,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         c = new Core();
+        Core.getDocuments();
         initRecents();
         uploader = new FileChooser();
         uploader.setTitle("Choose file to upload...");

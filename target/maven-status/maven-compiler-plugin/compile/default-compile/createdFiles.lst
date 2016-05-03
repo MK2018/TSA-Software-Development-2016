@@ -17,7 +17,8 @@ com\tjtsa\tsasoftdev\MainApp.class
 com\tjtsa\tsasoftdev\AuthSceneController.class
 com\tjtsa\tsasoftdev\AuthSceneController$2$1.class
 com\tjtsa\tsasoftdev\UploadSceneController$3.class
-com\tjtsa\tsasoftdev\UploadSceneController$1documentClass.class
+com\tjtsa\tsasoftdev\DocumentClass.class
 com\tjtsa\tsasoftdev\AuthSceneController$1$1.class
 com\tjtsa\tsasoftdev\Core.class
+com\tjtsa\tsasoftdev\Core$1.class
 com\tjtsa\tsasoftdev\MainController$1.class

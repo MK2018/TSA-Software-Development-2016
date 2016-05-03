@@ -52,14 +52,34 @@ public class Core {
     
     public static Firebase ref;
     
+    public static List<DocumentClass> allDocs;
+
+    public Core() {
+        this.latestOutput = new IdentOutput(new String[5], "");
+        this.allDocs = new ArrayList<>();
+        Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
+    }
     
     public static void setUpStage(Stage stg){
         stage = stg;
     }
-
-    public Core() {
-        this.latestOutput = new IdentOutput(new String[5], "");
-        Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
+    
+    public static void getDocuments(){
+        Core.ref.child("users/" + Core.ref.getAuth().getUid()+"/uploads").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snap) {
+                //System.out.println(snap.getValue());
+                for(DataSnapshot child : snap.getChildren()){
+                    for(DataSnapshot doc: child.getChildren()){
+                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class)));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println(firebaseError);
+            }
+        });
     }
     
     public void goToScene(String toSceneName) throws IOException{
