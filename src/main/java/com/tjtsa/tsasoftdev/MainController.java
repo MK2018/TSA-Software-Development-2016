@@ -88,10 +88,69 @@ public class MainController implements Initializable {
     private TextField searchBar;
     
     @FXML
+    private AnchorPane srchResultsPane;
+    @FXML
+    private AnchorPane srchInitPane;
+    @FXML
+    private Button srchNextButton;
+    @FXML
+    private Button srchPrevButton;
+    
+    @FXML
+    private Label srchCap1;
+    @FXML
+    private Label srchCap2;
+    @FXML
+    private Label srchCap3;
+    @FXML
+    private Label srchCap4;
+    @FXML
+    private Label srchCap5;
+    
+    @FXML
+    private ImageView srchImg1;
+    @FXML
+    private ImageView srchImg2;
+    @FXML
+    private ImageView srchImg3;
+    @FXML
+    private ImageView srchImg4;
+    @FXML
+    private ImageView srchImg5;
+    
+    @FXML
+    private Button newSrchButton;
+    
+    
+    @FXML
+    private void newSearchAction(ActionEvent event){
+        searchBar.setText("");
+        srchInitPane.setVisible(true);
+        srchResultsPane.setVisible(false);
+        final ArrayList<Label> srchLabels = new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5));
+        final ArrayList<ImageView> srchPhotos = new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5));
+        for(Label l: srchLabels)
+            l.setText("loading...");
+        for(ImageView i: srchPhotos)
+            i.setImage(new Image(getClass().getResource("/imgs/l.png").toString()));
+    }
+    
+    @FXML
+    private void searchNextFive(ActionEvent event){
+        
+    }
+    @FXML
+    private void searchPrevFive(ActionEvent event){
+        
+    }
+    
+    @FXML
     private void searchAction(ActionEvent event) throws IOException{
+        final ArrayList<Label> srchLabels = new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5));
+        final ArrayList<ImageView> srchPhotos = new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5));
         String searchText = searchBar.getText();
         String[] tokens = searchText.split(" ");
-        List<DocumentClass> res = new ArrayList<DocumentClass>();
+        final List<DocumentClass> res = new ArrayList<DocumentClass>();
         for(String tok: tokens){
             for(String uuid: Core.searchKeys.keySet()){
                 for(String key: Core.searchKeys.get(uuid)){
@@ -101,7 +160,27 @@ public class MainController implements Initializable {
                 }
             }
         }
-        System.out.println(res);
+        srchInitPane.setVisible(false);
+        srchResultsPane.setVisible(true);
+        Platform.runLater(new Runnable(){
+
+            @Override
+            public void run() {
+                
+                for(int i = 0; i < srchLabels.size(); i++){
+                    if(i < res.size()){
+                        srchLabels.get(i).setText(res.get(i).getName());
+                        srchPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+res.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+                    }
+                    else{
+                        srchLabels.get(i).setText("No more results");
+                        srchPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/n.png").toString()));
+                    }
+                }
+                
+            }
+        });
+        //System.out.println(res);
     }
     
     @FXML
@@ -162,26 +241,34 @@ public class MainController implements Initializable {
         Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addListenerForSingleValueEvent(new ValueEventListener(){
 
             @Override
-            public void onDataChange(DataSnapshot snap) {
+            public void onDataChange(final DataSnapshot snap) {
                 //System.out.println(snap.getValue(String.class));
-                if(!snap.getValue(String.class).equals("")){
-                    List<String> recents = new ArrayList<String>();
-                    recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
-                    List<DocumentClass> recDocs = new ArrayList<DocumentClass>();
-                    for(String uuid: recents){
-                        recDocs.add(Core.uuidToDoc.get(uuid));
+                Platform.runLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                        if(!snap.getValue(String.class).equals("")){
+                            List<String> recents = new ArrayList<String>();
+                            recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
+                            List<DocumentClass> recDocs = new ArrayList<DocumentClass>();
+                            for(String uuid: recents){
+                                if(!uuid.trim().equals(""))
+                                    recDocs.add(Core.uuidToDoc.get(uuid.trim()));
+                            }
+                            System.out.println(recDocs);
+                            for(int i = 0; i < recDocs.size(); i++){
+                                recLabels.get(i).setText(recDocs.get(i).getName());
+                                recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+                            }
+                        }
                     }
-                    //System.out.println(recDocs.size());
-                    for(int i = 0; i < recDocs.size(); i++){
-                        recLabels.get(i).setText(recDocs.get(i).getName());
-                        recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
-                    }
-                }
+                });
+                
             }
 
             @Override
             public void onCancelled(FirebaseError fe) {
-                
+                System.out.println(fe);
             }
             
         });

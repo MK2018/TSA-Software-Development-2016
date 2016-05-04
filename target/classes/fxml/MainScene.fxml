@@ -107,20 +107,89 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="searchBar" alignment="CENTER" layoutX="153.0" layoutY="250.0" prefHeight="76.0" prefWidth="796.0">
-                           <font>
-                              <Font size="24.0" />
-                           </font></TextField>
-                        <Label fx:id="searchLargeMessage" layoutX="423.0" layoutY="112.0" text="Search Away.">
-                           <font>
-                              <Font name="Roboto Condensed" size="48.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="409.0" layoutY="194.0" text="Enter a document title or relevant tags to search.">
-                           <font>
-                              <Font name="Roboto Condensed Light" size="15.0" />
-                           </font></Label>
-                        <Button fx:id="searchButtonGo" layoutX="475.0" layoutY="370.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="63.0" prefWidth="157.0" text="Go!" />
+                        <AnchorPane fx:id="srchResultsPane" prefHeight="477.0" prefWidth="1101.0" visible="false">
+                           <children>
+                              <Button fx:id="newSrchButton" mnemonicParsing="false" onAction="#newSearchAction" text="New Search" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="501.0" AnchorPane.rightAnchor="501.0" AnchorPane.topAnchor="410.0" />
+                              <Label fx:id="recentUploadsLabelTitle2" layoutX="14.0" layoutY="14.0" text="Search Results">
+                                 <font>
+                                    <Font name="Roboto Condensed Light" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Separator layoutX="14.0" layoutY="44.0" prefHeight="21.0" prefWidth="166.0" />
+                              <AnchorPane layoutX="14.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                 <children>
+                                    <Label fx:id="srchCap1" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
+                                       <font>
+                                          <Font name="Roboto Condensed Light" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="srchImg1" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="233.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                 <children>
+                                    <Label fx:id="srchCap2" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
+                                       <font>
+                                          <Font name="Roboto Condensed Light" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="srchImg2" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="450.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                 <children>
+                                    <Label fx:id="srchCap3" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
+                                       <font>
+                                          <Font name="Roboto Condensed Light" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="srchImg3" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="669.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                 <children>
+                                    <Label fx:id="srchCap4" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
+                                       <font>
+                                          <Font name="Roboto Condensed Light" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="srchImg4" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="885.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                 <children>
+                                    <Label fx:id="srchCap5" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
+                                       <font>
+                                          <Font name="Roboto Condensed Light" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="srchImg5" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                              <Button fx:id="srchNextButton" layoutX="954.0" layoutY="406.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="106.0" text="Next" />
+                              <Button fx:id="srchPrevButton" layoutX="43.0" layoutY="406.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="106.0" text="Previous" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="srchInitPane" prefHeight="529.0" prefWidth="1101.0">
+                           <children>
+                              <TextField fx:id="searchBar" alignment="CENTER" layoutX="153.0" layoutY="227.0" prefHeight="76.0" prefWidth="796.0">
+                                 <font>
+                                    <Font name="Roboto Condensed" size="24.0" />
+                                 </font>
+                              </TextField>
+                              <Label fx:id="searchLargeMessage" layoutX="424.0" layoutY="97.0" text="Search Away.">
+                                 <font>
+                                    <Font name="Roboto Condensed" size="48.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="409.0" layoutY="180.0" text="Enter a document title or relevant tags to search.">
+                                 <font>
+                                    <Font name="Roboto Condensed Light" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="searchButtonGo" layoutX="473.0" layoutY="340.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="63.0" prefWidth="157.0" text="Go!" />
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
               </content>
