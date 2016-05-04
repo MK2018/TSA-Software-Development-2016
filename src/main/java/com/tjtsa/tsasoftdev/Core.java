@@ -20,7 +20,9 @@ import java.io.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.standard.*;
 import org.apache.lucene.analysis.tokenattributes.*;
@@ -53,10 +55,16 @@ public class Core {
     public static Firebase ref;
     
     public static List<DocumentClass> allDocs;
-
+    
+    public static Map<String, DocumentClass> uuidToDoc;
+    
+    public static Map<String, List<String>> searchKeys;
+    
     public Core() {
         this.latestOutput = new IdentOutput(new String[5], "");
         this.allDocs = new ArrayList<>();
+        this.uuidToDoc = new HashMap<>();
+        this.searchKeys = new HashMap();
         Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
     }
     
@@ -64,16 +72,41 @@ public class Core {
         stage = stg;
     }
     
+    public static void updateRecents(final String uuid){
+        Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot snap) { 
+                List<String> recents = new ArrayList<String>();
+                recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
+                //ArrayList<String> recents = (ArrayList<String>) Arrays.asList(snap.getValue(String.class).split(","));
+                recents.add(0, uuid);
+                if(recents.size() > 5)
+                    recents.remove(5);
+                //System.out.println(recents);
+                Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").setValue(recents.toString().substring(1, recents.toString().length()-1));
+            }
+            @Override
+            public void onCancelled(FirebaseError fe) {
+                
+            }
+        });
+    }
+    
     public static void getDocuments(){
         Core.ref.child("users/" + Core.ref.getAuth().getUid()+"/uploads").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snap) {
-                //System.out.println(snap.getValue());
-                for(DataSnapshot child : snap.getChildren()){
-                    for(DataSnapshot doc: child.getChildren()){
-                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class)));
+                for(DataSnapshot subj : snap.getChildren()){
+                    for(DataSnapshot doc: subj.getChildren()){
+                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class)));
                     }
                 }
+                for(DocumentClass d: Core.allDocs){
+                    String[] tmp = d.getTags();
+                    Core.searchKeys.put(d.getUuid(), Arrays.asList(d.getName(), d.getSubject(), tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]));
+                    Core.uuidToDoc.put(d.getUuid(), d);
+                }
+                
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {
@@ -209,7 +242,7 @@ public class Core {
         }
     }
     
-    private String stem(String term) throws IOException {
+    public String stem(String term) throws IOException {
 
            TokenStream tokenStream = null;
            try {

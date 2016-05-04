@@ -123,6 +123,7 @@ public class AuthSceneController implements Initializable {
                 Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("Computer Science").setValue("");
                 Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("English").setValue("");
                 Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("Science").setValue("");
+                Core.ref.child("users").child((String) result.get("uid")).child("recents").setValue("");
                 Core.ref.authWithPassword(email, pass, new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {

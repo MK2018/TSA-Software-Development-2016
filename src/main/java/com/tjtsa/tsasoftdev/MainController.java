@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,8 +22,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -84,11 +87,21 @@ public class MainController implements Initializable {
     @FXML
     private TextField searchBar;
     
-    
     @FXML
-    private void searchAction(ActionEvent event){
+    private void searchAction(ActionEvent event) throws IOException{
         String searchText = searchBar.getText();
-        
+        String[] tokens = searchText.split(" ");
+        List<DocumentClass> res = new ArrayList<DocumentClass>();
+        for(String tok: tokens){
+            for(String uuid: Core.searchKeys.keySet()){
+                for(String key: Core.searchKeys.get(uuid)){
+                    if(!c.stem(tok).equals("") && c.stem(tok).equalsIgnoreCase(c.stem(key))){
+                        res.add(Core.uuidToDoc.get(uuid));
+                    }
+                }
+            }
+        }
+        System.out.println(res);
     }
     
     @FXML
@@ -126,28 +139,53 @@ public class MainController implements Initializable {
         c.goToScene("AuthScene");
     }
     
-    private void updateSubjects(TitledPane newPane){
+    /*private void updateSubjects(TitledPane newPane){
         subjects.getPanes().add(newPane);
         //System.out.println(subjects.getPanes());
-    }
+    }*/
     
-    @FXML
+    /*@FXML
     private void addSubject(ActionEvent event){
         updateSubjects(new TitledPane(subjectName.getText(), new AnchorPane()));
         subjectName.setText("");
-    }
+    }*/
     
     private void initRecents(){
-        ArrayList<Label> recLabels = new ArrayList<>(Arrays.asList(recCap1, recCap2, recCap3, recCap4, recCap5));
-        ArrayList<ImageView> recPhotos = new ArrayList<>(Arrays.asList(recImg1, recImg2, recImg3, recImg4, recImg5));
+        final ArrayList<Label> recLabels = new ArrayList<>(Arrays.asList(recCap1, recCap2, recCap3, recCap4, recCap5));
+        final ArrayList<ImageView> recPhotos = new ArrayList<>(Arrays.asList(recImg1, recImg2, recImg3, recImg4, recImg5));
         for(Label l: recLabels){
-            //SOMEHOW FETCH FIVE MOST RECENT TITLES OF DOCUMENTS FROM SERVER
-            //SET THOSE TO THE LABELS HERE
+            l.setText("Add documents to get started!");
         }
         for(ImageView i: recPhotos){
-            //SOMEHOW FETCH FIVE MOST RECENT SUBJECTS OF DOCUMENTS FROM SERVER
-            //SET THOSE TO THE IMAGES HERE
+            i.setImage(new Image(getClass().getResource("/imgs/a.png").toString()));
         }
+        Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addListenerForSingleValueEvent(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(DataSnapshot snap) {
+                //System.out.println(snap.getValue(String.class));
+                if(!snap.getValue(String.class).equals("")){
+                    List<String> recents = new ArrayList<String>();
+                    recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
+                    List<DocumentClass> recDocs = new ArrayList<DocumentClass>();
+                    for(String uuid: recents){
+                        recDocs.add(Core.uuidToDoc.get(uuid));
+                    }
+                    //System.out.println(recDocs.size());
+                    for(int i = 0; i < recDocs.size(); i++){
+                        recLabels.get(i).setText(recDocs.get(i).getName());
+                        recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError fe) {
+                
+            }
+            
+        });
+        
     }
     
     @Override
@@ -173,7 +211,5 @@ public class MainController implements Initializable {
                 System.out.println(fe);
             }
         });
-        //LOAD ALL RELEVANT INFO UPON ENTERING.
-        
     }    
 }

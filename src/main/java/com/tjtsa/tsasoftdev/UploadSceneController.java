@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,10 +94,13 @@ public class UploadSceneController implements Initializable {
             filenameHintText.setText("Document name must not be empty or have the following characters: . $ # [ ] /");
         }
         else{
-            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new DocumentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText()));
+            String uuid = UUID.randomUUID().toString();
+            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new DocumentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText(), uuid));
             if(!subjectLabel.getText().equals(origSubj)){
                 c.teachAlgorithm(subjectLabel.getText(), finalTags);
             }
+            Core.updateRecents(uuid);
+            
             messageLabel.setText("Success!");
             loadingPane.setStyle("-fx-background-color: #00cc66;");
             loadingPane.setVisible(true);

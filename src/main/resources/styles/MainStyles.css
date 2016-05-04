@@ -50,3 +50,11 @@
 #nameTagLabel{
     -fx-text-alignment: right;
 }
+#recentUploadsLabelTitle{
+    -fx-font-family: 'Roboto Condensed', sans-serif !important;
+    -fx-font-size: 20pt;
+}
+#searchLargeMessage{
+    -fx-font-family: 'Roboto Condensed', sans-serif !important;
+    -fx-font-size: 36pt;
+}
