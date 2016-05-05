@@ -3,6 +3,7 @@ package com.tjtsa.tsasoftdev;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +48,8 @@ public class MainController implements Initializable {
     private int aLoc;
     
     private Map<AnchorPane, String> paneRefs;
+    
+    private String docPath;
     
     @FXML
     private TabPane tabpane;
@@ -171,6 +174,17 @@ public class MainController implements Initializable {
     private Label docTagLabel;
    
     @FXML
+    private Button openFileInDesktop;
+    
+    @FXML
+    private void openFileInDesktop(ActionEvent e) throws IOException{
+        Desktop d = Desktop.getDesktop();
+        
+        d.open(new File(docPath));
+        //System.out.println(d);
+    }
+    
+    @FXML
     private void openDocument(MouseEvent e){
         AnchorPane tmp = (AnchorPane) e.getSource();
         DocumentClass doc = Core.uuidToDoc.get(paneRefs.get(tmp));
@@ -182,11 +196,18 @@ public class MainController implements Initializable {
             bad.add("");
             tempTags.removeAll(bad);
             String tagString = tempTags.toString().replace(", ", "\n\u2022 ");
-            docTagLabel.setText("\u2022 " + tagString.substring(1, tagString.length()-1));
+            docTagLabel.setText("\u2022 " + tagString.substring(1, tagString.length()-1));  
             
+            String tmpSerializedDoc = doc.getSerializedDoc();
+            String tmpPath = doc.getUuid();
+            if(doc.getDocState())
+                tmpPath += ".docx";
+            else
+                tmpPath += ".doc";
+            docPath = DocumentSerializer.unserialize(tmpSerializedDoc, tmpPath);
+            System.out.println(docPath);
             docTab.setDisable(false);
             tabpane.getSelectionModel().select(docTab);
-            //System.out.println(doc);
         }        
     }
     
@@ -200,7 +221,7 @@ public class MainController implements Initializable {
                 while(!Core.allDocsLoaded){
                     try {
                         TimeUnit.MILLISECONDS.sleep(100);
-                        System.out.println("waiting...");
+                        //System.out.println("waiting...");
                     } catch (InterruptedException ex) {
                         Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -428,8 +449,10 @@ public class MainController implements Initializable {
             new ChangeListener<Tab>() {
                 @Override
                 public void changed(ObservableValue<? extends Tab> ov, Tab oldTab, Tab newTab) {
-                    if(!newTab.equals(docTab))
+                    if(!newTab.equals(docTab)){
                         docTab.setDisable(true);
+                        docPath = "";
+                    }
                 }
             }
         );

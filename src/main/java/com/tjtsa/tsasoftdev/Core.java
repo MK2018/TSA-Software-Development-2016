@@ -26,6 +26,15 @@ import org.apache.lucene.analysis.tokenattributes.*;
 import org.apache.lucene.util.*;
 import org.apache.lucene.analysis.en.*;
 
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+
+//import org.apache.poi.*;
+//import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
+//import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
+
 /**
  *
  * @author TJ TSA
@@ -38,6 +47,11 @@ public class Core {
     private IdentOutput latestOutput;
     
     private static File currentRawFile = null;
+    private static XWPFDocument currentWordDocx;
+    private static HWPFDocument currentWordDoc;
+    public static boolean isDocx = false;
+    public static String serializedDoc;
+    
     private static String currentFileText;
     
     private static Stage stage = null;
@@ -64,6 +78,7 @@ public class Core {
         this.uuidToDoc = new HashMap<>();
         this.searchKeys = new HashMap();
         Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
+        serializedDoc = "";
     }
     
     public static void setUpStage(Stage stg){
@@ -94,7 +109,7 @@ public class Core {
             public void onDataChange(DataSnapshot snap) {
                 for(DataSnapshot subj : snap.getChildren()){
                     for(DataSnapshot doc: subj.getChildren()){
-                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class)));
+                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class),doc.child("isDocx").getValue(boolean.class), doc.child("srzDoc").getValue(String.class)));
                     }
                 }
                 for(DocumentClass d: Core.allDocs){
@@ -125,10 +140,25 @@ public class Core {
         if(currentRawFile != null){
             try {
                 fis = new FileInputStream(currentRawFile);
-                byte[] data = new byte[(int) currentRawFile.length()];
-                fis.read(data);
-                fis.close();
-                currentFileText = new String(data, "UTF-8");
+                //byte[] data = new byte[(int) currentRawFile.length()];
+                //fis.read(data);
+                //fis.close();
+                currentFileText = "";
+                serializedDoc = DocumentSerializer.serialize(f.getAbsolutePath());
+                String ext = f.toString().substring(f.toString().lastIndexOf(".")+1);
+                System.out.println(ext);
+                if(ext.equals("docx")){
+                    currentWordDocx = new XWPFDocument(fis);
+                    XWPFWordExtractor extract = new XWPFWordExtractor(currentWordDocx);
+                    currentFileText = extract.getText();
+                    isDocx = true;
+                }
+                else if(ext.equals("doc")){
+                    currentWordDoc = new HWPFDocument(fis);
+                    WordExtractor extract = new WordExtractor(currentWordDoc);
+                    currentFileText = extract.getText();                            
+                    isDocx = false;
+                }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -147,6 +177,9 @@ public class Core {
     public IdentOutput initAnalysis() throws IOException, InterruptedException{
         if(!isAnalyzing){
             isAnalyzing = true;
+            
+            
+            
             //FileInputStream fis = new FileInputStream(currentRawFile);
             //byte[] data = new byte[(int) currentRawFile.length()];
             //fis.read(data);

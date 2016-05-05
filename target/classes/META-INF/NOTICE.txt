@@ -1,8 +1,17 @@
-Apache HttpComponents Client - HttpClient
-Copyright 1999-2009 The Apache Software Foundation
+Apache Commons Codec
+Copyright 2002-2014 The Apache Software Foundation
 
-This product includes software developed by
+This product includes software developed at
 The Apache Software Foundation (http://www.apache.org/).
 
-This project contains annotations derived from JCIP-ANNOTATIONS
-Copyright (c) 2005 Brian Goetz and Tim Peierls. See http://www.jcip.net
+src/test/org/apache/commons/codec/language/DoubleMetaphoneTest.java
+contains test data from http://aspell.net/test/orig/batch0.tab.
+Copyright (C) 2002 Kevin Atkinson (kevina@gnu.org)
+
+===============================================================================
+
+The content of package org.apache.commons.codec.language.bm has been translated
+from the original php source code available at http://stevemorse.org/phoneticinfo.htm
+with permission from the original authors.
+Original source copyright:
+Copyright (c) 2008 Alexander Beider & Stephen P. Morse.

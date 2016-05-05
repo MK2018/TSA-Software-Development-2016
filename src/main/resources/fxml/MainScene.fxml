@@ -308,6 +308,11 @@
                               <Font name="Roboto Condensed Light" size="24.0" />
                            </font>
                         </Label>
+                        <Button fx:id="openFileInDesktop" layoutX="640.0" layoutY="233.0" mnemonicParsing="false" onAction="#openFileInDesktop" prefHeight="102.0" prefWidth="288.0" text="Open File">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="30.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
               </content>

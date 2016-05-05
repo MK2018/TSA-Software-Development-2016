@@ -1,14 +1,20 @@
-// ------------------------------------------------------------------
-// NOTICE file corresponding to the section 4d of The Apache License,
-// Version 2.0, in this case for Commons Logging
-// ------------------------------------------------------------------
+# Jackson JSON processor
 
-Commons Logging
-Copyright 2001-2007 The Apache Software Foundation
+Jackson is a high-performance, Free/Open Source JSON processing library.
+It was originally written by Tatu Saloranta (tatu.saloranta@iki.fi), and has
+been in development since 2007.
+It is currently developed by a community of developers, as well as supported
+commercially by FasterXML.com.
 
-This product includes/uses software(s) developed by 'an unknown organization'
-  - Unnamed - avalon-framework:avalon-framework:jar:4.1.3
-  - Unnamed - log4j:log4j:jar:1.2.12
-  - Unnamed - logkit:logkit:jar:1.0.1
+## Licensing
 
+Jackson core and extension components may licensed under different licenses.
+To find the details that apply to this artifact see the accompanying LICENSE file.
+For more information, including possible other licensing options, contact
+FasterXML.com (http://fasterxml.com).
 
+## Credits
+
+A list of contributors may be found from CREDITS file, which is included
+in some artifacts (usually source distributions); but is always available
+from the source code management (SCM) system project uses.

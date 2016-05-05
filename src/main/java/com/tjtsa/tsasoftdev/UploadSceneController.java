@@ -95,7 +95,7 @@ public class UploadSceneController implements Initializable {
         }
         else{
             String uuid = UUID.randomUUID().toString();
-            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new DocumentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText(), uuid));
+            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new DocumentClass(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText(), uuid, Core.isDocx, Core.serializedDoc));
             Core.getDocuments();
             if(!subjectLabel.getText().equals(origSubj)){
                 c.teachAlgorithm(subjectLabel.getText(), finalTags);

@@ -58,3 +58,7 @@
     -fx-font-family: 'Roboto Condensed', sans-serif !important;
     -fx-font-size: 36pt;
 }
+#openFileInDesktop{
+    -fx-font-family: 'Roboto Condensed', sans-serif !important;
+    -fx-font-size: 20pt;
+}

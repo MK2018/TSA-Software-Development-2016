@@ -10,6 +10,7 @@ com\tjtsa\tsasoftdev\UploadSceneController$2.class
 com\tjtsa\tsasoftdev\MainController.class
 com\tjtsa\tsasoftdev\Keyword.class
 com\tjtsa\tsasoftdev\Core$IdentOutput.class
+com\tjtsa\tsasoftdev\DocumentSerializer.class
 com\tjtsa\tsasoftdev\AuthSceneController$2$1.class
 com\tjtsa\tsasoftdev\UploadSceneController$3.class
 com\tjtsa\tsasoftdev\DocumentClass.class
