@@ -8,8 +8,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,11 +26,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -34,6 +38,12 @@ public class MainController implements Initializable {
     private Core c;
     
     private FileChooser uploader;
+    
+    private List<DocumentClass> res;
+    private int sLoc;
+    private int aLoc;
+    
+    private Map<AnchorPane, DocumentClass> paneRefs;
     
     @FXML
     private TabPane tabpane;
@@ -118,9 +128,71 @@ public class MainController implements Initializable {
     @FXML
     private ImageView srchImg5;
     
+    
+    @FXML
+    private Label allCap1;
+    @FXML
+    private Label allCap2;
+    @FXML
+    private Label allCap3;
+    @FXML
+    private Label allCap4;
+    @FXML
+    private Label allCap5;
+    
+    @FXML
+    private ImageView allImg1;
+    @FXML
+    private ImageView allImg2;
+    @FXML
+    private ImageView allImg3;
+    @FXML
+    private ImageView allImg4;
+    @FXML
+    private ImageView allImg5;
+    
+    @FXML
+    private Button allNextButton;
+    @FXML
+    private Button allPrevButton;
+    
     @FXML
     private Button newSrchButton;
     
+    
+    @FXML
+    private void openDocument(MouseEvent e){
+        AnchorPane tmp = (AnchorPane) e.getSource();
+        for(Node n: tmp.getChildren()){
+            System.out.println(n);
+        }
+    }
+    
+    private void displayAllDocs(){
+        final ArrayList<Label> allLabels = new ArrayList<>(Arrays.asList(allCap1, allCap2, allCap3, allCap4, allCap5));
+        final ArrayList<ImageView> allPhotos = new ArrayList<>(Arrays.asList(allImg1, allImg2, allImg3, allImg4, allImg5));
+        Platform.runLater(new Runnable(){
+
+            @Override
+            public void run() {
+                while(!Core.allDocsLoaded){
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        System.out.println("waiting...");
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                //System.out.println(Core.allDocs);
+                if(aLoc == 0)
+                    allPrevButton.setDisable(true);
+                if(aLoc+5 < Core.allDocs.size())
+                    allNextButton.setDisable(false);
+                displayDocuments(allLabels, allPhotos, aLoc, Core.allDocs);
+            }
+            
+        });
+    }
     
     @FXML
     private void newSearchAction(ActionEvent event){
@@ -130,27 +202,78 @@ public class MainController implements Initializable {
         final ArrayList<Label> srchLabels = new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5));
         final ArrayList<ImageView> srchPhotos = new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5));
         for(Label l: srchLabels)
-            l.setText("loading...");
+            l.setText("Loading...");
         for(ImageView i: srchPhotos)
             i.setImage(new Image(getClass().getResource("/imgs/l.png").toString()));
     }
     
     @FXML
-    private void searchNextFive(ActionEvent event){
-        
+    private void allNextFive(ActionEvent event){
+        aLoc += 5;
+        if(aLoc != 0)
+            allPrevButton.setDisable(false);
+        if(aLoc+5 > Core.allDocs.size())
+            allNextButton.setDisable(true);
+        displayDocuments(new ArrayList<>(Arrays.asList(allCap1, allCap2, allCap3, allCap4, allCap5)), new ArrayList<>(Arrays.asList(allImg1, allImg2, allImg3, allImg4, allImg5)), aLoc, Core.allDocs);
     }
+    
+    @FXML
+    private void allPrevFive(ActionEvent event){
+        aLoc -= 5;
+        if(aLoc == 0)
+            allPrevButton.setDisable(true);
+        if(aLoc+5 < Core.allDocs.size())
+            allNextButton.setDisable(false);
+        displayDocuments(new ArrayList<>(Arrays.asList(allCap1, allCap2, allCap3, allCap4, allCap5)), new ArrayList<>(Arrays.asList(allImg1, allImg2, allImg3, allImg4, allImg5)), aLoc, Core.allDocs);
+    }
+    
+    @FXML
+    private void searchNextFive(ActionEvent event){
+        sLoc += 5;
+        if(sLoc != 0)
+            srchPrevButton.setDisable(false);
+        if(sLoc+5 > res.size())
+            srchNextButton.setDisable(true);
+        displayDocuments(new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5)), new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5)), sLoc, res);
+    }
+    
     @FXML
     private void searchPrevFive(ActionEvent event){
-        
+        sLoc -= 5;
+        if(sLoc == 0)
+            srchPrevButton.setDisable(true);
+        if(sLoc+5 < res.size())
+            srchNextButton.setDisable(false);
+        displayDocuments(new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5)), new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5)), sLoc, res);
+    }
+    
+    private void displayDocuments(ArrayList<Label> labels, ArrayList<ImageView> imgs, int loc, List<DocumentClass> docs){
+        ArrayList<Label> dispLabels = labels;//new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5));
+        ArrayList<ImageView> dispPhotos = imgs;//new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5));
+        List<DocumentClass> lst = docs;
+        int count = 0;
+        for(int i = loc; i < loc+5; i++){  
+            if(i < lst.size()){
+                dispLabels.get(count).setText(lst.get(i).getName());
+                dispPhotos.get(count).setImage(new Image(getClass().getResource("/imgs/"+lst.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+            }
+            else if(count < 5){
+                dispLabels.get(count).setText("No more results!");
+                dispPhotos.get(count).setImage(new Image(getClass().getResource("/imgs/n.png").toString()));
+            }
+            count++;
+        }
     }
     
     @FXML
     private void searchAction(ActionEvent event) throws IOException{
         final ArrayList<Label> srchLabels = new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5));
         final ArrayList<ImageView> srchPhotos = new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5));
+        res = new ArrayList<>();
         String searchText = searchBar.getText();
+        if(searchText.trim().equals(""))
+            return;
         String[] tokens = searchText.split(" ");
-        final List<DocumentClass> res = new ArrayList<DocumentClass>();
         for(String tok: tokens){
             for(String uuid: Core.searchKeys.keySet()){
                 for(String key: Core.searchKeys.get(uuid)){
@@ -166,46 +289,25 @@ public class MainController implements Initializable {
 
             @Override
             public void run() {
-                
-                for(int i = 0; i < srchLabels.size(); i++){
-                    if(i < res.size()){
-                        srchLabels.get(i).setText(res.get(i).getName());
-                        srchPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+res.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
-                    }
-                    else{
-                        srchLabels.get(i).setText("No more results");
-                        srchPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/n.png").toString()));
-                    }
-                }
-                
+                sLoc = 0;
+                if(sLoc == 0)
+                    srchPrevButton.setDisable(true);
+                if(sLoc+5 < res.size())
+                    srchNextButton.setDisable(false);
+                displayDocuments(new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5)), new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5)), sLoc, res);
             }
         });
-        //System.out.println(res);
     }
     
     @FXML
     private void uploadAction(ActionEvent event) throws IOException, InterruptedException{
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         File file = uploader.showOpenDialog(stage);
-        //System.out.println(file);
         if (file != null) {
             File toUpload = new File(file.toURI());
             Core.loadFile(toUpload);
             c.goToScene("UploadScene");
-        }
-        //loadingLabel.setVisible(true);
-        //uploadButton.setVisible(false);
-        //messageLabel.setVisible(false);
-        /*Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    c.initAnalysis();
-                } catch (Exception ex) {
-                }
-            }
-        });*/
-        
+        }        
     }
     
     
@@ -217,17 +319,6 @@ public class MainController implements Initializable {
         Core.allDocs = null;
         c.goToScene("AuthScene");
     }
-    
-    /*private void updateSubjects(TitledPane newPane){
-        subjects.getPanes().add(newPane);
-        //System.out.println(subjects.getPanes());
-    }*/
-    
-    /*@FXML
-    private void addSubject(ActionEvent event){
-        updateSubjects(new TitledPane(subjectName.getText(), new AnchorPane()));
-        subjectName.setText("");
-    }*/
     
     private void initRecents(){
         final ArrayList<Label> recLabels = new ArrayList<>(Arrays.asList(recCap1, recCap2, recCap3, recCap4, recCap5));
@@ -255,7 +346,7 @@ public class MainController implements Initializable {
                                 if(!uuid.trim().equals(""))
                                     recDocs.add(Core.uuidToDoc.get(uuid.trim()));
                             }
-                            System.out.println(recDocs);
+                            //System.out.println(recDocs);
                             for(int i = 0; i < recDocs.size(); i++){
                                 recLabels.get(i).setText(recDocs.get(i).getName());
                                 recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
@@ -279,7 +370,13 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         c = new Core();
         Core.getDocuments();
+        res = new ArrayList<>();
+        sLoc = 0;
+        aLoc = 0;
+        paneRefs = new HashMap<AnchorPane, DocumentClass>();
         initRecents();
+        srchPrevButton.setDisable(true);
+        srchNextButton.setDisable(true);
         uploader = new FileChooser();
         uploader.setTitle("Choose file to upload...");
         Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -298,5 +395,6 @@ public class MainController implements Initializable {
                 System.out.println(fe);
             }
         });
+        displayAllDocs();
     }    
 }

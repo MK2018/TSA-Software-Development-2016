@@ -41,7 +41,7 @@ public class AuthSceneController implements Initializable {
     //private Firebase auth;
     
     @FXML
-    Button backButton1;
+    Button signInButton;
     
     @FXML
     TextField signInEmail;
@@ -181,6 +181,7 @@ public class AuthSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         c = new Core();
+        //signInButton.defaultButtonProperty().bind(signInButton.focusedProperty());
         //auth = new Firebase("https://tsaparser.firebaseio.com/");
     }    
     

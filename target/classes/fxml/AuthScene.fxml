@@ -13,12 +13,12 @@
         <URL value="@/styles/MainStyles.css" />
     </stylesheets>
    <children>
-      <Label layoutX="468.0" layoutY="37.0" text="Welcome to Fly">
+      <Label layoutX="405.0" layoutY="29.0" text="Welcome to Fly">
          <font>
-            <Font name="Roboto Condensed" size="34.0" />
+            <Font name="Roboto Condensed" size="48.0" />
          </font>
       </Label>
-      <Button fx:id="backButton" layoutX="229.0" layoutY="445.0" mnemonicParsing="false" onAction="#signInButton" text="Login" />
+      <Button fx:id="signInButton" layoutX="229.0" layoutY="445.0" mnemonicParsing="false" onAction="#signInButton" text="Login" />
       <Separator layoutX="363.0" layoutY="87.0" prefHeight="21.0" prefWidth="388.0" />
       <TextField fx:id="signInEmail" layoutX="99.0" layoutY="258.0" prefHeight="31.0" prefWidth="317.0" />
       <PasswordField fx:id="signInPass" layoutX="99.0" layoutY="323.0" prefHeight="31.0" prefWidth="317.0" />

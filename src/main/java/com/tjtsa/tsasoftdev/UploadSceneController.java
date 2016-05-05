@@ -101,14 +101,13 @@ public class UploadSceneController implements Initializable {
             }
             Core.updateRecents(uuid);
             
-            messageLabel.setText("Success!");
-            loadingPane.setStyle("-fx-background-color: #00cc66;");
-            loadingPane.setVisible(true);
-            
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        messageLabel.setText("Success!");
+                        loadingPane.setStyle("-fx-background-color: #00cc66;");
+                        loadingPane.setVisible(true);
                         TimeUnit.MILLISECONDS.sleep(1750);
                         Core.loadFile(null);
                         c.goToScene("MainScene");
