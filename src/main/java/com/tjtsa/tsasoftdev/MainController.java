@@ -196,8 +196,7 @@ public class MainController implements Initializable {
             bad.add("");
             tempTags.removeAll(bad);
             String tagString = tempTags.toString().replace(", ", "\n\u2022 ");
-            docTagLabel.setText("\u2022 " + tagString.substring(1, tagString.length()-1));  
-            
+            docTagLabel.setText("\u2022 " + tagString.substring(1, tagString.length()-1));          
             String tmpSerializedDoc = doc.getSerializedDoc();
             String tmpPath = doc.getUuid();
             if(doc.getDocState())
@@ -205,7 +204,6 @@ public class MainController implements Initializable {
             else
                 tmpPath += ".doc";
             docPath = DocumentSerializer.unserialize(tmpSerializedDoc, tmpPath);
-            System.out.println(docPath);
             docTab.setDisable(false);
             tabpane.getSelectionModel().select(docTab);
         }        

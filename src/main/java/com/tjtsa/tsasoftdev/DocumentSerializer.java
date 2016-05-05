@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -36,12 +37,13 @@ public class DocumentSerializer {
       try {
          Path path = document.toPath();
          data = Files.readAllBytes(path);
-         System.out.println(filePath);
+         //System.out.println(filePath);
       } 
       catch (IOException e) {
          e.printStackTrace();
       }
       String base64Rep = Base64.encodeBase64String(data);
+      //System.out.println("B64: " + base64Rep);
       return base64Rep;
    }
    
@@ -52,13 +54,10 @@ public class DocumentSerializer {
             file.mkdir();
          }
          byte[] data = Base64.decodeBase64(base64);
-         //System.out.println(defaultDirectory());
-         //System.out.println("FILENAME: " +  filename);
          FileOutputStream fos = new FileOutputStream(defaultDirectory() + "\\Fly\\" + filename);
-         //System.out.println(fos.toString());
          fos.write(data);
          fos.close();
-         return fos.toString();
+         return (defaultDirectory() + "\\Fly\\" + filename);
       } 
       catch (Exception e) {
          e.printStackTrace();

@@ -49,7 +49,7 @@ public class Core {
     private static File currentRawFile = null;
     private static XWPFDocument currentWordDocx;
     private static HWPFDocument currentWordDoc;
-    public static boolean isDocx = false;
+    public static boolean isDocx;
     public static String serializedDoc;
     
     private static String currentFileText;
@@ -78,7 +78,6 @@ public class Core {
         this.uuidToDoc = new HashMap<>();
         this.searchKeys = new HashMap();
         Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
-        serializedDoc = "";
     }
     
     public static void setUpStage(Stage stg){
@@ -109,7 +108,7 @@ public class Core {
             public void onDataChange(DataSnapshot snap) {
                 for(DataSnapshot subj : snap.getChildren()){
                     for(DataSnapshot doc: subj.getChildren()){
-                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class),doc.child("isDocx").getValue(boolean.class), doc.child("srzDoc").getValue(String.class)));
+                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class),doc.child("docState").getValue(boolean.class), doc.child("serializedDoc").getValue(String.class)));
                     }
                 }
                 for(DocumentClass d: Core.allDocs){
@@ -140,24 +139,22 @@ public class Core {
         if(currentRawFile != null){
             try {
                 fis = new FileInputStream(currentRawFile);
-                //byte[] data = new byte[(int) currentRawFile.length()];
-                //fis.read(data);
-                //fis.close();
-                currentFileText = "";
-                serializedDoc = DocumentSerializer.serialize(f.getAbsolutePath());
+                Core.currentFileText = "";
+                Core.serializedDoc = DocumentSerializer.serialize(f.getAbsolutePath());
                 String ext = f.toString().substring(f.toString().lastIndexOf(".")+1);
-                System.out.println(ext);
                 if(ext.equals("docx")){
                     currentWordDocx = new XWPFDocument(fis);
+                    currentWordDoc = null;
                     XWPFWordExtractor extract = new XWPFWordExtractor(currentWordDocx);
                     currentFileText = extract.getText();
-                    isDocx = true;
+                    Core.isDocx = true;
                 }
                 else if(ext.equals("doc")){
                     currentWordDoc = new HWPFDocument(fis);
+                    currentWordDocx = null;
                     WordExtractor extract = new WordExtractor(currentWordDoc);
                     currentFileText = extract.getText();                            
-                    isDocx = false;
+                    Core.isDocx = false;
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
