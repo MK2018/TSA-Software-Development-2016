@@ -287,6 +287,31 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
+            <Tab fx:id="docTab" disable="true" text="Current Document">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="currentDocTitle" layoutX="23.0" layoutY="14.0" text="Title">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="48.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="23.0" layoutY="62.0" prefHeight="21.0" prefWidth="212.0" />
+                        <Label layoutX="64.0" layoutY="117.0" text="Tags">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="36.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="64.0" layoutY="168.0" prefWidth="200.0" />
+                        <Label fx:id="docTagLabel" layoutX="76.0" layoutY="195.0" text="[[tags]]">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
     </children>

@@ -16,7 +16,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -43,7 +46,7 @@ public class MainController implements Initializable {
     private int sLoc;
     private int aLoc;
     
-    private Map<AnchorPane, DocumentClass> paneRefs;
+    private Map<AnchorPane, String> paneRefs;
     
     @FXML
     private TabPane tabpane;
@@ -161,11 +164,30 @@ public class MainController implements Initializable {
     
     
     @FXML
+    private Tab docTab;
+    @FXML
+    private Label currentDocTitle;
+    @FXML
+    private Label docTagLabel;
+   
+    @FXML
     private void openDocument(MouseEvent e){
         AnchorPane tmp = (AnchorPane) e.getSource();
-        for(Node n: tmp.getChildren()){
-            System.out.println(n);
-        }
+        DocumentClass doc = Core.uuidToDoc.get(paneRefs.get(tmp));
+        if(doc != null){
+            currentDocTitle.setText(doc.getName() + " - " + doc.getSubject());
+            List<String> tempTags = new ArrayList<String>();
+            tempTags.addAll(Arrays.asList(doc.getTags()));
+            ArrayList<String> bad = new ArrayList<String>();
+            bad.add("");
+            tempTags.removeAll(bad);
+            String tagString = tempTags.toString().replace(", ", "\n\u2022 ");
+            docTagLabel.setText("\u2022 " + tagString.substring(1, tagString.length()-1));
+            
+            docTab.setDisable(false);
+            tabpane.getSelectionModel().select(docTab);
+            //System.out.println(doc);
+        }        
     }
     
     private void displayAllDocs(){
@@ -256,10 +278,12 @@ public class MainController implements Initializable {
             if(i < lst.size()){
                 dispLabels.get(count).setText(lst.get(i).getName());
                 dispPhotos.get(count).setImage(new Image(getClass().getResource("/imgs/"+lst.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+                paneRefs.put((AnchorPane)(dispLabels.get(count).getParent()), lst.get(i).getUuid());
             }
             else if(count < 5){
                 dispLabels.get(count).setText("No more results!");
                 dispPhotos.get(count).setImage(new Image(getClass().getResource("/imgs/n.png").toString()));
+                paneRefs.put((AnchorPane)(dispLabels.get(count).getParent()), "NULL");
             }
             count++;
         }
@@ -281,8 +305,11 @@ public class MainController implements Initializable {
                         res.add(Core.uuidToDoc.get(uuid));
                     }
                 }
+                if(Core.uuidToDoc.get(uuid).getText().toLowerCase().contains(c.stem(tok).toLowerCase()) && !res.contains(Core.uuidToDoc.get(uuid)))
+                    res.add(Core.uuidToDoc.get(uuid));
             }
         }
+        
         srchInitPane.setVisible(false);
         srchResultsPane.setVisible(true);
         Platform.runLater(new Runnable(){
@@ -328,6 +355,7 @@ public class MainController implements Initializable {
         }
         for(ImageView i: recPhotos){
             i.setImage(new Image(getClass().getResource("/imgs/a.png").toString()));
+            paneRefs.put((AnchorPane)(i.getParent()), "NULL");
         }
         Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addListenerForSingleValueEvent(new ValueEventListener(){
 
@@ -350,6 +378,7 @@ public class MainController implements Initializable {
                             for(int i = 0; i < recDocs.size(); i++){
                                 recLabels.get(i).setText(recDocs.get(i).getName());
                                 recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+                                paneRefs.put((AnchorPane)(recPhotos.get(i).getParent()), recDocs.get(i).getUuid());
                             }
                         }
                     }
@@ -373,7 +402,7 @@ public class MainController implements Initializable {
         res = new ArrayList<>();
         sLoc = 0;
         aLoc = 0;
-        paneRefs = new HashMap<AnchorPane, DocumentClass>();
+        paneRefs = new HashMap<AnchorPane, String>();
         initRecents();
         srchPrevButton.setDisable(true);
         srchNextButton.setDisable(true);
@@ -395,6 +424,15 @@ public class MainController implements Initializable {
                 System.out.println(fe);
             }
         });
+        tabpane.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener<Tab>() {
+                @Override
+                public void changed(ObservableValue<? extends Tab> ov, Tab oldTab, Tab newTab) {
+                    if(!newTab.equals(docTab))
+                        docTab.setDisable(true);
+                }
+            }
+        );
         displayAllDocs();
     }    
 }

@@ -36,7 +36,7 @@
                                        </font>
                                     </Label>
                                     <Separator layoutX="14.0" layoutY="44.0" prefHeight="21.0" prefWidth="166.0" />
-                                    <AnchorPane layoutX="14.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="14.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                        <children>
                                           <Label fx:id="recCap1" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                              <font>
@@ -46,7 +46,7 @@
                                           <ImageView fx:id="recImg1" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="233.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="233.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                        <children>
                                           <Label fx:id="recCap2" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                              <font>
@@ -56,7 +56,7 @@
                                           <ImageView fx:id="recImg2" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="450.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="450.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                        <children>
                                           <Label fx:id="recCap3" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                              <font>
@@ -66,7 +66,7 @@
                                           <ImageView fx:id="recImg3" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="669.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="669.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                        <children>
                                           <Label fx:id="recCap4" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                              <font>
@@ -76,7 +76,7 @@
                                           <ImageView fx:id="recImg4" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="885.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                                    <AnchorPane layoutX="885.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                        <children>
                                           <Label fx:id="recCap5" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                              <font>
@@ -116,7 +116,7 @@
                                  </font>
                               </Label>
                               <Separator layoutX="14.0" layoutY="44.0" prefHeight="21.0" prefWidth="166.0" />
-                              <AnchorPane layoutX="14.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                              <AnchorPane layoutX="14.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                  <children>
                                     <Label fx:id="srchCap1" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                        <font>
@@ -126,7 +126,7 @@
                                     <ImageView fx:id="srchImg1" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane layoutX="233.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                              <AnchorPane layoutX="233.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                  <children>
                                     <Label fx:id="srchCap2" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                        <font>
@@ -136,7 +136,7 @@
                                     <ImageView fx:id="srchImg2" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane layoutX="450.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                              <AnchorPane layoutX="450.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                  <children>
                                     <Label fx:id="srchCap3" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                        <font>
@@ -146,7 +146,7 @@
                                     <ImageView fx:id="srchImg3" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane layoutX="669.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                              <AnchorPane layoutX="669.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                  <children>
                                     <Label fx:id="srchCap4" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                        <font>
@@ -156,7 +156,7 @@
                                     <ImageView fx:id="srchImg4" fitHeight="226.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane layoutX="885.0" layoutY="65.0" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333;">
+                              <AnchorPane layoutX="885.0" layoutY="65.0" onMouseClicked="#openDocument" prefHeight="306.0" prefWidth="201.0" style="-fx-background-color: #333333; -fx-cursor: hand;">
                                  <children>
                                     <Label fx:id="srchCap5" alignment="CENTER" contentDisplay="CENTER" layoutY="230.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="76.0" prefWidth="202.0" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
                                        <font>
@@ -285,6 +285,31 @@
             <Tab text="Settings">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab fx:id="docTab" disable="true" text="Current Document">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="currentDocTitle" layoutX="23.0" layoutY="14.0" text="Title">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="48.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="23.0" layoutY="62.0" prefHeight="21.0" prefWidth="212.0" />
+                        <Label layoutX="64.0" layoutY="117.0" text="Tags">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="36.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="64.0" layoutY="168.0" prefWidth="200.0" />
+                        <Label fx:id="docTagLabel" layoutX="76.0" layoutY="195.0" text="[[tags]]">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
               </content>
             </Tab>
         </tabs>
