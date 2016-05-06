@@ -292,30 +292,62 @@
                            </font>
                         </Label>
                         <Separator layoutX="45.0" layoutY="83.0" prefWidth="200.0" />
-                        <PasswordField layoutX="45.0" layoutY="184.0" prefHeight="37.0" prefWidth="235.0" />
-                        <PasswordField layoutX="45.0" layoutY="251.0" prefHeight="37.0" prefWidth="235.0" />
-                        <Label layoutX="45.0" layoutY="160.0" text="Old Password" />
-                        <Label layoutX="45.0" layoutY="229.0" text="New Password" />
-                        <Label layoutX="45.0" layoutY="115.0" text="Change Passwords">
-                           <font>
-                              <Font size="20.0" />
+                        <PasswordField fx:id="oldPass" layoutX="166.0" layoutY="257.0" prefHeight="37.0" prefWidth="235.0" />
+                        <PasswordField fx:id="newPass" layoutX="166.0" layoutY="324.0" prefHeight="37.0" prefWidth="235.0" />
+                        <Label layoutX="166.0" layoutY="233.0" text="Old Password">
+                            <font>
+                              <Font name="Roboto Condensed Light" />
                            </font>
                         </Label>
-                        <Separator layoutX="45.0" layoutY="144.0" prefHeight="11.0" prefWidth="108.0" />
-                        <Button layoutX="96.0" layoutY="317.0" mnemonicParsing="false" text="Update Password" />
-                        <Label layoutX="422.0" layoutY="227.0" text="New Email" />
-                        <Label layoutX="422.0" layoutY="158.0" text="Old Email" />
-                        <Separator layoutX="422.0" layoutY="142.0" prefHeight="11.0" prefWidth="108.0" />
-                        <Button layoutX="473.0" layoutY="315.0" mnemonicParsing="false" text="Update Password" />
-                        <Label layoutX="422.0" layoutY="113.0" text="Change Emails">
-                           <font>
-                              <Font size="20.0" />
+                        <Label layoutX="166.0" layoutY="302.0" text="New Password">
+                            <font>
+                              <Font name="Roboto Condensed Light" />
                            </font>
                         </Label>
-                        <TextField layoutX="423.0" layoutY="184.0" prefHeight="37.0" prefWidth="237.0" />
-                        <TextField layoutX="423.0" layoutY="251.0" prefHeight="37.0" prefWidth="237.0" />
-                        <Separator layoutX="336.0" layoutY="100.0" orientation="VERTICAL" prefHeight="279.0" prefWidth="32.0" />
-                        <Separator layoutX="701.0" layoutY="109.0" orientation="VERTICAL" prefHeight="279.0" prefWidth="32.0" />
+                        <Label layoutX="166.0" layoutY="188.0" text="Change Passwords">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="20.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="166.0" layoutY="217.0" prefHeight="11.0" prefWidth="108.0" />
+                        <Button layoutX="215.0" layoutY="474.0" mnemonicParsing="false" onAction="#passwordUpdate" text="Update Password" />
+                        <Label layoutX="701.0" layoutY="304.0" text="New Email">
+                            <font>
+                              <Font name="Roboto Condensed Light" />
+                           </font>
+                        </Label>
+                        <Label layoutX="701.0" layoutY="235.0" text="Old Email">
+                            <font>
+                              <Font name="Roboto Condensed Light" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="701.0" layoutY="219.0" prefHeight="11.0" prefWidth="108.0" />
+                        <Button layoutX="766.0" layoutY="474.0" mnemonicParsing="false" onAction="#emailUpdate" text="Update Email" />
+                        <Label layoutX="701.0" layoutY="190.0" text="Change Emails">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="oldEmail" layoutX="702.0" layoutY="261.0" prefHeight="37.0" prefWidth="237.0" />
+                        <TextField fx:id="newEmail" layoutX="702.0" layoutY="328.0" prefHeight="37.0" prefWidth="237.0" />
+                        <Separator layoutX="535.0" layoutY="163.0" orientation="VERTICAL" prefHeight="279.0" prefWidth="32.0" />
+                        <PasswordField fx:id="emailPass" layoutX="703.0" layoutY="403.0" prefHeight="37.0" prefWidth="235.0" />
+                        <Label layoutX="701.0" layoutY="374.0" text="Password">
+                            <font>
+                              <Font name="Roboto Condensed Light" />
+                           </font>
+                        </Label>
+                        <Label fx:id="errSettingLabel" alignment="CENTER" layoutX="2.0" layoutY="569.0" prefHeight="27.0" prefWidth="1101.0" textFill="RED">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="passEmail" layoutX="165.0" layoutY="403.0" prefHeight="37.0" prefWidth="237.0" />
+                        <Label layoutX="166.0" layoutY="374.0" text="Email">
+                            <font>
+                              <Font name="Roboto Condensed Light" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
             </Tab>

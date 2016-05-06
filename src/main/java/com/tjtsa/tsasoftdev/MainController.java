@@ -1,6 +1,7 @@
 package com.tjtsa.tsasoftdev;
 
 import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import java.awt.Desktop;
@@ -27,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -177,11 +179,86 @@ public class MainController implements Initializable {
     private Button openFileInDesktop;
     
     @FXML
+    private TextField oldEmail;
+    @FXML
+    private TextField newEmail;
+    @FXML
+    private TextField passEmail;
+    
+    @FXML
+    private PasswordField oldPass;
+    @FXML
+    private PasswordField newPass;
+    @FXML
+    private PasswordField emailPass;
+    
+    @FXML
+    private Label errSettingLabel;
+    
+    @FXML
+    private void emailUpdate(ActionEvent e){
+        Core.ref.changeEmail(oldEmail.getText(), emailPass.getText(), newEmail.getText(), new Firebase.ResultHandler() {
+            @Override
+            public void onSuccess() {
+                Platform.runLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                        errSettingLabel.setText("Email successfully changed.");
+                    }
+                    
+                });
+                
+            }
+            @Override
+            public void onError(final FirebaseError fe) {
+                
+                Platform.runLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                        errSettingLabel.setText(fe.getMessage());
+                    }
+                    
+                });
+            }
+        });
+    }
+    
+    @FXML
+    private void passwordUpdate(ActionEvent e){
+        Core.ref.changePassword(passEmail.getText(), oldPass.getText(), newPass.getText(), new Firebase.ResultHandler() {
+            @Override
+            public void onSuccess() {
+                Platform.runLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                        errSettingLabel.setText("Password successfully changed.");
+                    }
+                    
+                });
+            }
+            @Override
+            public void onError(final FirebaseError fe) {
+                Platform.runLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                        errSettingLabel.setText(fe.getMessage());
+                    }
+                    
+                });
+            }
+        });
+    }
+    
+    
+    @FXML
     private void openFileInDesktop(ActionEvent e) throws IOException{
         Desktop d = Desktop.getDesktop();
         
         d.open(new File(docPath));
-        //System.out.println(d);
     }
     
     @FXML
