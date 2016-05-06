@@ -284,7 +284,39 @@
           </Tab>
             <Tab text="Settings">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="45.0" layoutY="34.0" text="Account Settings">
+                           <font>
+                              <Font name="Roboto Condensed Light" size="36.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="45.0" layoutY="83.0" prefWidth="200.0" />
+                        <PasswordField layoutX="45.0" layoutY="184.0" prefHeight="37.0" prefWidth="235.0" />
+                        <PasswordField layoutX="45.0" layoutY="251.0" prefHeight="37.0" prefWidth="235.0" />
+                        <Label layoutX="45.0" layoutY="160.0" text="Old Password" />
+                        <Label layoutX="45.0" layoutY="229.0" text="New Password" />
+                        <Label layoutX="45.0" layoutY="115.0" text="Change Passwords">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="45.0" layoutY="144.0" prefHeight="11.0" prefWidth="108.0" />
+                        <Button layoutX="96.0" layoutY="317.0" mnemonicParsing="false" text="Update Password" />
+                        <Label layoutX="422.0" layoutY="227.0" text="New Email" />
+                        <Label layoutX="422.0" layoutY="158.0" text="Old Email" />
+                        <Separator layoutX="422.0" layoutY="142.0" prefHeight="11.0" prefWidth="108.0" />
+                        <Button layoutX="473.0" layoutY="315.0" mnemonicParsing="false" text="Update Password" />
+                        <Label layoutX="422.0" layoutY="113.0" text="Change Emails">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="423.0" layoutY="184.0" prefHeight="37.0" prefWidth="237.0" />
+                        <TextField layoutX="423.0" layoutY="251.0" prefHeight="37.0" prefWidth="237.0" />
+                        <Separator layoutX="336.0" layoutY="100.0" orientation="VERTICAL" prefHeight="279.0" prefWidth="32.0" />
+                        <Separator layoutX="701.0" layoutY="109.0" orientation="VERTICAL" prefHeight="279.0" prefWidth="32.0" />
+                     </children></AnchorPane>
               </content>
             </Tab>
             <Tab fx:id="docTab" disable="true" text="Current Document">
