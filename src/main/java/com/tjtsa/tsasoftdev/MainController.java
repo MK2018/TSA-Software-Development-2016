@@ -21,7 +21,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -296,12 +295,10 @@ public class MainController implements Initializable {
                 while(!Core.allDocsLoaded){
                     try {
                         TimeUnit.MILLISECONDS.sleep(100);
-                        //System.out.println("waiting...");
                     } catch (InterruptedException ex) {
                         Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                //System.out.println(Core.allDocs);
                 if(aLoc == 0)
                     allPrevButton.setDisable(true);
                 if(aLoc+5 < Core.allDocs.size())
@@ -366,8 +363,8 @@ public class MainController implements Initializable {
     }
     
     private void displayDocuments(ArrayList<Label> labels, ArrayList<ImageView> imgs, int loc, List<DocumentClass> docs){
-        ArrayList<Label> dispLabels = labels;//new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5));
-        ArrayList<ImageView> dispPhotos = imgs;//new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5));
+        ArrayList<Label> dispLabels = labels;
+        ArrayList<ImageView> dispPhotos = imgs;
         List<DocumentClass> lst = docs;
         int count = 0;
         for(int i = loc; i < loc+5; i++){  
@@ -436,7 +433,6 @@ public class MainController implements Initializable {
     
     @FXML
     private void logOutButton(ActionEvent event) throws IOException {
-        //System.out.println("logging out...");
         Core.ref.unauth();
         Core.loadFile(null);
         Core.allDocs = null;
@@ -457,7 +453,6 @@ public class MainController implements Initializable {
 
             @Override
             public void onDataChange(final DataSnapshot snap) {
-                //System.out.println(snap.getValue(String.class));
                 Platform.runLater(new Runnable(){
 
                     @Override
@@ -470,7 +465,6 @@ public class MainController implements Initializable {
                                 if(!uuid.trim().equals(""))
                                     recDocs.add(Core.uuidToDoc.get(uuid.trim()));
                             }
-                            //System.out.println(recDocs);
                             for(int i = 0; i < recDocs.size(); i++){
                                 recLabels.get(i).setText(recDocs.get(i).getName());
                                 recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
@@ -510,7 +504,6 @@ public class MainController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        //nameTagLabel.setText("Logged in as \n" + snap.getValue(String.class));
                         welcomeLabel.setText("Welcome to your Fly Dashboard, " + snap.getValue(String.class)+".");
                     }
                 });

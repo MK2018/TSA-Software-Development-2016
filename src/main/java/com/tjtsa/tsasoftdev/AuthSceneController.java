@@ -1,9 +1,4 @@
 package com.tjtsa.tsasoftdev;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -73,7 +68,6 @@ public class AuthSceneController implements Initializable {
         Core.ref.authWithPassword(email, pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                //System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -116,7 +110,6 @@ public class AuthSceneController implements Initializable {
         Core.ref.createUser(email, pass, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
-                //System.out.println("Successfully created user account with uid: " + result.get("uid"));
                 Core.ref.child("users").child((String) result.get("uid")).child("name").setValue(name);
                 Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("History").setValue("");
                 Core.ref.child("users").child((String) result.get("uid")).child("uploads").child("Math").setValue("");
@@ -127,7 +120,6 @@ public class AuthSceneController implements Initializable {
                 Core.ref.authWithPassword(email, pass, new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
-                        //System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
@@ -141,21 +133,6 @@ public class AuthSceneController implements Initializable {
                     }
                     @Override
                     public void onAuthenticationError(final FirebaseError firebaseError) {
-                        /*Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                loginErrMessage.setText(firebaseError.getMessage());
-                                if(firebaseError.getMessage().equals("The specified password is incorrect.")){
-                                    signInPass.getStyleClass().add("incorrect-field");
-                                }
-                                else if(firebaseError.getMessage().equals("The specified user does not exist.")){
-                                    signInEmail.getStyleClass().add("incorrect-field");
-                                }
-                                else if(firebaseError.getMessage().equals("The specified email address is invalid.")){
-                                    signInEmail.getStyleClass().add("incorrect-field");
-                                }
-                            }
-                        });*/
                         progress.setVisible(false);
                         System.out.println(firebaseError);
                     }
@@ -173,16 +150,9 @@ public class AuthSceneController implements Initializable {
             }
         });
     }
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         c = new Core();
-        //signInButton.defaultButtonProperty().bind(signInButton.focusedProperty());
-        //auth = new Firebase("https://tsaparser.firebaseio.com/");
     }    
     
 }

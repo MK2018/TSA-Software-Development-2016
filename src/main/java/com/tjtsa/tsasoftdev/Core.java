@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tjtsa.tsasoftdev;
 
 import com.firebase.client.DataSnapshot;
@@ -31,14 +26,6 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
-//import org.apache.poi.*;
-//import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
-//import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
-
-/**
- *
- * @author TJ TSA
- */
 public class Core {
     
     private boolean isAnalyzing = false;
@@ -175,35 +162,20 @@ public class Core {
         if(!isAnalyzing){
             isAnalyzing = true;
             
-            
-            
-            //FileInputStream fis = new FileInputStream(currentRawFile);
-            //byte[] data = new byte[(int) currentRawFile.length()];
-            //fis.read(data);
-            //fis.close();
             String contents = currentFileText;
             TagIdentifier tg = new TagIdentifier(contents, 5);
             while(tg.listsLoaded != true){ 
                 TimeUnit.MILLISECONDS.sleep(100);
-                //System.out.println("loading stuff...");
             }
             tg.generateTags();
             
             latestOutput = new IdentOutput(tg.getTags(), tg.getSubject());
-            //System.out.println(Arrays.toString(tg.getTags()));
-
-            //System.out.println(tg.getSubject());
-            
-            
-            
-            //System.out.println(contents);
             isAnalyzing = false;
         }
         return latestOutput;
     }
     
     public void teachAlgorithm(String subject, String[] tags) throws IOException{
-        //Firebase teacher = new Firebase("https://tsaparser.firebaseio.com/");
         if(subject.equals("Science")) {
             for(String tag: Arrays.asList(tags)){
                 if(!science.contains(tag))
@@ -306,21 +278,15 @@ public class Core {
 
         }
     
-    
-    
-    
     class TagIdentifier {
 
         private String filePlainText;
-        
 
         private String subject = "";
 
         private int KEYWORD_LIMIT = 0;
         
         private boolean listsLoaded = false;
-        
-        //Firebase tagfiles;
 
         public TagIdentifier() {
            tags = new ArrayList<String>();
@@ -330,7 +296,6 @@ public class Core {
            cs = new ArrayList<String>();
            science = new ArrayList<String>();
            commonWords = new ArrayList<String>();
-           //tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
            loadResources();
         }
 
@@ -344,53 +309,8 @@ public class Core {
            cs = new ArrayList<String>();
            science = new ArrayList<String>();
            commonWords = new ArrayList<String>();
-           //tagfiles = new Firebase("https://tsaparser.firebaseio.com/");
            loadResources();
         }
-
-        /*public void teachAlgo(String subject) {
-           ArrayList<String> wanted = null;
-            File ff = null;
-           if(subject.equals("Science")) {
-              wanted = science;
-              ff = new File("sci_tags.txt");
-           }
-           if(subject.equals("History")) {
-              wanted = history;
-              ff = new File("hist_tags.txt");
-           }
-           if(subject.equals("Math")) {
-              wanted = math;
-              ff = new File("math_tags.txt");
-           }
-           if(subject.equals("English")) {
-              wanted = english;
-              ff = new File("eng_tags.txt");
-           }
-           if(subject.equals("Computer Science")) {
-              wanted = cs;
-              ff = new File("cs_tags.txt");
-           }
-           PrintWriter out = null;
-           try {
-              out = new PrintWriter(new BufferedWriter(new FileWriter(ff.getName(), true)));
-              out.println();
-              for(int i = 0; i < KEYWORD_LIMIT; i++) {
-                 String st = stem(tags.get(i));
-                 if(!wanted.contains(st)) {
-                    out.println(st);
-                 }
-              }
-           }
-           catch (IOException e) {
-              System.err.println(e);
-           }
-           finally{
-              if(out != null){
-                 out.close();
-              }
-           }    
-        }*/
 
         private List<Keyword> guessFromString() throws IOException {
 
@@ -454,77 +374,9 @@ public class Core {
            return example;
         }
 
-
-        /*private String stem(String term) throws IOException {
-
-           TokenStream tokenStream = null;
-           try {
-
-           // tokenize
-              tokenStream = new ClassicTokenizer(Version.LUCENE_36, new StringReader(term));
-           // stem
-              tokenStream = new PorterStemFilter(tokenStream);
-
-           // add each token in a set, so that duplicates are removed
-              Set<String> stems = new HashSet<String>();
-              CharTermAttribute token = tokenStream.getAttribute(CharTermAttribute.class);
-              while (tokenStream.incrementToken()) {
-                 stems.add(token.toString());
-              }
-
-           // if no stem or 2+ stems have been found, return null
-              if (stems.size() != 1) {
-                 return null;
-              }
-              String stem = stems.iterator().next();
-           // if the stem has non-alphanumerical chars, return null
-              if (!stem.matches("[a-zA-Z0-9-]+")) {
-                 return null;
-              }
-
-              return stem;
-
-           } 
-           finally {
-              if (tokenStream != null) {
-                 tokenStream.close();
-              }
-           }
-
-        }*/
-
         private void loadResources() {
             try {
-                /*BufferedReader in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/hist_tags.txt")));
-                String line;
-                while ((line = in.readLine()) != null){
-                    history.add(line);
-                }
-              //File file = new File("hist_tags.txt");
-              //Scanner scan = new Scanner(file);
-              //while(scan.hasNext()) {
-              //   history.add(scan.nextLine());
-              //}
-                in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/eng_tags.txt")));
-                line = "";
-                while ((line = in.readLine()) != null){
-                    english.add(line);
-                }
-                in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/cs_tags.txt")));
-                line = "";
-                while ((line = in.readLine()) != null){
-                    cs.add(line);
-                }
-                in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/math_tags.txt")));
-                line = "";
-                while ((line = in.readLine()) != null){
-                    math.add(line);
-                }
-                in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/sci_tags.txt")));
-                line = "";
-                while ((line = in.readLine()) != null){
-                    science.add(line);
-                }*/
+                
                 Core.ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snap) {
@@ -559,64 +411,6 @@ public class Core {
                     }
                 });
                 
-                
-                
-                //Map<String, String> nameMap = new HashMap<String, String>();
-                //nameMap.put("cs_tags", "cs");
-                
-                /*tagfiles.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot tag: snapshot.getChildren()) {
-                            System.out.println(tag.getKey());
-                            List<String> items = Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*"));
-                          }
-                        tagfiles.removeEventListener(this);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError fe) {
-                        System.out.println("The read failed: " + fe.getMessage());
-                    }
-                });*/
-                
-                /*tagfiles.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
-                tagfiles.child("eng_tags").setValue(english.toString().substring(1, english.toString().length()-1));
-                tagfiles.child("hist_tags").setValue(history.toString().substring(1, history.toString().length()-1));
-                tagfiles.child("math_tags").setValue(math.toString().substring(1, math.toString().length()-1));
-                tagfiles.child("sci_tags").setValue(science.toString().substring(1, science.toString().length()-1));*/
-              /*file = new File("eng_tags.txt");
-              scan = new Scanner(file);
-              while(scan.hasNext()) {
-                 english.add(scan.nextLine());
-              }
-              file = new File("cs_tag.txts");
-              scan = new Scanner(file);
-              while(scan.hasNext()) {
-                 cs.add(scan.nextLine());
-              } 
-              file = new File("math_tags.txt");
-              scan = new Scanner(file);
-              while(scan.hasNext()) {
-                 math.add(scan.nextLine());
-              }
-              file = new File("sci_tags.txt");
-              scan = new Scanner(file);
-              while(scan.hasNext()) {
-                 science.add(scan.nextLine());
-              }*/
-                //BufferedReader in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tag_docs/common.txt")));
-                //String line = "";
-                //while ((line = in.readLine()) != null){
-                //    commonWords.add(stem(line));
-                //}
-                //tagfiles.child("common").setValue(commonWords.toString().substring(1, commonWords.toString().length()-1));
-              /*file = new File("common.txt");
-              scan = new Scanner(file);
-              while(scan.hasNext()) {
-                 commonWords.add(stem(scan.nextLine()));
-              }
-*/
               Iterator it = history.iterator();
               while(it.hasNext())
                  if((it.next()).toString().trim().equals(""))
@@ -672,12 +466,6 @@ public class Core {
                  countScience++;
               }
            }
-
-           // System.out.println(countHistory);
-           // System.out.println(countEnglish);
-           // System.out.println(countScience);
-           // System.out.println(countMath);
-           // System.out.println(countCS);
 
            HashMap<String, Integer> subjects = new HashMap<String,Integer>();
            subjects.put("History", countHistory);

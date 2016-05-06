@@ -1,6 +1,5 @@
 package com.tjtsa.tsasoftdev;
 
-import com.firebase.client.Firebase;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -28,11 +27,6 @@ import javafx.scene.layout.AnchorPane;
 
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * FXML Controller class
- *
- * @author TSARegionals
- */
 public class UploadSceneController implements Initializable {
     
     private Core c;
@@ -120,9 +114,6 @@ public class UploadSceneController implements Initializable {
         }        
     }
     
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadingPane.toFront();
@@ -148,7 +139,6 @@ public class UploadSceneController implements Initializable {
                     for(int i = 0; i < tagFields.size(); i++){
                         tagFields.get(i).setText(data.getTags().get(i));
                     }
-                    //tagLabel.setText(data.getTags().toString().replace("[", "\u2022 ").replace("]", "").replace(", ", "\n\u2022 "));
                     loadingPane.setVisible(false);
                 } catch (IOException | InterruptedException ex) {
                     System.out.println(Arrays.toString(ex.getStackTrace()));
