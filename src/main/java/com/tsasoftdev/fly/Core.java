@@ -161,31 +161,27 @@ public class Core {
                 else if(ext.equals("ppt")){
                     currentPpt = new HSLFSlideShow(fis);
                     for (HSLFSlide slide: currentPpt.getSlides()) {
-                            System.out.println("Starting slide...");
-                            List<HSLFShape> shapes = slide.getShapes();
-                            for (HSLFShape shape: shapes) {
-                                    if (shape instanceof HSLFTextShape) {
-                                    HSLFTextShape textShape = (HSLFTextShape)shape;
-                                        String text = textShape.getText();
-                                        System.out.println("Text: " + text);
-                                        currentFileText += " " + text;
-                                    }
+                        System.out.println("Starting slide...");
+                        List<HSLFShape> shapes = slide.getShapes();
+                        for(HSLFShape shape: shapes) {
+                            if (shape instanceof HSLFTextShape) {
+                                HSLFTextShape textShape = (HSLFTextShape)shape;
+                                currentFileText += " " + textShape.getText();
                             }
+                        }
                     }
                 }
                 else if(ext.equals("pptx")){
                     currentPptx = new XMLSlideShow(fis);
                     for (XSLFSlide slide: currentPptx.getSlides()) {
-                            System.out.println("Starting slide...");
-                            List<XSLFShape> shapes = slide.getShapes();
-                            for (XSLFShape shape: shapes) {
-                                    if (shape instanceof XSLFTextShape) {
-                                    XSLFTextShape textShape = (XSLFTextShape)shape;
-                                        String text = textShape.getText();
-                                        System.out.println("Text: " + text);
-                                        currentFileText += " " + text;
-                                    }
+                        System.out.println("Starting slide...");
+                        List<XSLFShape> shapes = slide.getShapes();
+                        for(XSLFShape shape: shapes) {
+                            if (shape instanceof XSLFTextShape) {
+                                XSLFTextShape textShape = (XSLFTextShape)shape;
+                                currentFileText += " " + textShape.getText();
                             }
+                        }
                     }
                 }
             } catch (FileNotFoundException ex) {

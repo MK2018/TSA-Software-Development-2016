@@ -28,6 +28,8 @@
                     <vendor>TJ TSA</vendor>
                     <appName>Fly</appName>
                     <mainClass>${mainClass}</mainClass>
+                    <verbose>true</verbose>
+                    <icon>${project.build.finalName}.ico</icon>
                 </configuration>
             </plugin>
             <plugin>
