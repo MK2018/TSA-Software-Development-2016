@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="windowPane" fx:id="windowPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tjtsa.tsasoftdev.MainController">
+<AnchorPane id="windowPane" fx:id="windowPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsasoftdev.fly.MainController">
     <children>
         <Button fx:id="button" layoutX="988.0" layoutY="30.0" onAction="#logOutButton" text="Log Out" />
       <Label layoutX="21.0" layoutY="20.0" text="Fly.">
