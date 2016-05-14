@@ -26,6 +26,18 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.hslf.usermodel.HSLFSlideShow;
+import org.apache.poi.hslf.extractor.PowerPointExtractor;
+import org.apache.poi.hslf.usermodel.HSLFShape;
+import org.apache.poi.hslf.usermodel.HSLFSlide;
+import org.apache.poi.hslf.usermodel.HSLFTextShape;
+import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
+import org.apache.poi.xslf.usermodel.XSLFShape;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFTextShape;
+
+
 public class Core {
     
     private boolean isAnalyzing = false;
@@ -38,6 +50,9 @@ public class Core {
     private static HWPFDocument currentWordDoc;
     public static boolean isDocx;
     public static String serializedDoc;
+    
+    private static XMLSlideShow currentPptx;
+    private static HSLFSlideShow currentPpt;    
     
     private static String currentFileText;
     
@@ -142,6 +157,36 @@ public class Core {
                     WordExtractor extract = new WordExtractor(currentWordDoc);
                     currentFileText = extract.getText();                            
                     Core.isDocx = false;
+                }
+                else if(ext.equals("ppt")){
+                    currentPpt = new HSLFSlideShow(fis);
+                    for (HSLFSlide slide: currentPpt.getSlides()) {
+                            System.out.println("Starting slide...");
+                            List<HSLFShape> shapes = slide.getShapes();
+                            for (HSLFShape shape: shapes) {
+                                    if (shape instanceof HSLFTextShape) {
+                                    HSLFTextShape textShape = (HSLFTextShape)shape;
+                                        String text = textShape.getText();
+                                        System.out.println("Text: " + text);
+                                        currentFileText += " " + text;
+                                    }
+                            }
+                    }
+                }
+                else if(ext.equals("pptx")){
+                    currentPptx = new XMLSlideShow(fis);
+                    for (XSLFSlide slide: currentPptx.getSlides()) {
+                            System.out.println("Starting slide...");
+                            List<XSLFShape> shapes = slide.getShapes();
+                            for (XSLFShape shape: shapes) {
+                                    if (shape instanceof XSLFTextShape) {
+                                    XSLFTextShape textShape = (XSLFTextShape)shape;
+                                        String text = textShape.getText();
+                                        System.out.println("Text: " + text);
+                                        currentFileText += " " + text;
+                                    }
+                            }
+                    }
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
