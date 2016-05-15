@@ -44,7 +44,7 @@ public class MainController implements Initializable {
     
     private FileChooser uploader;
     
-    private List<DocumentClass> res;
+    private List<FlyDocument> res;
     private int sLoc;
     private int aLoc;
     
@@ -263,7 +263,7 @@ public class MainController implements Initializable {
     @FXML
     private void openDocument(MouseEvent e){
         AnchorPane tmp = (AnchorPane) e.getSource();
-        DocumentClass doc = Core.uuidToDoc.get(paneRefs.get(tmp));
+        FlyDocument doc = Core.uuidToDoc.get(paneRefs.get(tmp));
         if(doc != null){
             currentDocTitle.setText(doc.getName() + " - " + doc.getSubject());
             List<String> tempTags = new ArrayList<String>();
@@ -273,13 +273,13 @@ public class MainController implements Initializable {
             tempTags.removeAll(bad);
             String tagString = tempTags.toString().replace(", ", "\n\u2022 ");
             docTagLabel.setText("\u2022 " + tagString.substring(1, tagString.length()-1));          
-            String tmpSerializedDoc = doc.getSerializedDoc();
-            String tmpPath = doc.getUuid();
-            if(doc.getDocState())
-                tmpPath += ".docx";
-            else
-                tmpPath += ".doc";
-            docPath = DocumentSerializer.unserialize(tmpSerializedDoc, tmpPath);
+            String tmpSerializedForm = doc.getSerializedForm();
+            String tmpPath = doc.getUuid() + "." +  doc.getExtension();
+            //if(doc.getDocState())
+            //    tmpPath += ".docx";
+            //else
+            //    tmpPath += ".doc";
+            docPath = DocumentSerializer.unserialize(tmpSerializedForm, tmpPath);
             docTab.setDisable(false);
             tabpane.getSelectionModel().select(docTab);
         }        
@@ -362,10 +362,10 @@ public class MainController implements Initializable {
         displayDocuments(new ArrayList<>(Arrays.asList(srchCap1, srchCap2, srchCap3, srchCap4, srchCap5)), new ArrayList<>(Arrays.asList(srchImg1, srchImg2, srchImg3, srchImg4, srchImg5)), sLoc, res);
     }
     
-    private void displayDocuments(ArrayList<Label> labels, ArrayList<ImageView> imgs, int loc, List<DocumentClass> docs){
+    private void displayDocuments(ArrayList<Label> labels, ArrayList<ImageView> imgs, int loc, List<FlyDocument> docs){
         ArrayList<Label> dispLabels = labels;
         ArrayList<ImageView> dispPhotos = imgs;
-        List<DocumentClass> lst = docs;
+        List<FlyDocument> lst = docs;
         int count = 0;
         for(int i = loc; i < loc+5; i++){  
             if(i < lst.size()){
@@ -460,7 +460,7 @@ public class MainController implements Initializable {
                         if(!snap.getValue(String.class).equals("")){
                             List<String> recents = new ArrayList<String>();
                             recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
-                            List<DocumentClass> recDocs = new ArrayList<DocumentClass>();
+                            List<FlyDocument> recDocs = new ArrayList<FlyDocument>();
                             for(String uuid: recents){
                                 if(!uuid.trim().equals(""))
                                     recDocs.add(Core.uuidToDoc.get(uuid.trim()));

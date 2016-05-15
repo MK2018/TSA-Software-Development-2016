@@ -94,10 +94,10 @@ public class OfflineLibrary {
 class Library {
    
    @SerializedName("documents")
-   public Document[] docs = new Document[0];
+   public FlyDocument[] docs = new FlyDocument[0];
    
    public void addDocument(String docN, String serial, String subName, String[] tg, String plaintxt) {
-      Document doc = new Document();
+      /*Document doc = new Document();
       doc.docName = docN;
       doc.serializedDoc = serial;
       doc.subject = subName;
@@ -107,11 +107,15 @@ class Library {
       doc.docPlainText = plaintxt;
       List<Document> ll = new ArrayList<Document>(Arrays.asList(docs));
       ll.add(doc);
-      docs = ll.toArray(new Document[ll.size()]);
+      docs = ll.toArray(new Document[ll.size()]);*/
+        FlyDocument doc = new FlyDocument(plaintxt, subName, tg, docN, null, ".txt", serial);
+        List<FlyDocument> ll = new ArrayList<FlyDocument>(Arrays.asList(docs));
+        ll.add(doc);
+        docs = ll.toArray(new FlyDocument[ll.size()]);
    } 
 }
 
-class Document {
+/*class Document {
    @SerializedName("name")
    public String docName;
    
@@ -136,5 +140,5 @@ class Document {
       ll.add(t);
       tags = ll.toArray(new String[ll.size()]);
    }
-}
+}*/
 

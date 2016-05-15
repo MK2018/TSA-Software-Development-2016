@@ -52,7 +52,9 @@ public class Core {
     public static String serializedDoc;
     
     private static XMLSlideShow currentPptx;
-    private static HSLFSlideShow currentPpt;    
+    private static HSLFSlideShow currentPpt; 
+    
+    public static String docExtension;
     
     private static String currentFileText;
     
@@ -68,9 +70,9 @@ public class Core {
     
     public static Firebase ref;
     
-    public static List<DocumentClass> allDocs;
+    public static List<FlyDocument> allDocs;
     
-    public static Map<String, DocumentClass> uuidToDoc;
+    public static Map<String, FlyDocument> uuidToDoc;
     
     public static Map<String, List<String>> searchKeys;
     
@@ -110,10 +112,10 @@ public class Core {
             public void onDataChange(DataSnapshot snap) {
                 for(DataSnapshot subj : snap.getChildren()){
                     for(DataSnapshot doc: subj.getChildren()){
-                        Core.allDocs.add(new DocumentClass(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class),doc.child("docState").getValue(boolean.class), doc.child("serializedDoc").getValue(String.class)));
+                        Core.allDocs.add(new FlyDocument(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class),doc.child("extension").getValue(String.class), doc.child("serializedForm").getValue(String.class)));
                     }
                 }
-                for(DocumentClass d: Core.allDocs){
+                for(FlyDocument d: Core.allDocs){
                     String[] tmp = d.getTags();
                     Core.searchKeys.put(d.getUuid(), Arrays.asList(d.getName(), d.getSubject(), tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]));
                     Core.uuidToDoc.put(d.getUuid(), d);
@@ -144,6 +146,7 @@ public class Core {
                 Core.currentFileText = "";
                 Core.serializedDoc = DocumentSerializer.serialize(f.getAbsolutePath());
                 String ext = f.toString().substring(f.toString().lastIndexOf(".")+1);
+                docExtension = ext;
                 if(ext.equals("docx")){
                     currentWordDocx = new XWPFDocument(fis);
                     currentWordDoc = null;
@@ -161,7 +164,7 @@ public class Core {
                 else if(ext.equals("ppt")){
                     currentPpt = new HSLFSlideShow(fis);
                     for (HSLFSlide slide: currentPpt.getSlides()) {
-                        System.out.println("Starting slide...");
+                        //System.out.println("Starting slide...");
                         List<HSLFShape> shapes = slide.getShapes();
                         for(HSLFShape shape: shapes) {
                             if (shape instanceof HSLFTextShape) {
@@ -174,7 +177,7 @@ public class Core {
                 else if(ext.equals("pptx")){
                     currentPptx = new XMLSlideShow(fis);
                     for (XSLFSlide slide: currentPptx.getSlides()) {
-                        System.out.println("Starting slide...");
+                        //System.out.println("Starting slide...");
                         List<XSLFShape> shapes = slide.getShapes();
                         for(XSLFShape shape: shapes) {
                             if (shape instanceof XSLFTextShape) {
