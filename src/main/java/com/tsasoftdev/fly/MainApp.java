@@ -41,7 +41,7 @@ public class MainApp extends Application {
         if(screenBounds.getHeight() < 800)
             stage.setHeight(screenBounds.getHeight());
         
-        stage.setTitle("TSA Software Development");
+        stage.setTitle("Fly");
         stage.setScene(authScene);
         stage.show();
         Core.setUpStage(stage);

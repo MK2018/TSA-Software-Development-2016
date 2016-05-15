@@ -7,7 +7,7 @@
     <version>1.1</version>
     <packaging>jar</packaging>
 
-    <name>Fly- TSA Software Development 2016</name>
+    <name>Fly - TSA Software Development 2016</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,6 +30,9 @@
                     <mainClass>${mainClass}</mainClass>
                     <verbose>true</verbose>
                     <icon>${project.build.finalName}.ico</icon>
+                    <bundleArguments>
+                        <Bruntime>C:\Users\mekva_000\Desktop\32bitJDK\tools\jdk32</Bruntime>
+                    </bundleArguments>
                 </configuration>
             </plugin>
             <plugin>
