@@ -454,7 +454,6 @@ public class MainController implements Initializable {
             @Override
             public void onDataChange(final DataSnapshot snap) {
                 Platform.runLater(new Runnable(){
-
                     @Override
                     public void run() {
                         if(!snap.getValue(String.class).equals("")){

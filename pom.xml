@@ -7,7 +7,7 @@
     <version>1.1</version>
     <packaging>jar</packaging>
 
-    <name>Fly - TSA Software Development 2016</name>
+    <name>Fly - TSA Software Design 2016</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,16 +24,25 @@
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>8.4.0</version>
-                <configuration>
-                    <vendor>TJ TSA</vendor>
-                    <appName>Fly</appName>
-                    <mainClass>${mainClass}</mainClass>
-                    <verbose>true</verbose>
-                    <icon>${project.build.finalName}.ico</icon>
-                    <bundleArguments>
-                        <Bruntime>C:\Users\mekva_000\Desktop\32bitJDK\tools\jdk32</Bruntime>
-                    </bundleArguments>
-                </configuration>
+                <executions>
+                    <execution>
+                    <configuration>
+                        <vendor>TJ TSA</vendor>
+                        <appName>Fly</appName>
+                        <mainClass>${mainClass}</mainClass>
+                        <verbose>true</verbose>
+                        <icon>${project.build.finalName}.ico</icon>
+                        <bundleArguments>
+                            <!-- 
+                            This argument forces the javapackager.jar to use a locally housed, 
+                            non-installed32-bit JDK for bundling into the native package.                        
+                            The JDK path will need to be edited based on the system it's built on.                        
+                            -->
+                            <Bruntime>C:\Users\mekva_000\Desktop\32bitJDK\tools\jdk32</Bruntime>
+                        </bundleArguments>
+                    </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

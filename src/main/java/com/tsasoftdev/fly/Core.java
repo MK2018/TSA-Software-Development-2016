@@ -31,6 +31,7 @@ import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
 import org.apache.poi.hslf.usermodel.HSLFShape;
 import org.apache.poi.hslf.usermodel.HSLFSlide;
+import org.apache.poi.hslf.usermodel.HSLFSlideShowImpl;
 import org.apache.poi.hslf.usermodel.HSLFTextShape;
 import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
 import org.apache.poi.xslf.usermodel.XSLFShape;
@@ -46,13 +47,8 @@ public class Core {
     private IdentOutput latestOutput;
     
     private static File currentRawFile = null;
-    private static XWPFDocument currentWordDocx;
-    private static HWPFDocument currentWordDoc;
-    public static boolean isDocx;
+    //public static boolean isDocx;
     public static String serializedDoc;
-    
-    private static XMLSlideShow currentPptx;
-    private static HSLFSlideShow currentPpt; 
     
     public static String docExtension;
     
@@ -148,23 +144,22 @@ public class Core {
                 String ext = f.toString().substring(f.toString().lastIndexOf(".")+1);
                 docExtension = ext;
                 if(ext.equals("docx")){
-                    currentWordDocx = new XWPFDocument(fis);
-                    currentWordDoc = null;
+                    XWPFDocument currentWordDocx = new XWPFDocument(fis);
                     XWPFWordExtractor extract = new XWPFWordExtractor(currentWordDocx);
                     currentFileText = extract.getText();
-                    Core.isDocx = true;
+                    //Core.isDocx = true;
                 }
                 else if(ext.equals("doc")){
-                    currentWordDoc = new HWPFDocument(fis);
-                    currentWordDocx = null;
+                    HWPFDocument currentWordDoc = new HWPFDocument(fis);
                     WordExtractor extract = new WordExtractor(currentWordDoc);
                     currentFileText = extract.getText();                            
-                    Core.isDocx = false;
+                    //Core.isDocx = false;
                 }
                 else if(ext.equals("ppt")){
-                    currentPpt = new HSLFSlideShow(fis);
-                    for (HSLFSlide slide: currentPpt.getSlides()) {
-                        //System.out.println("Starting slide...");
+                    HSLFSlideShowImpl currentPpt = new HSLFSlideShowImpl(fis);
+                    PowerPointExtractor extract = new PowerPointExtractor(currentPpt);
+                    currentFileText = extract.getText();                            
+                    /*for (HSLFSlide slide: currentPpt.getSlides()) {
                         List<HSLFShape> shapes = slide.getShapes();
                         for(HSLFShape shape: shapes) {
                             if (shape instanceof HSLFTextShape) {
@@ -172,12 +167,14 @@ public class Core {
                                 currentFileText += " " + textShape.getText();
                             }
                         }
-                    }
+                    }*/
+                    
                 }
                 else if(ext.equals("pptx")){
-                    currentPptx = new XMLSlideShow(fis);
-                    for (XSLFSlide slide: currentPptx.getSlides()) {
-                        //System.out.println("Starting slide...");
+                    XMLSlideShow currentPptx = new XMLSlideShow(fis);
+                    XSLFPowerPointExtractor extract = new XSLFPowerPointExtractor(currentPptx);
+                    currentFileText = extract.getText(); 
+                    /*for (XSLFSlide slide: currentPptx.getSlides()) {
                         List<XSLFShape> shapes = slide.getShapes();
                         for(XSLFShape shape: shapes) {
                             if (shape instanceof XSLFTextShape) {
@@ -185,7 +182,7 @@ public class Core {
                                 currentFileText += " " + textShape.getText();
                             }
                         }
-                    }
+                    }*/
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
