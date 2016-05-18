@@ -1,145 +1,75 @@
 package com.tsasoftdev.fly;
 
 import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import static com.tsasoftdev.fly.Core.docExtension;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import java.util.*;
-import java.io.*;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.lucene.analysis.*;
-import org.apache.lucene.analysis.standard.*;
-import org.apache.lucene.analysis.tokenattributes.*;
-import org.apache.lucene.util.*;
-import org.apache.lucene.analysis.en.*;
-
+import org.apache.lucene.analysis.ASCIIFoldingFilter;
+import org.apache.lucene.analysis.LowerCaseFilter;
+import org.apache.lucene.analysis.PorterStemFilter;
+import org.apache.lucene.analysis.StopFilter;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.standard.ClassicFilter;
+import org.apache.lucene.analysis.standard.ClassicTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.util.Version;
+import org.apache.poi.hslf.extractor.PowerPointExtractor;
+import org.apache.poi.hslf.usermodel.HSLFSlideShowImpl;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-//import org.apache.poi.hslf.usermodel.HSLFSlideShow;
-import org.apache.poi.hslf.extractor.PowerPointExtractor;
-//import org.apache.poi.hslf.usermodel.HSLFShape;
-//import org.apache.poi.hslf.usermodel.HSLFSlide;
-import org.apache.poi.hslf.usermodel.HSLFSlideShowImpl;
-//import org.apache.poi.hslf.usermodel.HSLFTextShape;
 import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
-//import org.apache.poi.xslf.usermodel.XSLFShape;
-//import org.apache.poi.xslf.usermodel.XSLFSlide;
-//import org.apache.poi.xslf.usermodel.XSLFTextShape;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
+public class AsyncParser{
+        
+    //private File toProcess;
+    
+    //public AsyncParser(File filepath){
+    //    toProcess = filepath;
+    //    startProcessing();
+    //}
+    
+    public static void parseFile(File f){
+        
+    }
+    
+    public class InternalFlyParser implements Runnable{
 
-public class Core {
-    
-    private boolean isAnalyzing = false;
-    public static boolean allDocsLoaded = false;
-    
-    private IdentOutput latestOutput;
-    
-    private static File currentRawFile = null;
-    //public static boolean isDocx;
-    public static String serializedDoc;
-    
-    public static String docExtension;
-    
-    private static String currentFileText;
-    
-    private static Stage stage = null;
-    
-    private ArrayList<String> commonWords;
-    private ArrayList<String> tags;
-    private ArrayList<String> history;
-    private ArrayList<String> english;
-    private ArrayList<String> math;
-    private ArrayList<String> cs;
-    private ArrayList<String> science;
-    
-    public static Firebase ref;
-    
-    public static List<FlyDocument> allDocs;
-    
-    public static Map<String, FlyDocument> uuidToDoc;
-    
-    public static Map<String, List<String>> searchKeys;
-    
-    public Core() {
-        this.latestOutput = new IdentOutput(new String[5], "");
-        this.allDocs = new ArrayList<>();
-        this.uuidToDoc = new HashMap<>();
-        this.searchKeys = new HashMap();
-        Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
+        public void run() {
+            
+        }
+        
     }
     
-    public static void setUpStage(Stage stg){
-        stage = stg;
-    }
-    
-    public static void updateRecents(final String uuid){
-        Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(final DataSnapshot snap) { 
-                List<String> recents = new ArrayList<String>();
-                recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
-                recents.add(0, uuid);
-                if(recents.size() > 5)
-                    recents.remove(5);
-                Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").setValue(recents.toString().substring(1, recents.toString().length()-1));
-            }
-            @Override
-            public void onCancelled(FirebaseError fe) {
-                
-            }
-        });
-    }
-    
-    public static void getDocuments(){
-        Core.ref.child("users/" + Core.ref.getAuth().getUid()+"/uploads").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snap) {
-                for(DataSnapshot subj : snap.getChildren()){
-                    for(DataSnapshot doc: subj.getChildren()){
-                        Core.allDocs.add(new FlyDocument(doc.child("text").getValue(String.class), doc.child("subject").getValue(String.class), (ArrayList) (doc.child("tags").getValue()), doc.child("name").getValue(String.class),doc.child("uuid").getValue(String.class),doc.child("extension").getValue(String.class), doc.child("serializedForm").getValue(String.class)));
-                    }
-                }
-                for(FlyDocument d: Core.allDocs){
-                    String[] tmp = d.getTags();
-                    Core.searchKeys.put(d.getUuid(), Arrays.asList(d.getName(), d.getSubject(), tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]));
-                    Core.uuidToDoc.put(d.getUuid(), d);
-                }
-                allDocsLoaded = true;
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println(firebaseError);
-            }
-        });
-    }
-    
-    public void goToScene(String toSceneName) throws IOException{
-        Parent toParent = FXMLLoader.load(getClass().getResource("/fxml/"+toSceneName+".fxml"));
-        Scene toScene = new Scene(toParent);
-        toScene.getStylesheets().add("/styles/MainStyles.css");
-        stage.setScene(toScene);
-        stage.show();
-    }
-    
-    public static void loadFile(File f){
-        currentRawFile = f;
+    /*public static void loadFile(File f){
+        File currentRawFile = f;
+        String rawText = "";
         FileInputStream fis;
         if(currentRawFile != null){
             try {
                 fis = new FileInputStream(currentRawFile);
-                Core.currentFileText = "";
+                //Core.currentFileText = "";
                 Core.serializedDoc = DocumentSerializer.serialize(f.getAbsolutePath());
                 String ext = f.toString().substring(f.toString().lastIndexOf(".")+1);
                 docExtension = ext;
@@ -167,7 +97,7 @@ public class Core {
                                 currentFileText += " " + textShape.getText();
                             }
                         }
-                    }*/
+                    }
                     
                 }
                 else if(ext.equals("pptx")){
@@ -182,7 +112,7 @@ public class Core {
                                 currentFileText += " " + textShape.getText();
                             }
                         }
-                    }*/
+                    }
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,9 +125,7 @@ public class Core {
         }
     }
     
-    public static String getCurrentFileText(){
-        return currentFileText;
-    }
+    //OLD CODE FROM CORE PARSER
     
     public IdentOutput initAnalysis() throws IOException, InterruptedException{
         if(!isAnalyzing){
@@ -568,6 +496,5 @@ public class Core {
         public String getPlainText() {
            return filePlainText;
         }
-    }
-   
+    }*/
 }
