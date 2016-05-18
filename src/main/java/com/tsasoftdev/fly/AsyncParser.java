@@ -51,13 +51,20 @@ public class AsyncParser{
     //}
     
     public static void parseFile(File f){
-        
+        Thread parse = new Thread(new InternalFlyParser());
+        parse.start();
+        try {
+            parse.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AsyncParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public class InternalFlyParser implements Runnable{
+    public static class InternalFlyParser implements Runnable{
 
+        @Override
         public void run() {
-            
+            System.out.println("Multithreading support is pretty great.");
         }
         
     }
