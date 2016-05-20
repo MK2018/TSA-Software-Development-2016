@@ -450,7 +450,7 @@ public class MainController implements Initializable {
             i.setImage(new Image(getClass().getResource("/imgs/a.png").toString()));
             paneRefs.put((AnchorPane)(i.getParent()), "NULL");
         }
-        Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addListenerForSingleValueEvent(new ValueEventListener(){
+        Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addValueEventListener(new ValueEventListener(){
 
             @Override
             public void onDataChange(final DataSnapshot snap) {

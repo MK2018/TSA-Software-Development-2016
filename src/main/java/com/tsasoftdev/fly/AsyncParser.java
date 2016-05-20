@@ -19,6 +19,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,17 +60,22 @@ public class AsyncParser{
     //    startProcessing();
     //}
     
+  
+    
     public static void parseFile(File f){
-        Thread parse = new Thread(new InternalFlyParser(f));
-        parse.start();
+        //Thread parse = new Thread(new InternalFlyParser(f));
+        //parse.start();
         /*try {
             parse.join();
         } catch (InterruptedException ex) {
             Logger.getLogger(AsyncParser.class.getName()).log(Level.SEVERE, null, ex);
         }*/
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        Future<String> rawtext = exec.submit(new InternalFlyParser(f));
+        //System.out.println(rawtext.get());
     }
     
-    public static class InternalFlyParser implements Runnable{
+    public static class InternalFlyParser implements Callable{
         
         private File f;
         
@@ -75,9 +84,10 @@ public class AsyncParser{
         }
         
         @Override
-        public void run() {
+        public String call() {
             String rawtext = getRawFileText(this.f);
-            System.out.println(rawtext);
+            return rawtext;
+            //System.out.println(rawtext);
             //System.out.println("Multithreading support is pretty great.");
         }
         
