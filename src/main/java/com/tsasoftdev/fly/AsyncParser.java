@@ -32,6 +32,12 @@ import org.apache.lucene.analysis.standard.ClassicFilter;
 import org.apache.lucene.analysis.standard.ClassicTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.io.RandomAccessBufferedFileInputStream;
+import org.apache.pdfbox.io.RandomAccessRead;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
 import org.apache.poi.hslf.usermodel.HSLFSlideShowImpl;
 import org.apache.poi.hwpf.HWPFDocument;
@@ -51,20 +57,88 @@ public class AsyncParser{
     //}
     
     public static void parseFile(File f){
-        Thread parse = new Thread(new InternalFlyParser());
+        Thread parse = new Thread(new InternalFlyParser(f));
         parse.start();
-        try {
+        /*try {
             parse.join();
         } catch (InterruptedException ex) {
             Logger.getLogger(AsyncParser.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
     
     public static class InternalFlyParser implements Runnable{
-
+        
+        private File f;
+        
+        public InternalFlyParser(File f){
+            this.f = f;
+        }
+        
         @Override
         public void run() {
-            System.out.println("Multithreading support is pretty great.");
+            String rawtext = getRawFileText(this.f);
+            System.out.println(rawtext);
+            //System.out.println("Multithreading support is pretty great.");
+        }
+        
+        private String getRawFileText(File f){
+            try {
+                FileInputStream fis = new FileInputStream(f);
+                String ext = f.toString().substring(f.toString().lastIndexOf(".")+1);
+                if(ext.equals("docx")){
+                    XWPFDocument currentWordDocx = new XWPFDocument(fis);
+                    XWPFWordExtractor extract = new XWPFWordExtractor(currentWordDocx);
+                    return(extract.getText());
+                }
+                else if(ext.equals("doc")){
+                    HWPFDocument currentWordDoc = new HWPFDocument(fis);
+                    WordExtractor extract = new WordExtractor(currentWordDoc);
+                    return(extract.getText());                           
+                }
+                else if(ext.equals("ppt")){
+                    HSLFSlideShowImpl currentPpt = new HSLFSlideShowImpl(fis);
+                    PowerPointExtractor extract = new PowerPointExtractor(currentPpt);
+                    return(extract.getText());                                                
+                }
+                else if(ext.equals("pptx")){
+                    XMLSlideShow currentPptx = new XMLSlideShow(fis);
+                    XSLFPowerPointExtractor extract = new XSLFPowerPointExtractor(currentPptx);
+                    return(extract.getText());  
+                }
+                else if(ext.equals("pdf")){
+                    PDFParser parser = null;
+                    PDDocument pdDoc = null;
+                    COSDocument cosDoc = null;
+                    PDFTextStripper pdfStripper;
+
+                    String parsedText;
+                    try {
+                        parser = new PDFParser(new RandomAccessBufferedFileInputStream(f));
+                        parser.parse();
+                        cosDoc = parser.getDocument();
+                        pdfStripper = new PDFTextStripper();
+                        pdDoc = new PDDocument(cosDoc);
+                        parsedText = pdfStripper.getText(pdDoc).replaceAll("[^A-Za-z0-9. ]+", "");
+                        return parsedText;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        try {
+                            if (cosDoc != null)
+                                cosDoc.close();
+                            if (pdDoc != null)
+                                pdDoc.close();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return "";
         }
         
     }
