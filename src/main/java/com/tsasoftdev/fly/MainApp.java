@@ -30,7 +30,9 @@ public class MainApp extends Application {
             getClass().getResource("/fonts/rcl.ttf").toExternalForm(), 
             10
         );
-
+        
+        AsyncParser.loadResources();
+        
         Parent authScreen = FXMLLoader.load(getClass().getResource("/fxml/AuthScene.fxml"));
         
         Scene authScene = new Scene(authScreen);

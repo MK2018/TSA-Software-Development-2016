@@ -126,23 +126,42 @@ public class UploadSceneController implements Initializable {
                 subjectLabel.setText(subjectChoiceBox.getValue().toString());
             }
         });
+        
+        /*Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                //System.out.println(AsyncParser.fetchText());
+                
+            }
+        });
+        */
+        
+        
         final List<TextField> tagFields = new ArrayList<TextField>();
         tagFields.addAll(Arrays.asList(tagBox1, tagBox2, tagBox3, tagBox4, tagBox5));
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    data = c.initAnalysis();
-                    subjectLabel.setText(data.getSubject());
-                    origSubj = data.getSubject();
-                    subjectChoiceBox.setValue(data.getSubject());
-                    for(int i = 0; i < tagFields.size(); i++){
-                        tagFields.get(i).setText(data.getTags().get(i));
-                    }
-                    loadingPane.setVisible(false);
-                } catch (IOException | InterruptedException ex) {
-                    System.out.println(Arrays.toString(ex.getStackTrace()));
+                //try {
+                    //data = c.initAnalysis();
+                    //subjectLabel.setText(data.getSubject());
+                    //origSubj = data.getSubject();
+                    //subjectChoiceBox.setValue(data.getSubject());
+                    
+                FlyResult fr = AsyncParser.fetchResult();
+                
+                origSubj = fr.getSubject();
+                subjectLabel.setText(origSubj);                
+                subjectChoiceBox.setValue(origSubj);
+                
+                
+                for(int i = 0; i < tagFields.size(); i++){
+                    tagFields.get(i).setText(fr.getTags().get(i));
                 }
+                loadingPane.setVisible(false);
+                //} catch (IOException | InterruptedException ex) {
+                //    System.out.println(Arrays.toString(ex.getStackTrace()));
+                //}
             }
         });
     }    

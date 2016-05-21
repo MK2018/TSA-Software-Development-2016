@@ -425,7 +425,7 @@ public class MainController implements Initializable {
         File file = uploader.showOpenDialog(stage);
         if (file != null) {
             File toUpload = new File(file.toURI());
-            //AsyncParser.parseFile(toUpload);
+            AsyncParser.parseFile(toUpload);
             Core.loadFile(toUpload);
             c.goToScene("UploadScene");
         }        
