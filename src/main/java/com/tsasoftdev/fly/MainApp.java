@@ -18,6 +18,9 @@ public class MainApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        
+        Core.setUpStage(stage);
+        
         Font.loadFont(
             getClass().getResource("/fonts/rcb.ttf").toExternalForm(), 
             10
@@ -46,7 +49,7 @@ public class MainApp extends Application {
         stage.setTitle("Fly");
         stage.setScene(authScene);
         stage.show();
-        Core.setUpStage(stage);
+        //Core.setUpStage(stage);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
             @Override
             public void handle(WindowEvent event) {

@@ -4,7 +4,6 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import static com.tsasoftdev.fly.Core.docExtension;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,7 +24,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +39,6 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessBufferedFileInputStream;
-import org.apache.pdfbox.io.RandomAccessRead;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -55,30 +52,10 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 public class AsyncParser{
-        
-    //private static Future<String> fileText;
     
     private static Future<FlyResult> flyResult;
     
     private static HashMap<String, ArrayList<String>> keywords;
-    
-    /*private static class FlyResult{
-        private List<String> tags;
-        private String subject;
-        
-        public FlyResult(List<String> tags, String subject){
-            this.tags = tags;
-            this.subject = subject;
-        }
-              
-        public String getSubject(){
-            return this.subject;
-        }
-        
-        public List<String> getTags(){
-            return this.tags;
-        }
-    } */   
     
     public static void parseFile(File f){
         ExecutorService exec = Executors.newSingleThreadExecutor();
@@ -88,9 +65,7 @@ public class AsyncParser{
     public static FlyResult fetchResult(){
         try {
             return flyResult.get();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AsyncParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExecutionException ex) {
+        } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(AsyncParser.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -106,14 +81,15 @@ public class AsyncParser{
         keywords.put("common", new ArrayList<String>());
         
         class isEmpty<t> implements Predicate<t>{   
+            @Override
             public boolean test(t tag){  
                 return(tag.toString().trim().equals(""));
             }  
         }
         
-        Firebase ref = new Firebase("https://tsaparser.firebaseio.com/");
+        //Firebase ref = new Firebase("https://tsaparser.firebaseio.com/");
         
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        Core.ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snap) {
                 for (DataSnapshot tag: snap.getChildren()) {                         
@@ -139,7 +115,6 @@ public class AsyncParser{
                                 break;
                     }
                 }
-                //listsLoaded = true;
             }
             @Override
             public void onCancelled(FirebaseError fe) {
@@ -148,31 +123,6 @@ public class AsyncParser{
         });  
         for(String tag : keywords.keySet())
             keywords.get(tag).removeIf(new isEmpty<String>());
-        
-        /*Iterator it = history.iterator();
-        while(it.hasNext())
-            if((it.next()).toString().trim().equals(""))
-                it.remove();
-        it = cs.iterator();
-        while(it.hasNext())
-            if((it.next()).toString().trim().equals(""))
-                it.remove();
-        it = english.iterator();
-        while(it.hasNext())
-            if((it.next()).toString().trim().equals(""))
-                it.remove();
-        it = math.iterator();
-        while(it.hasNext())
-            if((it.next()).toString().trim().equals(""))
-                it.remove();
-        it = science.iterator();
-        while(it.hasNext())
-            if((it.next()).toString().trim().equals(""))
-                it.remove();
-        } */
-        //catch (Exception e) {
-        //    e.printStackTrace();
-        //}
     }
     
     public static class InternalFlyParser implements Callable{
@@ -188,8 +138,7 @@ public class AsyncParser{
             String rawtext = getRawFileText(this.f);
             TagIdentifier tg = new TagIdentifier(rawtext, 5);
             tg.process();
-            FlyResult fr = new FlyResult(tg.getTags(), tg.getSubject());
-            return new FlyResult(tg.getTags(), tg.getSubject());
+            return new FlyResult(tg.getTags(), tg.getSubject(), rawtext, this.f.toString().substring(this.f.toString().lastIndexOf(".")+1), this.f.toURI().toString());
         }
         
         private String getRawFileText(File f){
@@ -247,132 +196,6 @@ public class AsyncParser{
             }
             return "";
         }
-        
-    
-    
-    /*public static void loadFile(File f){
-        File currentRawFile = f;
-        String rawText = "";
-        FileInputStream fis;
-        if(currentRawFile != null){
-            try {
-                fis = new FileInputStream(currentRawFile);
-                //Core.currentFileText = "";
-                Core.serializedDoc = DocumentSerializer.serialize(f.getAbsolutePath());
-                String ext = f.toString().substring(f.toString().lastIndexOf(".")+1);
-                docExtension = ext;
-                if(ext.equals("docx")){
-                    XWPFDocument currentWordDocx = new XWPFDocument(fis);
-                    XWPFWordExtractor extract = new XWPFWordExtractor(currentWordDocx);
-                    currentFileText = extract.getText();
-                    //Core.isDocx = true;
-                }
-                else if(ext.equals("doc")){
-                    HWPFDocument currentWordDoc = new HWPFDocument(fis);
-                    WordExtractor extract = new WordExtractor(currentWordDoc);
-                    currentFileText = extract.getText();                            
-                    //Core.isDocx = false;
-                }
-                else if(ext.equals("ppt")){
-                    HSLFSlideShowImpl currentPpt = new HSLFSlideShowImpl(fis);
-                    PowerPointExtractor extract = new PowerPointExtractor(currentPpt);
-                    currentFileText = extract.getText();                            
-                    /*for (HSLFSlide slide: currentPpt.getSlides()) {
-                        List<HSLFShape> shapes = slide.getShapes();
-                        for(HSLFShape shape: shapes) {
-                            if (shape instanceof HSLFTextShape) {
-                                HSLFTextShape textShape = (HSLFTextShape)shape;
-                                currentFileText += " " + textShape.getText();
-                            }
-                        }
-                    }
-                    
-                }
-                else if(ext.equals("pptx")){
-                    XMLSlideShow currentPptx = new XMLSlideShow(fis);
-                    XSLFPowerPointExtractor extract = new XSLFPowerPointExtractor(currentPptx);
-                    currentFileText = extract.getText(); 
-                    /*for (XSLFSlide slide: currentPptx.getSlides()) {
-                        List<XSLFShape> shapes = slide.getShapes();
-                        for(XSLFShape shape: shapes) {
-                            if (shape instanceof XSLFTextShape) {
-                                XSLFTextShape textShape = (XSLFTextShape)shape;
-                                currentFileText += " " + textShape.getText();
-                            }
-                        }
-                    }
-                }
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        else{
-            currentFileText = "";
-        }
-    }
-    
-    //OLD CODE FROM CORE PARSER
-    
-    public IdentOutput initAnalysis() throws IOException, InterruptedException{
-        if(!isAnalyzing){
-            isAnalyzing = true;
-            
-            String contents = currentFileText;
-            TagIdentifier tg = new TagIdentifier(contents, 5);
-            while(tg.listsLoaded != true){ 
-                TimeUnit.MILLISECONDS.sleep(100);
-            }
-            tg.generateTags();
-            
-            latestOutput = new IdentOutput(tg.getTags(), tg.getSubject());
-            isAnalyzing = false;
-        }
-        return latestOutput;
-    }
-    
-    public void teachAlgorithm(String subject, String[] tags) throws IOException{
-        if(subject.equals("Science")) {
-            for(String tag: Arrays.asList(tags)){
-                if(!science.contains(tag))
-                    science.add(stem(tag));
-            }
-            Core.ref.child("sci_tags").setValue(science.toString().substring(1, science.toString().length()-1));
-        }
-        else if(subject.equals("History")) {
-            for(String tag: Arrays.asList(tags)){
-                if(!history.contains(tag))
-                    history.add(stem(tag));
-            }
-            Core.ref.child("hist_tags").setValue(history.toString().substring(1, history.toString().length()-1));
-        }
-        else if(subject.equals("Math")) {
-            for(String tag: Arrays.asList(tags)){
-                if(!math.contains(tag))
-                    math.add(stem(tag));
-            }
-            Core.ref.child("math_tags").setValue(math.toString().substring(1, math.toString().length()-1));
-        }
-        else if(subject.equals("English")) {
-            for(String tag: Arrays.asList(tags)){
-                if(!english.contains(tag))
-                    english.add(stem(tag));
-            }
-            Core.ref.child("eng_tags").setValue(english.toString().substring(1, english.toString().length()-1));
-        }
-        else if(subject.equals("Computer Science")) {
-            for(String tag: Arrays.asList(tags)){
-                if(!cs.contains(tag))
-                    cs.add(stem(tag));
-            }
-            Core.ref.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
-        }
-    }
-    
-    
-    */
-    
         public String stem(String term) throws IOException {
 
                TokenStream tokenStream = null;
@@ -424,28 +247,15 @@ public class AsyncParser{
             private boolean listsLoaded = false;
 
             public TagIdentifier() {
-               /*tags = new ArrayList<String>();
-               history = new ArrayList<String>();
-               english = new ArrayList<String>();
-               math = new ArrayList<String>();
-               cs = new ArrayList<String>();
-               science = new ArrayList<String>();
-               commonWords = new ArrayList<String>();
-               loadResources();*/
+               KEYWORD_LIMIT = 5;
+               filePlainText = "";
+               tags = new ArrayList<String>();
             }
 
             public TagIdentifier(String plainText, int n) {
                KEYWORD_LIMIT = n;
                filePlainText = plainText;
                tags = new ArrayList<String>();
-               /*tags = new ArrayList<String>();
-               history = new ArrayList<String>();
-               english = new ArrayList<String>();
-               math = new ArrayList<String>();
-               cs = new ArrayList<String>();
-               science = new ArrayList<String>();
-               commonWords = new ArrayList<String>();
-               loadResources();*/
             }
 
             private List<Keyword> guessFromString() throws IOException {
@@ -510,69 +320,6 @@ public class AsyncParser{
                return example;
             }
 
-            /*private void loadResources() {
-                try {
-
-                    Core.ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snap) {
-                            for (DataSnapshot tag: snap.getChildren()) {                         
-                                if(null != tag.getKey())
-                                    switch (tag.getKey()) {
-                                    case "cs_tags":
-                                        cs.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
-                                        break;
-                                    case "eng_tags":
-                                        english.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
-                                        break;
-                                    case "hist_tags":
-                                        history.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
-                                        break;
-                                    case "math_tags":
-                                        math.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
-                                        break;
-                                    case "sci_tags":
-                                        science.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
-                                        break;
-                                    case "common":
-                                        commonWords.addAll(Arrays.asList(tag.getValue(String.class).split("\\s*,\\s*")));
-                                        break;
-                                }
-                            }
-                            listsLoaded = true;
-                        }
-                        @Override
-                        public void onCancelled(FirebaseError fe) {
-                            System.out.println("error.");
-                        }
-                    });
-
-                  Iterator it = history.iterator();
-                  while(it.hasNext())
-                     if((it.next()).toString().trim().equals(""))
-                        it.remove();
-                  it = cs.iterator();
-                  while(it.hasNext())
-                     if((it.next()).toString().trim().equals(""))
-                        it.remove();
-                  it = english.iterator();
-                  while(it.hasNext())
-                     if((it.next()).toString().trim().equals(""))
-                        it.remove();
-                  it = math.iterator();
-                  while(it.hasNext())
-                     if((it.next()).toString().trim().equals(""))
-                        it.remove();
-                  it = science.iterator();
-                  while(it.hasNext())
-                     if((it.next()).toString().trim().equals(""))
-                        it.remove();
-               } 
-               catch (Exception e) {
-                  e.printStackTrace();
-               }
-            }*/
-
             private String getLikelySubject(ArrayList<String> list) {
                int countHistory = 0;
                for(String c : keywords.get("hist")) {
@@ -631,7 +378,7 @@ public class AsyncParser{
                   if(!keywords.get("common").contains(e.getStem()) && e.getStem().length() > 2)
                      filtered.add(e);
                for(int i = 0; i < KEYWORD_LIMIT; i++)
-                  al.add(filtered.get(i).getTerms().iterator().next().toString());
+                  al.add(filtered.get(i).getTerms().iterator().next());
                tags = al;
                ArrayList<String> d = new ArrayList<String>();
                for(Keyword e : filtered)

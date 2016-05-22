@@ -435,12 +435,12 @@ public class MainController implements Initializable {
     @FXML
     private void logOutButton(ActionEvent event) throws IOException {
         Core.ref.unauth();
-        Core.loadFile(null);
+        //Core.loadFile(null);
         Core.allDocs = null;
         c.goToScene("AuthScene");
     }
     
-    private void initRecents(){
+    private void watchRecents(){
         final ArrayList<Label> recLabels = new ArrayList<>(Arrays.asList(recCap1, recCap2, recCap3, recCap4, recCap5));
         final ArrayList<ImageView> recPhotos = new ArrayList<>(Arrays.asList(recImg1, recImg2, recImg3, recImg4, recImg5));
         for(Label l: recLabels){
@@ -450,7 +450,41 @@ public class MainController implements Initializable {
             i.setImage(new Image(getClass().getResource("/imgs/a.png").toString()));
             paneRefs.put((AnchorPane)(i.getParent()), "NULL");
         }
+        
         Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addValueEventListener(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(final DataSnapshot snap) {
+                Platform.runLater(new Runnable(){
+                    @Override
+                    public void run() {
+                        if(!snap.getValue(String.class).equals("")){
+                            List<String> recents = new ArrayList<String>();
+                            recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
+                            List<FlyDocument> recDocs = new ArrayList<FlyDocument>();
+                            for(String uuid: recents){
+                                if(!uuid.trim().equals(""))
+                                    recDocs.add(Core.uuidToDoc.get(uuid.trim()));
+                            }
+                            for(int i = 0; i < recDocs.size(); i++){
+                                recLabels.get(i).setText(recDocs.get(i).getName());
+                                recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+                                paneRefs.put((AnchorPane)(recPhotos.get(i).getParent()), recDocs.get(i).getUuid());
+                            }
+                        }
+                    }
+                });
+                
+            }
+
+            @Override
+            public void onCancelled(FirebaseError fe) {
+                System.out.println(fe.getMessage());
+            }
+            
+        });
+        
+        /*Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addValueEventListener(new ValueEventListener(){
 
             @Override
             public void onDataChange(final DataSnapshot snap) {
@@ -481,7 +515,7 @@ public class MainController implements Initializable {
                 System.out.println(fe);
             }
             
-        });
+        });*/
         
     }
     
@@ -493,7 +527,7 @@ public class MainController implements Initializable {
         sLoc = 0;
         aLoc = 0;
         paneRefs = new HashMap<AnchorPane, String>();
-        initRecents();
+        watchRecents();
         srchPrevButton.setDisable(true);
         srchNextButton.setDisable(true);
         uploader = new FileChooser();

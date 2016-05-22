@@ -44,7 +44,7 @@ public class Core {
     private boolean isAnalyzing = false;
     public static boolean allDocsLoaded = false;
     
-    private IdentOutput latestOutput;
+    //private IdentOutput latestOutput;
     
     private static File currentRawFile = null;
     //public static boolean isDocx;
@@ -73,15 +73,16 @@ public class Core {
     public static Map<String, List<String>> searchKeys;
     
     public Core() {
-        this.latestOutput = new IdentOutput(new String[5], "");
+        //this.latestOutput = new IdentOutput(new String[5], "");
         this.allDocs = new ArrayList<>();
         this.uuidToDoc = new HashMap<>();
         this.searchKeys = new HashMap();
-        Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
+        //Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
     }
     
     public static void setUpStage(Stage stg){
         stage = stg;
+        Core.ref = new Firebase("https://tsaparser.firebaseio.com/");
     }
     
     public static void updateRecents(final String uuid){
@@ -133,7 +134,7 @@ public class Core {
         stage.show();
     }
     
-    public static void loadFile(File f){
+    /*public static void loadFile(File f){
         currentRawFile = f;
         FileInputStream fis;
         if(currentRawFile != null){
@@ -168,7 +169,7 @@ public class Core {
                             }
                         }
                     }*/
-                    
+                    /*
                 }
                 else if(ext.equals("pptx")){
                     XMLSlideShow currentPptx = new XMLSlideShow(fis);
@@ -183,7 +184,7 @@ public class Core {
                             }
                         }
                     }*/
-                }
+                /*}
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -214,7 +215,7 @@ public class Core {
             isAnalyzing = false;
         }
         return latestOutput;
-    }
+    }*/
     
     public void teachAlgorithm(String subject, String[] tags) throws IOException{
         if(subject.equals("Science")) {
@@ -254,7 +255,7 @@ public class Core {
         }
     }
     
-    
+    /*
     class IdentOutput{
         private String[] tags;
         private String subject;
@@ -280,7 +281,7 @@ public class Core {
             return Arrays.asList(this.tags);
         }
     }
-    
+    */
     public String stem(String term) throws IOException {
 
            TokenStream tokenStream = null;
@@ -318,7 +319,7 @@ public class Core {
            }
 
         }
-    
+    /*
     class TagIdentifier {
 
         private String filePlainText;
@@ -568,6 +569,6 @@ public class Core {
         public String getPlainText() {
            return filePlainText;
         }
-    }
+    }*/
    
 }

@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-import com.tsasoftdev.fly.Core.IdentOutput;
+//import com.tsasoftdev.fly.Core.IdentOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,9 @@ public class UploadSceneController implements Initializable {
     
     private Core c;
     
-    private IdentOutput data;
+    //private IdentOutput data;
+    
+    private FlyResult fr;
     
     private String origSubj;
     
@@ -71,7 +73,7 @@ public class UploadSceneController implements Initializable {
     
     @FXML
     public void cancelUpload(ActionEvent event) throws IOException{
-        Core.loadFile(null);
+        //Core.loadFile(null);
         c.goToScene("MainScene");
     }
     
@@ -89,7 +91,8 @@ public class UploadSceneController implements Initializable {
         }
         else{
             String uuid = UUID.randomUUID().toString();
-            Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new FlyDocument(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText(), uuid, Core.docExtension, Core.serializedDoc));
+            //Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new FlyDocument(Core.getCurrentFileText(), subjectLabel.getText(), finalTags, fileNameField.getText(), uuid, Core.docExtension, Core.serializedDoc));
+            Core.ref.child("users").child(Core.ref.getAuth().getUid()).child("uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new FlyDocument(fr.getText(), subjectLabel.getText(), finalTags, fileNameField.getText(), uuid, fr.getExt(), DocumentSerializer.serialize(fr.getPath())));
             Core.getDocuments();
             if(!subjectLabel.getText().equals(origSubj)){
                 c.teachAlgorithm(subjectLabel.getText(), finalTags);
@@ -104,7 +107,7 @@ public class UploadSceneController implements Initializable {
                         loadingPane.setStyle("-fx-background-color: #00cc66;");
                         loadingPane.setVisible(true);
                         TimeUnit.MILLISECONDS.sleep(1750);
-                        Core.loadFile(null);
+                        //Core.loadFile(null);
                         c.goToScene("MainScene");
                     } catch (InterruptedException | IOException ex) {
                         Logger.getLogger(UploadSceneController.class.getName()).log(Level.SEVERE, null, ex);
@@ -148,7 +151,7 @@ public class UploadSceneController implements Initializable {
                     //origSubj = data.getSubject();
                     //subjectChoiceBox.setValue(data.getSubject());
                     
-                FlyResult fr = AsyncParser.fetchResult();
+                fr = AsyncParser.fetchResult();
                 
                 origSubj = fr.getSubject();
                 subjectLabel.setText(origSubj);                
