@@ -440,6 +440,15 @@ public class MainController implements Initializable {
         c.goToScene("AuthScene");
     }
     
+    private void initWatchers(){
+        watchRecents();
+        watchDocuments();
+    }
+    
+    private void watchDocuments(){
+        
+    }
+    
     private void watchRecents(){
         final ArrayList<Label> recLabels = new ArrayList<>(Arrays.asList(recCap1, recCap2, recCap3, recCap4, recCap5));
         final ArrayList<ImageView> recPhotos = new ArrayList<>(Arrays.asList(recImg1, recImg2, recImg3, recImg4, recImg5));
@@ -532,7 +541,7 @@ public class MainController implements Initializable {
         srchNextButton.setDisable(true);
         uploader = new FileChooser();
         uploader.setTitle("Choose file to upload...");
-        Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
+        /*Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot snap) {   
                 Platform.runLater(new Runnable() {
@@ -546,7 +555,7 @@ public class MainController implements Initializable {
             public void onCancelled(FirebaseError fe) {
                 System.out.println(fe);
             }
-        });
+        });*/
         tabpane.getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener<Tab>() {
                 @Override
