@@ -95,7 +95,7 @@ public class UploadSceneController implements Initializable {
             Core.ref.child("users").child(Core.ref.getAuth().getUid()).child("uploads").child(subjectLabel.getText()).child(fileNameField.getText()).setValue(new FlyDocument(fr.getText(), subjectLabel.getText(), finalTags, fileNameField.getText(), uuid, fr.getExt(), DocumentSerializer.serialize(fr.getPath())));
             //Core.getDocuments();
             if(!subjectLabel.getText().equals(origSubj)){
-                c.teachAlgorithm(subjectLabel.getText(), finalTags);
+                AsyncParser.teachAlgorithm(subjectLabel.getText(), finalTags);
             }
             Core.updateRecents(uuid);
             

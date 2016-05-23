@@ -56,13 +56,13 @@ public class Core {
     
     private static Stage stage = null;
     
-    private ArrayList<String> commonWords;
+   /* private ArrayList<String> commonWords;
     private ArrayList<String> tags;
     private ArrayList<String> history;
     private ArrayList<String> english;
     private ArrayList<String> math;
     private ArrayList<String> cs;
-    private ArrayList<String> science;
+    private ArrayList<String> science;*/
     
     public static Firebase ref;
     
@@ -217,7 +217,7 @@ public class Core {
         return latestOutput;
     }*/
     
-    public void teachAlgorithm(String subject, String[] tags) throws IOException{
+    /*public void teachAlgorithm(String subject, String[] tags) throws IOException{
         if(subject.equals("Science")) {
             for(String tag: Arrays.asList(tags)){
                 if(!science.contains(tag))
@@ -254,7 +254,7 @@ public class Core {
             Core.ref.child("cs_tags").setValue(cs.toString().substring(1, cs.toString().length()-1));
         }
     }
-    
+    */
     /*
     class IdentOutput{
         private String[] tags;

@@ -62,6 +62,14 @@ public class AsyncParser{
         flyResult = exec.submit(new InternalFlyParser(f));
     }
     
+    public static void teachAlgorithm(String subject, String[] tags){
+        try {
+            InternalFlyParser.teachAlgorithm(subject, tags);
+        } catch (IOException ex) {
+            Logger.getLogger(AsyncParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static FlyResult fetchResult(){
         try {
             return flyResult.get();
@@ -138,7 +146,45 @@ public class AsyncParser{
             String rawtext = getRawFileText(this.f);
             TagIdentifier tg = new TagIdentifier(rawtext, 5);
             tg.process();
-            return new FlyResult(tg.getTags(), tg.getSubject(), rawtext, this.f.toString().substring(this.f.toString().lastIndexOf(".")+1), this.f.toURI().toString());
+            return new FlyResult(tg.getTags(), tg.getSubject(), rawtext, this.f.toString().substring(this.f.toString().lastIndexOf(".")+1), this.f.toString());
+        }
+        
+        public static void teachAlgorithm(String subject, String[] tags) throws IOException{
+            if(subject.equals("Science")) {
+                for(String tag: Arrays.asList(tags)){
+                    if(!keywords.get("sci").contains(tag))
+                        keywords.get("sci").add(stem(tag));
+                }
+                Core.ref.child("sci_tags").setValue(keywords.get("sci").toString().substring(1, keywords.get("sci").toString().length()-1));
+            }
+            else if(subject.equals("History")) {
+                for(String tag: Arrays.asList(tags)){
+                    if(!keywords.get("hist").contains(tag))
+                        keywords.get("hist").add(stem(tag));
+                }
+                Core.ref.child("hist_tags").setValue(keywords.get("hist").toString().substring(1, keywords.get("hist").toString().length()-1));
+            }
+            else if(subject.equals("Math")) {
+                for(String tag: Arrays.asList(tags)){
+                    if(!keywords.get("math").contains(tag))
+                        keywords.get("math").add(stem(tag));
+                }
+                Core.ref.child("math_tags").setValue(keywords.get("math").toString().substring(1, keywords.get("math").toString().length()-1));
+            }
+            else if(subject.equals("English")) {
+                for(String tag: Arrays.asList(tags)){
+                    if(!keywords.get("eng").contains(tag))
+                        keywords.get("eng").add(stem(tag));
+                }
+                Core.ref.child("eng_tags").setValue(keywords.get("eng").toString().substring(1, keywords.get("eng").toString().length()-1));
+            }
+            else if(subject.equals("Computer Science")) {
+                for(String tag: Arrays.asList(tags)){
+                    if(!keywords.get("cs").contains(tag))
+                        keywords.get("cs").add(stem(tag));
+                }
+                Core.ref.child("cs_tags").setValue(keywords.get("cs").toString().substring(1, keywords.get("cs").toString().length()-1));
+            }
         }
         
         private String getRawFileText(File f){
@@ -196,7 +242,7 @@ public class AsyncParser{
             }
             return "";
         }
-        public String stem(String term) throws IOException {
+        public static String stem(String term) throws IOException {
 
                TokenStream tokenStream = null;
                try {

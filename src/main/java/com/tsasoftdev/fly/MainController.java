@@ -461,7 +461,6 @@ public class MainController implements Initializable {
         }
         
         Core.ref.child("users/"+Core.ref.getAuth().getUid()+"/recents").addValueEventListener(new ValueEventListener(){
-
             @Override
             public void onDataChange(final DataSnapshot snap) {
                 Platform.runLater(new Runnable(){
@@ -472,13 +471,17 @@ public class MainController implements Initializable {
                             recents.addAll(Arrays.asList(snap.getValue(String.class).split(",")));
                             List<FlyDocument> recDocs = new ArrayList<FlyDocument>();
                             for(String uuid: recents){
+                                System.out.println("UUID: " + uuid);
                                 if(!uuid.trim().equals(""))
                                     recDocs.add(Core.uuidToDoc.get(uuid.trim()));
                             }
-                            for(int i = 0; i < recDocs.size(); i++){
-                                recLabels.get(i).setText(recDocs.get(i).getName());
-                                recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
-                                paneRefs.put((AnchorPane)(recPhotos.get(i).getParent()), recDocs.get(i).getUuid());
+                            if(recDocs.get(0)!=null){
+                                for(int i = 0; i < recDocs.size(); i++){
+                                    //System.out.println(recDocs.get(i));
+                                    recLabels.get(i).setText(recDocs.get(i).getName());
+                                    recPhotos.get(i).setImage(new Image(getClass().getResource("/imgs/"+recDocs.get(i).getSubject().substring(0, 1).toLowerCase()+".png").toString()));
+                                    paneRefs.put((AnchorPane)(recPhotos.get(i).getParent()), recDocs.get(i).getUuid());
+                                }
                             }
                         }
                     }
