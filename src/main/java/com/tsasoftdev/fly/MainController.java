@@ -442,12 +442,12 @@ public class MainController implements Initializable {
     
     private void initWatchers(){
         watchRecents();
-        watchDocuments();
+        //watchDocuments();
     }
     
-    private void watchDocuments(){
-        
-    }
+    //private void watchDocuments(){
+    //    
+    //}
     
     private void watchRecents(){
         final ArrayList<Label> recLabels = new ArrayList<>(Arrays.asList(recCap1, recCap2, recCap3, recCap4, recCap5));
@@ -536,7 +536,8 @@ public class MainController implements Initializable {
         sLoc = 0;
         aLoc = 0;
         paneRefs = new HashMap<AnchorPane, String>();
-        watchRecents();
+        //watchRecents();
+        initWatchers();
         srchPrevButton.setDisable(true);
         srchNextButton.setDisable(true);
         uploader = new FileChooser();
