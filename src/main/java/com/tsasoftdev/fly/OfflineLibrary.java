@@ -16,9 +16,9 @@ public class OfflineLibrary {
       return lib;
    }
 
-   public static void addDocument(String docname, String serial, String sub, String[] tg, String plaintext) {
+   public static void addDocument(/*String docname, String serial, String sub, String[] tg, String plaintext*/ FlyDocument f) {
       lib = loadJSON();   
-      lib.addDocument(docname, serial, sub, tg, plaintext);
+      lib.addDocument(f /*docname, serial, sub, tg, plaintext*/);
    }
    
    private static Library loadJSON() {
@@ -91,12 +91,12 @@ public class OfflineLibrary {
 
 }
 
-class Library {
+/*class Library {
    
    @SerializedName("documents")
-   public FlyDocument[] docs = new FlyDocument[0];
+   public List<FlyDocument> docs = new ArrayList<FlyDocument>();
    
-   public void addDocument(String docN, String serial, String subName, String[] tg, String plaintxt) {
+   public void addDocument(/*String docN, String serial, String subName, String[] tg, String plaintxt*//* FlyDocument f) {
       /*Document doc = new Document();
       doc.docName = docN;
       doc.serializedDoc = serial;
@@ -108,12 +108,16 @@ class Library {
       List<Document> ll = new ArrayList<Document>(Arrays.asList(docs));
       ll.add(doc);
       docs = ll.toArray(new Document[ll.size()]);*/
-        FlyDocument doc = new FlyDocument(plaintxt, subName, tg, docN, null, ".txt", serial);
-        List<FlyDocument> ll = new ArrayList<FlyDocument>(Arrays.asList(docs));
-        ll.add(doc);
-        docs = ll.toArray(new FlyDocument[ll.size()]);
-   } 
-}
+        //FlyDocument doc = new FlyDocument(plaintxt, subName, tg, docN, null, ".txt", serial);
+        //List<FlyDocument> ll = new ArrayList<FlyDocument>(Arrays.asList(docs));
+       // docs.add(f);
+        //docs = ll.toArray(new FlyDocument[ll.size()]);
+  // } 
+   
+  // public List<FlyDocument> fecthDocs(){
+  //     return docs;
+  // }
+//}
 
 /*class Document {
    @SerializedName("name")

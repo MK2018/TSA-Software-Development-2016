@@ -56,6 +56,9 @@ public class Core {
     
     private static Stage stage = null;
     
+    
+    public static Library offlineLib;
+    
    /* private ArrayList<String> commonWords;
     private ArrayList<String> tags;
     private ArrayList<String> history;
