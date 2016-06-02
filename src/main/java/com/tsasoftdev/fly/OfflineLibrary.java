@@ -5,13 +5,22 @@ package com.tsasoftdev.fly;
 //import java.nio.file.Path;
 import java.io.*;
 import java.util.*;
-import com.google.gson.annotations.SerializedName;
+//import com.google.gson.annotations.SerializedName;
 import com.google.gson.*;
 
 public class OfflineLibrary {
 
    static Library lib;
-     
+   
+   public static void initOfflineLib(){
+       if(lib == null){
+           lib = new Library();
+           
+            //do something to handle nullness.
+       }
+       Core.offlineLib = lib;
+   }
+   
    public static Library generateLib() {
       return lib;
    }
@@ -37,8 +46,7 @@ public class OfflineLibrary {
             return new Library();
          }
          else {
-            String text = new Scanner(new File(direct))
-               .useDelimiter("\\A").next();
+            String text = new Scanner(new File(direct)).useDelimiter("\\A").next();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             l = gson.fromJson(text, Library.class);
          } 

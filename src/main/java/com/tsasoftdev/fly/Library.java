@@ -12,7 +12,7 @@ public class Library {
         docs.add(f);
    } 
    
-   public List<FlyDocument> fecthDocs(){
+   public List<FlyDocument> fetchDocs(){
        return docs;
    }
    

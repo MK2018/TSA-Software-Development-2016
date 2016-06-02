@@ -36,8 +36,11 @@ public class MainApp extends Application {
         
         AsyncParser.loadResources();
         
-        Core.offlineLib = OfflineLibrary.generateLib();
-        System.out.println(Core.offlineLib);
+        //Core.offlineLib = OfflineLibrary.generateLib();
+        //System.out.println(Core.offlineLib);
+        OfflineLibrary.initOfflineLib();
+        
+        
         
         Parent authScreen = FXMLLoader.load(getClass().getResource("/fxml/AuthScene.fxml"));
         
