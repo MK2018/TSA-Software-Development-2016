@@ -5,7 +5,7 @@ package com.tsasoftdev.fly;
 //import java.nio.file.Path;
 import java.io.*;
 import java.util.*;
-//import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.*;
 
 public class OfflineLibrary {
@@ -127,7 +127,7 @@ public class OfflineLibrary {
   // }
 //}
 
-/*class Document {
+class DocumentSrz {
    @SerializedName("name")
    public String docName;
    
@@ -143,7 +143,7 @@ public class OfflineLibrary {
    @SerializedName("text")
    public String docPlainText;
    
-   public Document() {
+   public DocumentSrz() {
       tags = new String[0];
    }
    
@@ -152,5 +152,5 @@ public class OfflineLibrary {
       ll.add(t);
       tags = ll.toArray(new String[ll.size()]);
    }
-}*/
+}
 
