@@ -79,9 +79,26 @@ public class OfflineLibrary {
       }
    }
    
+   public static boolean isInited(){
+       //store a persistent boolean value to track whether the library has been inited or not
+       return false;
+   }
+   
+   public static void initLib(){
+       //create the file
+       //pull in any records from firebase
+       //sync any existing records
+       //sync with front end
+   }
+   
    public static void sync() {
       lib = loadJSON();
-   //do stuff with lib to sync with Firebase
+      //sync every entry in the library to firebase
+      //sync firebase back to the existing thingamajig
+      //essentially a two way handshake of info
+      //possibly include diff-tracking to keep it quick??
+      //^^^ooh that would actually be super cool
+      
    }
    
    private static String defaultDirectory()
