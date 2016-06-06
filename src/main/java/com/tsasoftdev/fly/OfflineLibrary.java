@@ -12,13 +12,15 @@ public class OfflineLibrary {
 
    static Library lib;
    
+   private boolean isInited;
+   
    public static void initOfflineLib(){
        if(lib == null){
            lib = new Library();
            
             //do something to handle nullness.
        }
-       Core.offlineLib = lib;
+       //Core.offlineLib = lib;
    }
    
    public static Library generateLib() {
