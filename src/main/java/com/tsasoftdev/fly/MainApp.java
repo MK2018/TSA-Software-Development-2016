@@ -38,7 +38,7 @@ public class MainApp extends Application {
         
         //Core.offlineLib = OfflineLibrary.generateLib();
         //System.out.println(Core.offlineLib);
-        OfflineLibrary.initOfflineLib();
+        OfflineLibrary.initLib();
         
         
         

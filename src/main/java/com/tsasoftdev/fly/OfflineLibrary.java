@@ -14,14 +14,14 @@ public class OfflineLibrary {
    
    private boolean isInited;
    
-   public static void initOfflineLib(){
-       if(lib == null){
+  /* public static void initOfflineLib(){
+       /*if(lib == null){
            lib = new Library();
            
             //do something to handle nullness.
        }
        //Core.offlineLib = lib;
-   }
+   }*/
    
    public static Library generateLib() {
       return lib;
